@@ -1,0 +1,27 @@
+name: Deploy to HostGator
+
+on:
+  push:
+    branches:
+      - main  # or master, depending on your main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to HostGator
+      run: |
+        ssh -o StrictHostKeyChecking=no username@yourhostgator.com << 'EOF'
+          cd /path/to/your/website
+          git pull origin main  # or master, depending on your branch
+          # Additional deployment commands if needed
+        EOF
