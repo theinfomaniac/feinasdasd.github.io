@@ -214,93 +214,125 @@
         function handleLogin() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
-
+        
+            // Validate inputs
+            if (!username || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+        
             // Call the Google Sheets API to check if the username and password match
             fetchLoginData(username, password)
                 .then((isValid) => {
                     if (isValid) {
-                        // Login successful, redirect or show a success message
-                        console.log('Login successful!');
+                        // Store user info in sessionStorage before redirect
+                        sessionStorage.setItem('username', username);
+                        // Redirect to home page
+                        window.location.href = 'https://interlinkcvhs.github.io/home.html';
                     } else {
-                        // Login failed, show an error message
-                        console.log('Login failed. Please check your username and password.');
+                        alert('Login failed. Please check your username and password.');
                     }
                 })
                 .catch((error) => {
                     console.error('Error during login:', error);
+                    alert('An error occurred during login. Please try again.');
                 });
         }
-
+        
         function handleSignup() {
             const fullName = document.getElementById('signupFullName').value;
             const username = document.getElementById('signupUsername').value;
             const password = document.getElementById('signupPassword').value;
             const studentNumber = document.getElementById('signupStudentNumber').value;
             const grade = document.getElementById('signupGrade').value;
-
-            // Call the Google Sheets API to create a new user
-            fetchSignupData(fullName, username, password, studentNumber, grade)
-                .then((isSuccess) => {
-                    if (isSuccess) {
-                        // Signup successful, redirect or show a success message
-                        console.log('Signup successful!');
-                    } else {
-                        // Signup failed, show an error message
-                        console.log('Signup failed. Please check your input.');
+        
+            // Validate inputs
+            if (!fullName || !username || !password || !studentNumber || !grade) {
+                alert('Please fill in all fields');
+                return;
+            }
+        
+            // First check if username already exists
+            checkUsernameExists(username)
+                .then((exists) => {
+                    if (exists) {
+                        alert('Username already exists. Please choose another.');
+                        return;
                     }
+        
+                    // Proceed with signup if username is available
+                    return fetchSignupData(fullName, username, password, studentNumber, grade)
+                        .then((isSuccess) => {
+                            if (isSuccess) {
+                                // Store user info in sessionStorage before redirect
+                                sessionStorage.setItem('username', username);
+                                // Redirect to signup completion page
+                                window.location.href = 'https://interlinkcvhs.github.io/signup.html';
+                            } else {
+                                alert('Signup failed. Please try again.');
+                            }
+                        });
                 })
                 .catch((error) => {
                     console.error('Error during signup:', error);
+                    alert('An error occurred during signup. Please try again.');
                 });
         }
-
-        function fetchLoginData(username, password) {
-            return new Promise((resolve, reject) => {
-                const apiUrl = 'https://sheets.livepolls.app/api/spreadsheets/3959aac8-19d9-4197-a8dc-401740869141/Link%20to%20Calendar';
-
-                fetch(apiUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Check if the username and password match the data in the spreadsheet
-                        const matchingUser = data.find(user => user.Username === username && user.IDPW === password);
-                        resolve(!!matchingUser); // Resolve with true if a matching user is found, false otherwise
-                    })
-                    .catch(error => {
-                        console.error('Error fetching login data:', error);
-                        reject(error);
-                    });
-            });
+        
+        function checkUsernameExists(username) {
+            return fetchLoginData(username)
+                .then(data => {
+                    // Check if any user has this username
+                    return data.some(user => user.Username === username);
+                });
         }
-
+        
+        function fetchLoginData(username, password) {
+            const apiUrl = 'https://sheets.livepolls.app/api/spreadsheets/3959aac8-19d9-4197-a8dc-401740869141/Link%20to%20Calendar';
+        
+            return fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (password) {
+                        // If password is provided, check both username and password
+                        return data.some(user => user.Username === username && user.IDPW === password);
+                    }
+                    // If no password, just return the data for username existence check
+                    return data;
+                });
+        }
+        
         function fetchSignupData(fullName, username, password, studentNumber, grade) {
-            return new Promise((resolve, reject) => {
-                const apiUrl = 'https://sheets.livepolls.app/api/spreadsheets/3959aac8-19d9-4197-a8dc-401740869141/Link%20to%20Calendar';
-                const newUser = {
-                    'Username': username,
-                    'IDPW': password,
-                    'Full Name': fullName,
-                    'S Number': studentNumber,
-                    'Grade': grade
-                };
-
-                fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify([newUser])
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            resolve(true); // Signup successful
-                        } else {
-                            resolve(false); // Signup failed
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error creating new user:', error);
-                        reject(error);
-                    });
+            const apiUrl = 'https://sheets.livepolls.app/api/spreadsheets/3959aac8-19d9-4197-a8dc-401740869141/Link%20to%20Calendar';
+            const newUser = {
+                'Username': username,
+                'IDPW': password,
+                'Full Name': fullName,
+                'S Number': studentNumber,
+                'Grade': grade,
+                'Timestamp': new Date().toISOString() // Add timestamp for tracking
+            };
+        
+            return fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify([newUser])
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                return true; // Signup successful
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                return false; // Signup failed
             });
         }
     </script>
