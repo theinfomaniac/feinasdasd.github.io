@@ -96,23 +96,46 @@
             text-align: center;
             color: #888;
         }
-        /* New styles for multiple choice options */
-        .multiple-choice-option {
-            display: block;
+        /* New styles for login and signup */
+        .login-signup-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .login-signup-container h2 {
             margin-bottom: 1rem;
-            padding: 1rem;
+        }
+        .login-signup-container .qotd-frame {
+            flex: 1;
+        }
+        .login-signup-container input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
             border: 2px solid var(--primary-color);
             border-radius: 5px;
-            cursor: pointer;
-            transition: all var(--transition-speed) ease;
             color: #FFFFFF;
             background-color: rgba(255, 255, 255, 0.1);
         }
-        .multiple-choice-option:hover,
-        .multiple-choice-option.selected {
-            background-color: rgba(0, 255, 255, 0.2);
+        .login-signup-container input[type="password"] {
+            font-family: monospace;
+        }
+        .login-signup-container .qotd-submit button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .login-signup-container .qotd-submit button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
         }
     </style>
 </head>
@@ -125,49 +148,44 @@
         <div id="nav-container">
           <nav class="nav">
               <div class="nav-links">
-                  <a href="#" id="loginLink">Log In</a>
-                  <a href="#" id="signupLink">Sign Up</a>
+                  <!-- Log In and Sign Up links will be added here -->
               </div>
           </nav>
         </div>
     </header>
     <main class="fade-in">
         <div class="games-container">
-            <h2 class="section-title glow-text">Log In</h2>
-            <div id="loginContainer" class="qotd-frame" style="display: none;">
-                <div class="qotd-header">
-                    <div class="qotd-subject">Log In</div>
+            <div class="login-signup-container">
+                <div id="loginContainer" class="qotd-frame">
+                    <h2 class="section-title glow-text">Log In</h2>
+                    <div class="qotd-specifics">
+                        <label for="loginUsername">Username:</label>
+                        <input type="text" id="loginUsername" placeholder="Enter your username">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    <div class="qotd-submit">
+                        <button id="loginSubmit">Log In</button>
+                    </div>
                 </div>
-                <div class="qotd-specifics">
-                    <label for="loginUsername">Username:</label>
-                    <input type="text" id="loginUsername" placeholder="Enter your username">
-                    <label for="loginPassword">Password:</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                </div>
-                <div class="qotd-submit">
-                    <button id="loginSubmit">Log In</button>
-                </div>
-            </div>
 
-            <h2 class="section-title glow-text">Sign Up</h2>
-            <div id="signupContainer" class="qotd-frame" style="display: none;">
-                <div class="qotd-header">
-                    <div class="qotd-subject">Sign Up</div>
-                </div>
-                <div class="qotd-specifics">
-                    <label for="signupFullName">Full Name:</label>
-                    <input type="text" id="signupFullName" placeholder="Enter your full name">
-                    <label for="signupUsername">Username:</label>
-                    <input type="text" id="signupUsername" placeholder="Choose a username">
-                    <label for="signupPassword">Password:</label>
-                    <input type="password" id="signupPassword" placeholder="Choose a password">
-                    <label for="signupStudentNumber">Student Number:</label>
-                    <input type="text" id="signupStudentNumber" placeholder="Enter your student number">
-                    <label for="signupGrade">Grade:</label>
-                    <input type="text" id="signupGrade" placeholder="Enter your grade">
-                </div>
-                <div class="qotd-submit">
-                    <button id="signupSubmit">Sign Up</button>
+                <div id="signupContainer" class="qotd-frame">
+                    <h2 class="section-title glow-text">Sign Up</h2>
+                    <div class="qotd-specifics">
+                        <label for="signupFullName">Full Name:</label>
+                        <input type="text" id="signupFullName" placeholder="Enter your full name">
+                        <label for="signupUsername">Username:</label>
+                        <input type="text" id="signupUsername" placeholder="Choose a username">
+                        <label for="signupPassword">Password:</label>
+                        <input type="password" id="signupPassword" placeholder="Choose a password">
+                        <label for="signupStudentNumber">Student Number:</label>
+                        <input type="text" id="signupStudentNumber" placeholder="Enter your student number">
+                        <label for="signupGrade">Grade:</label>
+                        <input type="text" id="signupGrade" placeholder="Enter your grade">
+                    </div>
+                    <div class="qotd-submit">
+                        <button id="signupSubmit">Sign Up</button>
+                    </div>
                 </div>
             </div>
         </div>
