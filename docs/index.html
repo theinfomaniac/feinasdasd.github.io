@@ -1,1 +1,208 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterlinkCVHS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .glass-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+        }
+        main {
+            padding: 20px;
+        }
+        .assignments-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .assignments-row {
+            display: flex;
+            width: 100%;
+            gap: 20px;
+        }
+        .assignment-card {
+            flex: 1;
+            min-width: calc(33.333% - 14px);
+            max-width: calc(33.333% - 14px);
+        }
+        
+        .logo-container h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        .logo-container h4 {
+            margin: 5px 0;
+        }
+
+        /* Mobile styles */
+        @media screen and (max-width: 768px) {
+            .glass-header {
+                padding: 10px;
+            }
+            
+            .logo-container {
+                text-align: left;
+                padding-right: 50px; /* Make space for hamburger menu */
+            }
+            
+            .logo-container h1 {
+                font-size: 1.5em; /* Smaller font size on mobile */
+            }
+            
+            .logo-container h4 {
+                font-size: 0.9em;
+            }
+            
+            /* Ensure the animated banner doesn't interfere */
+            .animated-banner {
+                font-size: 0.8em;
+            }
+            
+            /* Adjust hamburger menu positioning */
+            .hamburger {
+                top: 50%; /* Center vertically */
+                transform: translateY(-50%);
+                right: 15px;
+            }
+        }
+        
+        /* Additional mobile optimization */
+        @media screen and (max-width: 480px) {
+            .logo-container h1 {
+                font-size: 1.2em; /* Even smaller for very small screens */
+            }
+            
+            .logo-container h4 {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <header class="glass-header">
+        <div class="logo-container">
+            <h1 class="glow-text">Interlink</h1>
+            <h4><strong><i>"For freshmen, by freshmen"</i></strong></h4>
+        </div>
+        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+    </header>
+
+    <main class="fade-in">
+        <h2 class="section-title glow-text">Upcoming Assignments</h2>
+        <div id="assignments-container" class="assignments-container">
+            <!-- Assignment cards will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <script>
+        // Replace these with your actual values
+        const SHEET_ID = '1VDAI3EJC7Wf9tp7TKr__Y6CFzalE5aw43bVq5Bk02NA';
+        const API_KEY = 'AIzaSyDFFmaGCZTbWVjedTxSyvkxg7obqvxDinw';
+        const SHEET_NAME = 'Sheet1';  // Change this if your sheet has a different name
+
+        async function fetchAssignments() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (!data.values || data.values.length === 0) {
+                    throw new Error('No data found in sheet');
+                }
+
+                const rows = data.values.slice(1); // Skip header row
+                
+                // Sort assignments by due date
+                rows.sort((a, b) => new Date(a[1]) - new Date(b[1]));
+                
+                const container = document.getElementById('assignments-container');
+                container.innerHTML = ''; // Clear existing cards
+                
+                // Create rows of three cards each
+                for (let i = 0; i < rows.length; i += 3) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'assignments-row';
+                    
+                    for (let j = i; j < i + 3 && j < rows.length; j++) {
+                        const [subject, dueDate, title] = rows[j];
+                        
+                        const card = document.createElement('div');
+                        card.className = 'assignment-card glass-effect';
+                        card.innerHTML = `
+                            <div class="assignment-header">
+                                <h3 class="assignment-title">${subject}</h3>
+                                <span class="due-date">${dueDate}</span> <!-- Use dueDate directly -->
+                            </div>
+                            <div class="assignment-content">
+                                <p class="assignment-details">${title}</p>
+                            </div>
+                        `;
+                        
+                        rowDiv.appendChild(card);
+                    }
+                    
+                    container.appendChild(rowDiv);
+                }
+            } catch (error) {
+                console.error('Error fetching assignments:', error);
+                const container = document.getElementById('assignments-container');
+                container.innerHTML = '<p>Error loading assignments. Please try again later.</p>';
+            }
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        // Fetch assignments when the page loads
+        document.addEventListener('DOMContentLoaded', fetchAssignments);
+
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
+
+        // Fetch assignments and load navigation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            loadBanner();
+            fetchAssignments();
+        });
+    </script>
+</body>
+</html>
