@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject-Specific Resources</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+<body>
+    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <header class="glass-header">
+        <div class="logo-container">
+            <h1 class="glow-text">All Courses</h1>
+        </div>
+        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+    </header>
+
+    <main class="fade-in">
+        <div class="games-container">
+            <h2 class="section-title glow-text">Course Resources</h2>
+    
+            <h4></h4>
+            <h4></h4>
+            <center><h4><i>The titles of the subject ARE clickable. Click them to access the subject study pages!</i></h4></center>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/human-geography"><h3 class="resource-title">AP Human Geography</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/biology"><h3 class="resource-title">Pre-AP Biology</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/theater"><h3 class="resource-title">Theater 1</h3></a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/tech-theater"><h3 class="resource-title">Tech Theater 1</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/art"><h3 class="resource-title">Art 1</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/english"><h3 class="resource-title">English 1</h3></a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/algebra2"><h3 class="resource-title">Algebra 2</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/geometry"><h3 class="resource-title">Geometry</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/algebra1"><h3 class="resource-title">Algebra 1</h3></a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/computer-science"><h3 class="resource-title">Computer Science 1</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/pe"><h3 class="resource-title">Physical Education & Health</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/chemistry"><h3 class="resource-title">Pre-AP Chemistry</h3></a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/dance"><h3 class="resource-title">Dance</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/spanish1"><h3 class="resource-title">Spanish I</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/spanish2"><h3 class="resource-title">Spanish II</h3></a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/french1"><h3 class="resource-title">French I</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/french2"><h3 class="resource-title">French II</h3></a>
+                </div>
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/baseball"><h3 class="resource-title">UIL Baseball</h3></a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <a href="https://interlinkcvhs.org/subject-pages/volleyball"><h3 class="resource-title">UIL Volleyball</h3></a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script>
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
+
+        // Fetch assignments and load navigation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            fetchAssignments();
+            loadBanner();
+        });
+    </script>
+</body>
+</html>
