@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulations</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+<body>
+    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <header class="glass-header">
+        <div class="logo-container">
+            <h1 class="glow-text">Simulations</h1>
+        </div>
+        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+    </header>
+
+    <main class="fade-in">
+        <div class="games-container">
+            <h2 class="section-title glow-text">Active Simulations</h2>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Human Geography Vocabulary</h3>
+                    <p class="resource-description">A flashcard simulation with every human geography vocabulary term!</p>
+                    <a href="https://interlinkcvhs.org/simulations/hug-vocabulary" class="access-btn">OPEN SIMULATION</a>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Transcription</h3>
+                    <p class="resource-description">A simulation covering how DNA is copied to form RNA!</p>
+                    <a href="https://interlinkcvhs.org/simulations/transcription" class="access-btn">OPEN SIMULATION</a>
+                </div>
+
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Translation</h3>
+                    <p class="resource-description">A simulation covering how RNA is complemented to form proteins!</p>
+                    <a href="https://interlinkcvhs.org/simulations/translation" class="access-btn">OPEN SIMULATION</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script>
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
+
+        // Fetch assignments and load navigation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            loadBanner();
+        });
+    </script>
+</body>
+</html>
