@@ -37,10 +37,26 @@
             min-width: calc(33.333% - 14px);
             max-width: calc(33.333% - 14px);
         }
+
+        .logo-container {
+            display: flex;
+            flex-direction: row;  /* Align elements horizontally */
+            align-items: center;  /* Vertically align the items */
+            justify-content: flex-start;  /* Left-align content */
+            gap: 10px;  /* Add some space between the elements */
+        }
         
         .logo-container h1 {
             margin: 0;
             font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .logo-container .tagline {
+            font-size: 1.2em;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);  /* Lighter color to distinguish it */
+            font-weight: 300;
         }
         
         .logo-container h4 {
@@ -54,12 +70,18 @@
             }
             
             .logo-container {
-                text-align: left;
                 padding-right: 50px; /* Make space for hamburger menu */
+                flex-direction: column;  /* Stack items vertically on smaller screens */
+                text-align: center;  /* Center-align text on smaller screens */
             }
             
             .logo-container h1 {
-                font-size: 1.5em; /* Smaller font size on mobile */
+                font-size: 1.8em; /* Smaller font size on mobile */
+            }
+
+            .logo-container .tagline {
+                font-size: 1em; /* Adjust tagline size for mobile */
+                margin-top: 5px;
             }
             
             .logo-container h4 {
@@ -96,10 +118,11 @@
     <header class="glass-header">
         <div class="logo-container">
             <h1 class="glow-text">Interlink</h1>
-            <h4 style="margin-left: 20px; margin-top: 8px;"><strong><i>"For freshmen, by freshmen"</i></strong></h4>
+            <span class="tagline"><strong><i>"For freshmen, by freshmen"</i></strong></span>
         </div>
         <div id="nav-container"></div>
     </header>
+
 
     <main class="fade-in">
         <h2 class="section-title glow-text">Upcoming Assignments</h2>
