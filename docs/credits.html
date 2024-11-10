@@ -9,6 +9,43 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
+        body {
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .logo-container h4 {
+            margin: 0;
+            font-style: italic;
+            font-weight: bold;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -18,12 +55,17 @@
         .carousel-section {
             position: relative;
             margin: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .resource-cards-container {
             position: relative;
             overflow: hidden;
-            padding: 0 40px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .resource-cards {
@@ -58,7 +100,6 @@
             font-size: 1.5rem;
             margin: 0 0 10px 0;
             color: #00FFFF;
-            font-family: 'Orbitron', sans-serif;
         }
 
         .resource-role {
@@ -66,7 +107,6 @@
             font-size: 1.1rem;
             margin: 10px 0;
             color: #e0e0e0;
-            font-family: 'Orbitron', sans-serif;
         }
 
         .resource-description {
@@ -89,7 +129,6 @@
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
                          0 0 20px rgba(0, 255, 255, 0.6),
                          0 0 30px rgba(0, 255, 255, 0.4);
-            font-family: 'Orbitron', sans-serif;
             animation: glow 2s ease-in-out infinite alternate;
         }
 
@@ -112,17 +151,12 @@
             z-index: 10;
         }
 
-        .nav-arrow:hover {
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-        }
-
         .nav-arrow.prev {
-            left: 0;
+            left: -50px;
         }
 
         .nav-arrow.next {
-            right: 0;
+            right: -50px;
         }
 
         .carousel-indicators {
@@ -172,6 +206,14 @@
             
             .section-title {
                 font-size: 1.5rem;
+            }
+
+            .nav-arrow.prev {
+                left: 10px;
+            }
+
+            .nav-arrow.next {
+                right: 10px;
             }
         }
     </style>
