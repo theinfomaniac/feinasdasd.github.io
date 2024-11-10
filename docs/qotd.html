@@ -172,12 +172,6 @@
             cursor: not-allowed;
         }
 
-        /* Additional styles to gray out the arrows when disabled */
-        .nav-arrows.left:disabled, .nav-arrows.right:disabled {
-            background-color: #888;  /* Gray out the arrow buttons when disabled */
-            color: #333;  /* Change the text color for disabled buttons */
-        }
-
         .nav-arrows.left,
         .nav-arrows.right {
             position: absolute;
@@ -245,6 +239,7 @@
             const [questions, setQuestions] = useState([]);
             const [currentIndex, setCurrentIndex] = useState(0);
             const [loading, setLoading] = useState(true);
+            const [submitted, setSubmitted] = useState(false);
 
             useEffect(() => {
                 fetchQuestions();
@@ -252,12 +247,11 @@
 
             async function fetchQuestions() {
                 try {
-                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/bc82dea8-d6f7-43dd-ac21-8d7de68f0d98/Sheet1');
+                    const response = await fetch('https://script.google.com/macros/s/AKfycbzXJ6Xc7DtvCgHg5j4z3VXDCpfEJexWcDExQnz8g_vv-VrY7tPzk5QFVGLKNBMQ2-Jq5gDciB2Oq9xdwDQqM2gq9_fj9Pj4U9P9AkFgFNemfsvciPTeGRJKJH-k8d7de68f0d98/Sheet1');
                     const data = await response.json();
                     if (data.success) {
                         const sortedQuestions = data.data.sort((a, b) => new Date(a.Date) - new Date(b.Date));
                         setQuestions(sortedQuestions);
-                        // Find today's question
                         const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
                         const todayIndex = sortedQuestions.findIndex(q => q.Date === today);
                         setCurrentIndex(todayIndex !== -1 ? todayIndex : sortedQuestions.length - 1);
@@ -270,18 +264,15 @@
             }
 
             const goToPrevious = () => {
-                if (currentIndex > 0) {
-                    setCurrentIndex(currentIndex - 1);
-                }
+                setCurrentIndex((prevIndex) => (prevIndex === 0 ? questions.length - 1 : prevIndex - 1));
+                setSubmitted(false);
             };
 
             const goToNext = () => {
-                if (currentIndex < questions.length - 1) {
-                    setCurrentIndex(currentIndex + 1);
-                }
+                setCurrentIndex((prevIndex) => (prevIndex === questions.length - 1 ? 0 : prevIndex + 1));
+                setSubmitted(false);
             };
 
-            // Handle answer submission
             const handleSubmit = (qotd) => {
                 const feedbackElement = document.getElementById('feedback');
                 const attemptsElement = document.getElementById('attempts');
@@ -319,6 +310,8 @@
                     attemptsElement.textContent = `Attempts: ${attempts}/${maxAttempts}`;
                     attemptsElement.setAttribute('data-attempts', attempts.toString());
                 }
+
+                setSubmitted(true);
             };
 
             const displayQOTD = (qotd) => {
@@ -326,11 +319,11 @@
                 const options = hasOptions ? qotd.Options.split('\n') : [];
 
                 return React.createElement('div', { className: 'qotd-container' },
-                    React.createElement('button', {
-                        className: 'nav-button nav-arrows left',
-                        onClick: goToPrevious,
-                        disabled: currentIndex === 0
-                    }, '←'),
+                    React.createElement('div', { className: 'nav-arrows left' },
+                        React.createElement('button', {
+                            onClick: goToPrevious,
+                        }, '←')
+                    ),
                     React.createElement('div', { className: 'qotd-frame' },
                         React.createElement('div', { className: 'qotd-header' },
                             React.createElement('span', {
@@ -370,17 +363,18 @@
                         React.createElement('div', { className: 'qotd-submit' },
                             React.createElement('button', {
                                 id: 'qotdSubmit',
-                                onClick: () => handleSubmit(qotd)
+                                onClick: () => handleSubmit(qotd),
+                                disabled: submitted
                             }, 'Submit')
                         ),
                         React.createElement('div', { id: 'feedback', className: 'feedback' }),
                         React.createElement('div', { id: 'attempts', className: 'attempts', 'data-attempts': '0' })
                     ),
-                    React.createElement('button', {
-                        className: 'nav-button nav-arrows right',
-                        onClick: goToNext,
-                        disabled: currentIndex === questions.length - 1
-                    }, '→')
+                    React.createElement('div', { className: 'nav-arrows right' },
+                        React.createElement('button', {
+                            onClick: goToNext,
+                        }, '→')
+                    )
                 );
             };
 
