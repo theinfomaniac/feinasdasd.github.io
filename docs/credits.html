@@ -18,13 +18,19 @@
             position: relative;
             overflow: hidden;
             width: 100%;
-            max-width: 800px;
+            max-width: 400px; /* Reduced to show one card */
             margin: 0 auto;
         }
         .resource-cards {
             display: flex;
             transition: transform 0.3s ease;
-            gap: 20px;
+            width: 100%;
+        }
+        .resource-card {
+            min-width: 100%; /* Each card takes full width */
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            padding: 20px;
+            box-sizing: border-box;
         }
         .nav-arrow {
             position: absolute;
@@ -44,8 +50,12 @@
             transition: all 0.3s ease;
             z-index: 10;
         }
-        .nav-arrow.prev { left: -50px; }
-        .nav-arrow.next { right: -50px; }
+        .nav-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: rgba(0, 255, 255, 0.4);
+        }
+        .nav-arrow.prev { left: 10px; }
+        .nav-arrow.next { right: 10px; }
         .carousel-indicators {
             display: flex;
             justify-content: center;
@@ -63,6 +73,13 @@
         .indicator.active {
             background: rgba(0, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .resource-content {
+            text-align: center;
+        }
+        .resource-image {
+            margin: 20px auto;
+            display: block;
         }
     </style>
 </head>
@@ -372,7 +389,7 @@
             <div class="carousel-indicators" id="teachers-indicators"></div>
         </div>
     </div>
-
+    
     <script>
         const carousels = {
             team: { currentIndex: 0, totalSlides: 11 },
@@ -393,7 +410,8 @@
         function updateCarousel(section) {
             const carousel = carousels[section];
             const container = document.getElementById(`${section}-cards`);
-            container.style.transform = `translateX(-${carousel.currentIndex * 100}%)`;
+            const slideWidth = container.parentElement.offsetWidth;
+            container.style.transform = `translateX(-${carousel.currentIndex * slideWidth}px)`;
             
             // Update indicators
             updateIndicators(section);
@@ -419,6 +437,13 @@
             });
         }
 
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            Object.keys(carousels).forEach(section => {
+                updateCarousel(section);
+            });
+        });
+
         // Load navigation from nav.html
         async function loadNav() {
             try {
@@ -443,12 +468,6 @@
             }
         }
 
-        // Fetch assignments and load navigation when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
-        });
-        
         // Initialize carousels
         document.addEventListener('DOMContentLoaded', () => {
             createIndicators('team');
