@@ -213,6 +213,23 @@
             });
         }
 
+        // Function to remove selected class from other dropdowns
+        function updateDropdownsOnSelect(selectedPeriod, selectedClass) {
+            const allSelects = document.querySelectorAll('select');
+            allSelects.forEach(select => {
+                if (select !== selectedPeriod) {
+                    const options = select.querySelectorAll('option');
+                    options.forEach(option => {
+                        if (option.value === selectedClass) {
+                            option.disabled = true; // Disable the selected class in other dropdowns
+                        } else {
+                            option.disabled = false; // Re-enable other options
+                        }
+                    });
+                }
+            });
+        }
+
         // Display assignments based on selected classes
         function displayAssignments() {
             const container = document.getElementById('assignments-container');
@@ -228,6 +245,11 @@
                 p6: document.getElementById('p6-class').value,
                 p7: document.getElementById('p7-class').value
             };
+
+            // If all dropdowns have "---" selected, don't display any assignments
+            if (Object.values(selectedClasses).every(value => value === "")) {
+                return;
+            }
 
             // Filter assignments based on selected classes (if they are selected)
             const filteredAssignments = allAssignments.filter(assignment => {
@@ -261,39 +283,18 @@
                 container.appendChild(rowDiv);
             }
         }
-        // Load navigation from nav.html
-        async function loadNav() {
-            try {
-                const response = await fetch('navnav.html');
-                const nav = await response.text();
-                document.getElementById('nav-container').innerHTML = nav;
-            } catch (error) {
-                console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
-            }
-        }
 
-        // Function to load the banner
-        async function loadBanner() {
-            try {
-                const response = await fetch('banner.html');
-                const bannerContent = await response.text();
-                document.getElementById('banner-container').innerHTML = bannerContent;
-            } catch (error) {
-                console.error('Error loading banner:', error);
-                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
-            }
-        }
-
-        // Listen to changes in the dropdowns to filter assignments
+        // Listen to changes in the dropdowns to filter assignments and update dropdowns
         document.querySelectorAll('select').forEach(select => {
-            select.addEventListener('change', displayAssignments);
+            select.addEventListener('change', function() {
+                const selectedClass = this.value;
+                updateDropdownsOnSelect(this, selectedClass);  // Update dropdowns
+                displayAssignments();  // Re-filter and display assignments
+            });
         });
 
         // Fetch assignments and update dropdowns when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
             fetchAssignments();  // Fetch assignments and initialize the dropdowns
         });
     </script>
