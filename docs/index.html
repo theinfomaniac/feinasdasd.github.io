@@ -118,13 +118,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><select id="p1-class"></select></td>
-                    <td><select id="p2-class"></select></td>
-                    <td><select id="p3-class"></select></td>
-                    <td><select id="p4-class"></select></td>
-                    <td><select id="p5-class"></select></td>
-                    <td><select id="p6-class"></select></td>
-                    <td><select id="p7-class"></select></td>
+                    <td><select id="p1-class"><option value="">---</option></select></td>
+                    <td><select id="p2-class"><option value="">---</option></select></td>
+                    <td><select id="p3-class"><option value="">---</option></select></td>
+                    <td><select id="p4-class"><option value="">---</option></select></td>
+                    <td><select id="p5-class"><option value="">---</option></select></td>
+                    <td><select id="p6-class"><option value="">---</option></select></td>
+                    <td><select id="p7-class"><option value="">---</option></select></td>
                 </tr>
             </tbody>
         </table>
@@ -140,8 +140,32 @@
         const API_KEY = 'AIzaSyDFFmaGCZTbWVjedTxSyvkxg7obqvxDinw';
         const SHEET_NAME = 'Sheet1';
 
+        // List of classes that you define
+        const predefinedClasses = [
+            "AP Human Geography", 
+            "Pre-AP Biology", 
+            "Theater 1", 
+            "Tech Theater 1", 
+            "Art 1", 
+            "English 1", 
+            "Pre-AP Algebra 2",
+            "Pre-AP Geometry",
+            "Pre-AP Algebra 1",
+            "Computer Science 1",
+            "PE / Health",
+            "Pre-AP Chemistry",
+            "Dance",
+            "Spanish I",
+            "Spanish II",
+            "French I",
+            "French II",
+            "UIL Baseball",
+            "UIL Volleyball"
+        ];
+
         let allAssignments = [];
 
+        // Fetch assignments from the Google Sheets API
         async function fetchAssignments() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
             
@@ -155,8 +179,8 @@
 
                 const rows = data.values.slice(1); // Skip header row
                 allAssignments = rows;  // Store all assignments
-                updateDropdowns(rows);
-                displayAssignments(rows);
+                updateDropdowns();  // Populate dropdowns with predefined classes
+                displayAssignments(rows);  // Display all assignments initially
             } catch (error) {
                 console.error('Error fetching assignments:', error);
                 const container = document.getElementById('assignments-container');
@@ -164,10 +188,8 @@
             }
         }
 
-        function updateDropdowns(assignments) {
-            // Get unique classes from the assignments data
-            const classes = [...new Set(assignments.map(a => a[0]))]; // Assuming class is in column 0
-
+        // Populate dropdowns for all periods (P1 to P7)
+        function updateDropdowns() {
             const selectElements = [
                 document.getElementById('p1-class'),
                 document.getElementById('p2-class'),
@@ -179,20 +201,24 @@
             ];
 
             selectElements.forEach(select => {
-                classes.forEach(cls => {
+                // Clear existing options
+                select.innerHTML = "<option value=''>Nothing</option>";
+                // Add predefined class options
+                predefinedClasses.forEach(classOption => {
                     const option = document.createElement('option');
-                    option.value = cls;
-                    option.text = cls;
+                    option.value = classOption;
+                    option.text = classOption;
                     select.appendChild(option);
                 });
             });
         }
 
+        // Display assignments based on selected classes
         function displayAssignments(assignments) {
             const container = document.getElementById('assignments-container');
             container.innerHTML = ''; // Clear existing cards
 
-            // Filter assignments based on selected classes
+            // Get selected class values for all periods
             const selectedClasses = {
                 p1: document.getElementById('p1-class').value,
                 p2: document.getElementById('p2-class').value,
@@ -203,8 +229,9 @@
                 p7: document.getElementById('p7-class').value
             };
 
+            // Filter assignments based on selected classes
             const filteredAssignments = assignments.filter(assignment => {
-                return Object.values(selectedClasses).every((selectedClass, index) => {
+                return Object.values(selectedClasses).every((selectedClass) => {
                     return !selectedClass || assignment[0] === selectedClass;
                 });
             });
@@ -240,35 +267,9 @@
             select.addEventListener('change', () => displayAssignments(allAssignments));
         });
 
-        // Function to load the banner
-        async function loadBanner() {
-            try {
-                const response = await fetch('banner.html');
-                const bannerContent = await response.text();
-                document.getElementById('banner-container').innerHTML = bannerContent;
-            } catch (error) {
-                console.error('Error loading banner:', error);
-                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
-            }
-        }
-
-        // Function to load the navigation menu
-        async function loadNav() {
-            try {
-                const response = await fetch('navnav.html');
-                const nav = await response.text();
-                document.getElementById('nav-container').innerHTML = nav;
-            } catch (error) {
-                console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
-            }
-        }
-
-        // Fetch assignments, navigation, and banner when the page loads
+        // Fetch assignments and update dropdowns when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
-            fetchAssignments();  // Fetch the assignments on page load
+            fetchAssignments();  // Fetch assignments and initialize the dropdowns
         });
     </script>
 </body>
