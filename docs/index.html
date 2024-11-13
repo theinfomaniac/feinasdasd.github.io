@@ -76,20 +76,20 @@
             color: rgba(255, 255, 255, 0.7);
             font-weight: 300;
         }
-        
+
         /* Mobile styles */
         @media screen and (max-width: 768px) {
             .glass-header {
                 padding: 10px;
             }
-            
+
             .logo-container {
                 padding-right: 50px;
                 flex-direction: column;
                 text-align: center;
             }
         }
-        
+
     </style>
 </head>
 <body class="dark-theme">
@@ -180,7 +180,7 @@
                 const rows = data.values.slice(1); // Skip header row
                 allAssignments = rows;  // Store all assignments
                 updateDropdowns();  // Populate dropdowns with predefined classes
-                displayAssignments(rows);  // Display all assignments initially
+                displayAssignments();  // Display all assignments initially
             } catch (error) {
                 console.error('Error fetching assignments:', error);
                 const container = document.getElementById('assignments-container');
@@ -214,7 +214,7 @@
         }
 
         // Display assignments based on selected classes
-        function displayAssignments(assignments) {
+        function displayAssignments() {
             const container = document.getElementById('assignments-container');
             container.innerHTML = ''; // Clear existing cards
 
@@ -229,9 +229,9 @@
                 p7: document.getElementById('p7-class').value
             };
 
-            // Filter assignments based on selected classes
-            const filteredAssignments = assignments.filter(assignment => {
-                return Object.values(selectedClasses).every((selectedClass) => {
+            // Filter assignments based on selected classes (if they are selected)
+            const filteredAssignments = allAssignments.filter(assignment => {
+                return Object.values(selectedClasses).some(selectedClass => {
                     return !selectedClass || assignment[0] === selectedClass;
                 });
             });
@@ -264,37 +264,11 @@
 
         // Listen to changes in the dropdowns to filter assignments
         document.querySelectorAll('select').forEach(select => {
-            select.addEventListener('change', () => displayAssignments(allAssignments));
+            select.addEventListener('change', displayAssignments);
         });
-
-        // Function to load the banner
-        async function loadBanner() {
-            try {
-                const response = await fetch('banner.html');
-                const bannerContent = await response.text();
-                document.getElementById('banner-container').innerHTML = bannerContent;
-            } catch (error) {
-                console.error('Error loading banner:', error);
-                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
-            }
-        }
-
-        // Function to load the navigation menu
-        async function loadNav() {
-            try {
-                const response = await fetch('navnav.html');
-                const nav = await response.text();
-                document.getElementById('nav-container').innerHTML = nav;
-            } catch (error) {
-                console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
-            }
-        }
 
         // Fetch assignments and update dropdowns when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
             fetchAssignments();  // Fetch assignments and initialize the dropdowns
         });
     </script>
