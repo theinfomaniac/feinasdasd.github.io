@@ -234,8 +234,8 @@
         function displayAssignments() {
             const container = document.getElementById('assignments-container');
             container.innerHTML = ''; // Clear existing cards
-
-            // Get selected class values for all periods
+        
+            // Get selected class values for all periods (P1 to P7)
             const selectedClasses = {
                 p1: document.getElementById('p1-class').value,
                 p2: document.getElementById('p2-class').value,
@@ -245,27 +245,35 @@
                 p6: document.getElementById('p6-class').value,
                 p7: document.getElementById('p7-class').value
             };
-
-            // If all dropdowns have "---" selected, don't display any assignments
+        
+            // If no classes are selected, don't display any assignments
             if (Object.values(selectedClasses).every(value => value === "")) {
                 return;
             }
-
-            // Filter assignments based on selected classes (if they are selected)
+        
+            // Filter assignments based on the selected classes for each period
             const filteredAssignments = allAssignments.filter(assignment => {
-                return Object.values(selectedClasses).some(selectedClass => {
+                // Only include the assignment if it matches any selected class in the periods
+                return Object.keys(selectedClasses).some(period => {
+                    const selectedClass = selectedClasses[period];
                     return !selectedClass || assignment[0] === selectedClass;
                 });
             });
-
+        
+            // If there are no filtered assignments, return (no matching assignments found)
+            if (filteredAssignments.length === 0) {
+                container.innerHTML = '<p>No assignments found for the selected classes.</p>';
+                return;
+            }
+        
             // Create rows of three cards each
             for (let i = 0; i < filteredAssignments.length; i += 3) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'assignments-row';
-
+        
                 for (let j = i; j < i + 3 && j < filteredAssignments.length; j++) {
                     const [subject, dueDate, title] = filteredAssignments[j];
-
+        
                     const card = document.createElement('div');
                     card.className = 'assignment-card glass-effect';
                     card.innerHTML = `
@@ -279,10 +287,11 @@
                     `;
                     rowDiv.appendChild(card);
                 }
-
+        
                 container.appendChild(rowDiv);
             }
         }
+        
         // Load navigation from nav.html
         async function loadNav() {
             try {
