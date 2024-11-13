@@ -7,79 +7,131 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .logo-container h4 {
+            margin: 0;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .carousel-section {
             position: relative;
             margin: 40px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
         }
+
         .resource-cards-container {
             position: relative;
             overflow: hidden;
             width: 100%;
-            max-width: 400px;
+            max-width: 800px;
             margin: 0 auto;
-            height: 300px; /* Fixed height to prevent shifting */
         }
+
         .resource-cards {
             display: flex;
             transition: transform 0.3s ease;
-            width: 100%;
-            height: 100%;
-            position: absolute; /* Position absolute to prevent layout shifts */
+            gap: 20px;
         }
-        /* Style for carousel cards to match glass effect */
-        .carousel-section .resource-card {
+
+        .resource-card {
             min-width: 100%;
-            flex-shrink: 0;
-            box-sizing: border-box;
-            height: 100%;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin: 0; /* Remove margin to prevent shifting */
+            transition: all 0.3s ease;
         }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+        }
+
         .resource-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 15px;
+            flex: 1;
         }
+
+        .resource-title {
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            color: #00FFFF;
+        }
+
+        .resource-role {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: #e0e0e0;
+        }
+
+        .resource-description {
+            color: #d0d0d0;
+            margin: 5px 0;
+        }
+
         .resource-image {
             width: 150px;
             height: 150px;
-            border-radius: 50%;
-            margin: 10px auto;
+            border-radius: 10px;
             object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.2);
         }
-        .resource-title {
-            font-size: 1.5rem;
-            margin: 10px 0 5px;
-            color: rgba(255, 255, 255, 0.9);
+
+        .section-title {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            margin: 40px 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
+                         0 0 20px rgba(0, 255, 255, 0.6),
+                         0 0 30px rgba(0, 255, 255, 0.4);
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        .resource-role {
-            font-size: 1.1rem;
-            margin: 5px 0;
-            color: rgba(0, 255, 255, 0.8);
-        }
-        .resource-description {
-            font-size: 1rem;
-            margin: 5px 0;
-            color: rgba(255, 255, 255, 0.7);
-        }
+
         .nav-arrow {
             position: absolute;
             top: 50%;
@@ -98,20 +150,22 @@
             transition: all 0.3s ease;
             z-index: 10;
         }
-        .nav-arrow:hover {
-            background: rgba(0, 0, 0, 0.8);
-            border-color: rgba(0, 255, 255, 0.4);
+
+        .nav-arrow.prev {
+            left: -50px;
         }
-        .nav-arrow.prev { left: -50px; }
-        .nav-arrow.next { right: -50px; }
+
+        .nav-arrow.next {
+            right: -50px;
+        }
+
         .carousel-indicators {
             display: flex;
             justify-content: center;
             gap: 8px;
             margin-top: 20px;
-            position: relative;
-            z-index: 5;
         }
+
         .indicator {
             width: 8px;
             height: 8px;
@@ -120,34 +174,59 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .indicator.active {
             background: rgba(0, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
-        /* Add hover effect for cards */
-        .carousel-section .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            border-color: rgba(0, 255, 255, 0.3);
-            transition: all 0.3s ease;
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
+                             0 0 20px rgba(0, 255, 255, 0.6);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(0, 255, 255, 0.9),
+                             0 0 30px rgba(0, 255, 255, 0.7),
+                             0 0 40px rgba(0, 255, 255, 0.5);
+            }
         }
-        /* Ensure content stays centered during transitions */
-        .resource-cards-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        @media (max-width: 768px) {
+            .resource-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .resource-image {
+                width: 120px;
+                height: 120px;
+                margin: 10px auto;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .nav-arrow.prev {
+                left: 10px;
+            }
+
+            .nav-arrow.next {
+                right: 10px;
+            }
         }
     </style>
 </head>
-<body>
-    <div id="banner-container"></div>
+    
+<body style="background: #121212; color: #fff; font-family: 'Orbitron', sans-serif;">
+    <div id="banner-container"></div> <!-- Placeholder for banner -->
     <header class="glass-header">
         <div class="logo-container">
             <h1 class="glow-text">Credits</h1>
         </div>
-        <div id="nav-container"></div>
+        <div id="nav-container"></div> <!-- Placeholder for navigation -->
     </header>
-
     <div class="container">
         <h2 class="section-title">Our Team</h2>
         
@@ -259,7 +338,7 @@
             </div>
             <div class="carousel-indicators" id="team-indicators"></div>
         </div>
-
+            
         <h2 class="section-title glow-text">Special Thanks To ...</h2>
         <div class="resources-grid">
             <div class="resource-card glass-effect">
@@ -445,7 +524,7 @@
             <div class="carousel-indicators" id="teachers-indicators"></div>
         </div>
     </div>
-    
+
     <script>
         const carousels = {
             team: { currentIndex: 0, totalSlides: 11 },
@@ -466,8 +545,7 @@
         function updateCarousel(section) {
             const carousel = carousels[section];
             const container = document.getElementById(`${section}-cards`);
-            const slideWidth = container.parentElement.offsetWidth;
-            container.style.transform = `translateX(-${carousel.currentIndex * slideWidth}px)`;
+            container.style.transform = `translateX(-${carousel.currentIndex * 100}%)`;
             
             // Update indicators
             updateIndicators(section);
@@ -493,13 +571,6 @@
             });
         }
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            Object.keys(carousels).forEach(section => {
-                updateCarousel(section);
-            });
-        });
-
         // Load navigation from nav.html
         async function loadNav() {
             try {
@@ -524,16 +595,18 @@
             }
         }
 
+        // Fetch assignments and load navigation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            loadBanner();
+        });
+        
         // Initialize carousels
         document.addEventListener('DOMContentLoaded', () => {
             createIndicators('team');
             createIndicators('teachers');
             loadNav();
             loadBanner();
-            
-            // Initial update of carousels
-            updateCarousel('team');
-            updateCarousel('teachers');
         });
     </script>
 </body>
