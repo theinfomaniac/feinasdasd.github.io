@@ -188,54 +188,12 @@
             }
         }
 
-        // Populate dropdowns for all periods (P1 to P7)
-        function updateDropdowns() {
-            const selectElements = [
-                document.getElementById('p1-class'),
-                document.getElementById('p2-class'),
-                document.getElementById('p3-class'),
-                document.getElementById('p4-class'),
-                document.getElementById('p5-class'),
-                document.getElementById('p6-class'),
-                document.getElementById('p7-class')
-            ];
-
-            selectElements.forEach(select => {
-                // Clear existing options
-                select.innerHTML = "<option value=''>---</option>";
-                // Add predefined class options
-                predefinedClasses.forEach(classOption => {
-                    const option = document.createElement('option');
-                    option.value = classOption;
-                    option.text = classOption;
-                    select.appendChild(option);
-                });
-            });
-        }
-
-        // Function to remove selected class from other dropdowns
-        function updateDropdownsOnSelect(selectedPeriod, selectedClass) {
-            const allSelects = document.querySelectorAll('select');
-            allSelects.forEach(select => {
-                if (select !== selectedPeriod) {
-                    const options = select.querySelectorAll('option');
-                    options.forEach(option => {
-                        if (option.value === selectedClass) {
-                            option.disabled = true; // Disable the selected class in other dropdowns
-                        } else {
-                            option.disabled = false; // Re-enable other options
-                        }
-                    });
-                }
-            });
-        }
-
-        // Display assignments based on selected classes
+        // Function to display assignments based on selected classes
         function displayAssignments() {
             const container = document.getElementById('assignments-container');
             container.innerHTML = ''; // Clear existing cards
-        
-            // Get selected class values for all periods (P1 to P7)
+    
+            // Get selected class values for all periods
             const selectedClasses = {
                 p1: document.getElementById('p1-class').value,
                 p2: document.getElementById('p2-class').value,
@@ -245,35 +203,32 @@
                 p6: document.getElementById('p6-class').value,
                 p7: document.getElementById('p7-class').value
             };
-        
-            // If no classes are selected, don't display any assignments
+    
+            // If no classes are selected at all, don't display assignments
             if (Object.values(selectedClasses).every(value => value === "")) {
                 return;
             }
-        
+    
             // Filter assignments based on the selected classes for each period
             const filteredAssignments = allAssignments.filter(assignment => {
-                // Only include the assignment if it matches any selected class in the periods
-                return Object.keys(selectedClasses).some(period => {
-                    const selectedClass = selectedClasses[period];
-                    return !selectedClass || assignment[0] === selectedClass;
+                // Check if assignment matches the selected class for any of the periods (P1 to P7)
+                return Object.entries(selectedClasses).some(([period, selectedClass]) => {
+                    // If a class is selected for this period, check if it matches the assignment's class
+                    if (selectedClass) {
+                        return assignment[0] === selectedClass;
+                    }
+                    return true;  // If no class is selected for this period, include all assignments for this period
                 });
             });
-        
-            // If there are no filtered assignments, return (no matching assignments found)
-            if (filteredAssignments.length === 0) {
-                container.innerHTML = '<p>No assignments found for the selected classes.</p>';
-                return;
-            }
-        
+    
             // Create rows of three cards each
             for (let i = 0; i < filteredAssignments.length; i += 3) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'assignments-row';
-        
+    
                 for (let j = i; j < i + 3 && j < filteredAssignments.length; j++) {
                     const [subject, dueDate, title] = filteredAssignments[j];
-        
+    
                     const card = document.createElement('div');
                     card.className = 'assignment-card glass-effect';
                     card.innerHTML = `
@@ -287,9 +242,51 @@
                     `;
                     rowDiv.appendChild(card);
                 }
-        
+    
                 container.appendChild(rowDiv);
             }
+        }
+    
+        // Function to update dropdowns and disable selected class in other periods
+        function updateDropdownsOnSelect(selectedPeriod, selectedClass) {
+            const allSelects = document.querySelectorAll('select');
+            allSelects.forEach(select => {
+                if (select !== selectedPeriod) {
+                    const options = select.querySelectorAll('option');
+                    options.forEach(option => {
+                        if (option.value === selectedClass) {
+                            option.disabled = true;  // Disable the selected class in other dropdowns
+                        } else {
+                            option.disabled = false; // Re-enable other options
+                        }
+                    });
+                }
+            });
+        }
+    
+        // Initialize the class dropdowns for all periods
+        function updateDropdowns() {
+            const selectElements = [
+                document.getElementById('p1-class'),
+                document.getElementById('p2-class'),
+                document.getElementById('p3-class'),
+                document.getElementById('p4-class'),
+                document.getElementById('p5-class'),
+                document.getElementById('p6-class'),
+                document.getElementById('p7-class')
+            ];
+    
+            selectElements.forEach(select => {
+                // Clear existing options
+                select.innerHTML = "<option value=''>---</option>";
+                // Add predefined class options
+                predefinedClasses.forEach(classOption => {
+                    const option = document.createElement('option');
+                    option.value = classOption;
+                    option.text = classOption;
+                    select.appendChild(option);
+                });
+            });
         }
         
         // Load navigation from nav.html
