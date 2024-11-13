@@ -22,6 +22,24 @@
         main {
             padding: 20px;
         }
+
+        /* Table for P1 to P7 */
+        .period-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .period-table th, .period-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .period-table select {
+            padding: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+
         .assignments-container {
             display: flex;
             flex-wrap: wrap;
@@ -40,12 +58,12 @@
 
         .logo-container {
             display: flex;
-            flex-direction: row;  /* Align elements horizontally */
-            align-items: center;  /* Vertically align the items */
-            justify-content: flex-start;  /* Left-align content */
-            gap: 10px;  /* Add some space between the elements */
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
         }
-        
+
         .logo-container h1 {
             margin: 0;
             font-size: 2.5em;
@@ -55,14 +73,10 @@
         .logo-container .tagline {
             font-size: 1.2em;
             font-style: italic;
-            color: rgba(255, 255, 255, 0.7);  /* Lighter color to distinguish it */
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 300;
         }
         
-        .logo-container h4 {
-            margin: 5px 0;
-        }
-
         /* Mobile styles */
         @media screen and (max-width: 768px) {
             .glass-header {
@@ -70,62 +84,51 @@
             }
             
             .logo-container {
-                padding-right: 50px; /* Make space for hamburger menu */
-                flex-direction: column;  /* Stack items vertically on smaller screens */
-                text-align: center;  /* Center-align text on smaller screens */
-            }
-            
-            .logo-container h1 {
-                font-size: 1.8em; /* Smaller font size on mobile */
-            }
-
-            .logo-container .tagline {
-                font-size: 1em; /* Adjust tagline size for mobile */
-                margin-top: 5px;
-            }
-            
-            .logo-container h4 {
-                font-size: 0.9em;
-            }
-            
-            /* Ensure the animated banner doesn't interfere */
-            .animated-banner {
-                font-size: 0.8em;
-            }
-            
-            /* Adjust hamburger menu positioning */
-            .hamburger {
-                top: 50%; /* Center vertically */
-                transform: translateY(-50%);
-                right: 15px;
+                padding-right: 50px;
+                flex-direction: column;
+                text-align: center;
             }
         }
         
-        /* Additional mobile optimization */
-        @media screen and (max-width: 480px) {
-            .logo-container h1 {
-                font-size: 1.2em; /* Even smaller for very small screens */
-            }
-            
-            .logo-container h4 {
-                font-size: 0.8em;
-            }
-        }
     </style>
 </head>
 <body class="dark-theme">
-    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <div id="banner-container"></div>
     <header class="glass-header">
         <div class="logo-container">
             <h1 class="glow-text">Interlink</h1>
-            <span class="tagline">  </span>
             <span class="tagline"><strong><i>"For freshmen, by freshmen"</i></strong></span>
         </div>
         <div id="nav-container"></div>
     </header>
 
-
     <main class="fade-in">
+        <!-- Table for class selection P1 to P7 -->
+        <table class="period-table">
+            <thead>
+                <tr>
+                    <th>P1</th>
+                    <th>P2</th>
+                    <th>P3</th>
+                    <th>P4</th>
+                    <th>P5</th>
+                    <th>P6</th>
+                    <th>P7</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><select id="p1-class"></select></td>
+                    <td><select id="p2-class"></select></td>
+                    <td><select id="p3-class"></select></td>
+                    <td><select id="p4-class"></select></td>
+                    <td><select id="p5-class"></select></td>
+                    <td><select id="p6-class"></select></td>
+                    <td><select id="p7-class"></select></td>
+                </tr>
+            </tbody>
+        </table>
+
         <h2 class="section-title glow-text">Upcoming Assignments</h2>
         <div id="assignments-container" class="assignments-container">
             <!-- Assignment cards will be dynamically inserted here -->
@@ -133,10 +136,11 @@
     </main>
 
     <script>
-        // Replace these with your actual values
         const SHEET_ID = '1VDAI3EJC7Wf9tp7TKr__Y6CFzalE5aw43bVq5Bk02NA';
         const API_KEY = 'AIzaSyDFFmaGCZTbWVjedTxSyvkxg7obqvxDinw';
-        const SHEET_NAME = 'Sheet1';  // Change this if your sheet has a different name
+        const SHEET_NAME = 'Sheet1';
+
+        let allAssignments = [];
 
         async function fetchAssignments() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
@@ -150,38 +154,9 @@
                 }
 
                 const rows = data.values.slice(1); // Skip header row
-                
-                // Sort assignments by due date
-                rows.sort((a, b) => new Date(a[1]) - new Date(b[1]));
-                
-                const container = document.getElementById('assignments-container');
-                container.innerHTML = ''; // Clear existing cards
-                
-                // Create rows of three cards each
-                for (let i = 0; i < rows.length; i += 3) {
-                    const rowDiv = document.createElement('div');
-                    rowDiv.className = 'assignments-row';
-                    
-                    for (let j = i; j < i + 3 && j < rows.length; j++) {
-                        const [subject, dueDate, title] = rows[j];
-                        
-                        const card = document.createElement('div');
-                        card.className = 'assignment-card glass-effect';
-                        card.innerHTML = `
-                            <div class="assignment-header">
-                                <h3 class="assignment-title">${subject}</h3>
-                                <span class="due-date">${dueDate}</span> <!-- Use dueDate directly -->
-                            </div>
-                            <div class="assignment-content">
-                                <p class="assignment-details">${title}</p>
-                            </div>
-                        `;
-                        
-                        rowDiv.appendChild(card);
-                    }
-                    
-                    container.appendChild(rowDiv);
-                }
+                allAssignments = rows;  // Store all assignments
+                updateDropdowns(rows);
+                displayAssignments(rows);
             } catch (error) {
                 console.error('Error fetching assignments:', error);
                 const container = document.getElementById('assignments-container');
@@ -189,25 +164,81 @@
             }
         }
 
-        // Theme toggle functionality
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
+        function updateDropdowns(assignments) {
+            // Get unique classes from the assignments data
+            const classes = [...new Set(assignments.map(a => a[0]))]; // Assuming class is in column 0
+
+            const selectElements = [
+                document.getElementById('p1-class'),
+                document.getElementById('p2-class'),
+                document.getElementById('p3-class'),
+                document.getElementById('p4-class'),
+                document.getElementById('p5-class'),
+                document.getElementById('p6-class'),
+                document.getElementById('p7-class')
+            ];
+
+            selectElements.forEach(select => {
+                classes.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls;
+                    option.text = cls;
+                    select.appendChild(option);
+                });
+            });
         }
 
-        // Fetch assignments when the page loads
-        document.addEventListener('DOMContentLoaded', fetchAssignments);
+        function displayAssignments(assignments) {
+            const container = document.getElementById('assignments-container');
+            container.innerHTML = ''; // Clear existing cards
 
-        // Load navigation from nav.html
-        async function loadNav() {
-            try {
-                const response = await fetch('navnav.html');
-                const nav = await response.text();
-                document.getElementById('nav-container').innerHTML = nav;
-            } catch (error) {
-                console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            // Filter assignments based on selected classes
+            const selectedClasses = {
+                p1: document.getElementById('p1-class').value,
+                p2: document.getElementById('p2-class').value,
+                p3: document.getElementById('p3-class').value,
+                p4: document.getElementById('p4-class').value,
+                p5: document.getElementById('p5-class').value,
+                p6: document.getElementById('p6-class').value,
+                p7: document.getElementById('p7-class').value
+            };
+
+            const filteredAssignments = assignments.filter(assignment => {
+                return Object.values(selectedClasses).every((selectedClass, index) => {
+                    return !selectedClass || assignment[0] === selectedClass;
+                });
+            });
+
+            // Create rows of three cards each
+            for (let i = 0; i < filteredAssignments.length; i += 3) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'assignments-row';
+
+                for (let j = i; j < i + 3 && j < filteredAssignments.length; j++) {
+                    const [subject, dueDate, title] = filteredAssignments[j];
+
+                    const card = document.createElement('div');
+                    card.className = 'assignment-card glass-effect';
+                    card.innerHTML = `
+                        <div class="assignment-header">
+                            <h3 class="assignment-title">${subject}</h3>
+                            <span class="due-date">${dueDate}</span>
+                        </div>
+                        <div class="assignment-content">
+                            <p class="assignment-details">${title}</p>
+                        </div>
+                    `;
+                    rowDiv.appendChild(card);
+                }
+
+                container.appendChild(rowDiv);
             }
         }
+
+        // Listen to changes in the dropdowns to filter assignments
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', () => displayAssignments(allAssignments));
+        });
 
         // Function to load the banner
         async function loadBanner() {
@@ -221,11 +252,23 @@
             }
         }
 
-        // Fetch assignments and load navigation when the page loads
+        // Function to load the navigation menu
+        async function loadNav() {
+            try {
+                const response = await fetch('navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Fetch assignments, navigation, and banner when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             loadNav();
             loadBanner();
-            fetchAssignments();
+            fetchAssignments();  // Fetch the assignments on page load
         });
     </script>
 </body>
