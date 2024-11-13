@@ -283,6 +283,29 @@
                 container.appendChild(rowDiv);
             }
         }
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
 
         // Listen to changes in the dropdowns to filter assignments and update dropdowns
         document.querySelectorAll('select').forEach(select => {
@@ -295,6 +318,8 @@
 
         // Fetch assignments and update dropdowns when the page loads
         document.addEventListener('DOMContentLoaded', () => {
+            loadBanner();
+            loadNav();
             fetchAssignments();  // Fetch assignments and initialize the dropdowns
         });
     </script>
