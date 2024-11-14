@@ -6,13 +6,24 @@
     <title>Computer Science Resources</title>
     <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
     <link rel="icon" href="../favicon.png" type="image/png">
+    <!-- Google Font: Orbitron -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Additional styles specific to the sidebar layout */
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
         body {
             display: flex;
             min-height: 100vh;
+            font-family: Arial, sans-serif;
         }
 
+        /* Sidebar Styling */
         .sidebar {
             width: 300px;
             background: rgba(255, 255, 255, 0.1);
@@ -20,18 +31,19 @@
             padding: 20px;
             overflow-y: auto;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Orbitron', sans-serif; /* Apply Orbitron font to sidebar */
         }
 
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .sidebar h2 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
 
         .resource-button {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             margin: 10px 0;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -40,6 +52,7 @@
             text-align: left;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 14px; /* Smaller text for resource descriptions */
         }
 
         .resource-button:hover {
@@ -47,12 +60,26 @@
             transform: translateY(-2px);
         }
 
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
         .content-frame {
             flex: 1;
+            width: 100%;
+            height: 100%;
             border: none;
             border-radius: 8px;
             background: white;
             margin: 20px;
+        }
+
+        /* Glow text effect for header */
+        .glow-text {
+            color: #00ff99;
+            text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99, 0 0 15px #00ff99;
         }
     </style>
 </head>
@@ -150,7 +177,7 @@
                     // Remove active state from all buttons
                     buttons.forEach(btn => btn.style.background = 'rgba(255, 255, 255, 0.1)');
                     // Add active state to clicked button
-                    button.style.background = 'rgba(255, 255, 255, 0.3)');
+                    button.style.background = 'rgba(255, 255, 255, 0.3)';
                 });
             });
 
