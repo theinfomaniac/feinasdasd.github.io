@@ -6,220 +6,8 @@
     <title>The Interlink Team</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: #121212;
-            color: #fff;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .glass-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .logo-container h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-
-        .logo-container h4 {
-            margin: 0;
-            font-style: italic;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .carousel-section {
-            position: relative;
-            margin: 40px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .resource-cards-container {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .resource-cards {
-            display: flex;
-            transition: transform 0.3s ease;
-            gap: 20px;
-        }
-
-        .resource-card {
-            min-width: 100%;
-            display: flex;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            gap: 20px;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
-        }
-
-        .resource-content {
-            flex: 1;
-        }
-
-        .resource-title {
-            font-size: 1.5rem;
-            margin: 0 0 10px 0;
-            color: #00FFFF;
-        }
-
-        .resource-role {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin: 10px 0;
-            color: #e0e0e0;
-        }
-
-        .resource-description {
-            color: #d0d0d0;
-            margin: 5px 0;
-        }
-
-        .resource-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .section-title {
-            text-align: center;
-            color: #fff;
-            font-size: 2rem;
-            margin: 40px 0;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
-                         0 0 20px rgba(0, 255, 255, 0.6),
-                         0 0 30px rgba(0, 255, 255, 0.4);
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        .nav-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-
-        .nav-arrow.prev {
-            left: -50px;
-        }
-
-        .nav-arrow.next {
-            right: -50px;
-        }
-
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0, 255, 255, 0.3);
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .indicator.active {
-            background: rgba(0, 255, 255, 0.8);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
-                             0 0 20px rgba(0, 255, 255, 0.6);
-            }
-            to {
-                text-shadow: 0 0 20px rgba(0, 255, 255, 0.9),
-                             0 0 30px rgba(0, 255, 255, 0.7),
-                             0 0 40px rgba(0, 255, 255, 0.5);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .resource-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .resource-image {
-                width: 120px;
-                height: 120px;
-                margin: 10px auto;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .nav-arrow.prev {
-                left: 10px;
-            }
-
-            .nav-arrow.next {
-                right: 10px;
-            }
-        }
-    </style>
 </head>
-    
-<body style="background: #121212; color: #fff; font-family: 'Orbitron', sans-serif;">
+<body>
     <div id="banner-container"></div> <!-- Placeholder for banner -->
     <header class="glass-header">
         <div class="logo-container">
@@ -227,350 +15,172 @@
         </div>
         <div id="nav-container"></div> <!-- Placeholder for navigation -->
     </header>
-    <div class="container">
-        <h2 class="section-title">Our Team</h2>
-        
-        <div class="carousel-section" id="team-carousel">
-            <button class="nav-arrow prev" onclick="navigate('team', -1)">←</button>
-            <button class="nav-arrow next" onclick="navigate('team', 1)">→</button>
-            
-            <div class="resource-cards-container">
-                <div class="resource-cards" id="team-cards">
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Kavin Elangovan</h3>
-                            <p class="resource-role">President</p>
-                            <p class="resource-description">The main coder, developer, and notetaker of the website</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Kavin Elangovan">
-                    </div>
-                    
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Naithan Mathew</h3>
-                            <p class="resource-role">Co-President</p>
-                            <p class="resource-description">Liaison to administration and teachers</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Naithan Mathew">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Sathyan Gopal</h3>
-                            <p class="resource-role">Vice President</p>
-                            <p class="resource-description">General coder, specialized for 𝙸𝚗𝚝𝚎𝚛𝚕𝚒𝚗𝚔𝙰𝙸</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Sathyan Gopal">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Manuel Minisini</h3>
-                            <p class="resource-role">Co-Vice President</p>
-                            <p class="resource-description">Our code refiner and reviewer</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Manuel Minisini">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Malachi Moody</h3>
-                            <p class="resource-role">Secretary</p>
-                            <p class="resource-description">Member manager and resource manager</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Malachi Moody">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Bennett Woolsey</h3>
-                            <p class="resource-role">Treasurer</p>
-                            <p class="resource-description">Our <i>amazing</i> financial manager</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Bennett Woolsey">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Faris Taghiyev</h3>
-                            <p class="resource-role">Social Media Manager</p>
-                            <p class="resource-description">Our digital presence manager</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Faris Taghiyev">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Krish Kalla</h3>
-                            <p class="resource-role">Student PR Manager</p>
-                            <p class="resource-description">Manages networking with students</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Krish Kalla">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Alois LeCoz</h3>
-                            <p class="resource-role">Resource Creator</p>
-                            <p class="resource-description">Creator of Quizlets and educational videos to help students</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Alois LeCoz">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Christopher Chen</h3>
-                            <p class="resource-role">Specialized Notetaker</p>
-                            <p class="resource-description">Specialized in specific subjects at different times to maintain resources</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Christopher Chen">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Syon Mukherjee</h3>
-                            <p class="resource-role">Update Manager</p>
-                            <p class="resource-description">Refers student requests to coders and creates specialized resources</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Syon Mukherjee">
-                    </div>
+    <main class="fade-in">
+        <div class="games-container">
+            <h2 class="section-title glow-text">Our Team</h2>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Kavin Elangovan</h3>
+                    <p class="resource-description"><strong>President: </strong>The main coder, developer, and notetaker of the website</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Naithan Mathew</h3>
+                    <p class="resource-description"><strong>Co-President: </strong>Liaison to administration and teachers</p>
                 </div>
             </div>
-            <div class="carousel-indicators" id="team-indicators"></div>
-        </div>
-            
-        <h2 class="section-title glow-text">Special Thanks To ...</h2>
-        <div class="resources-grid">
-            <div class="resource-card glass-effect">
-                <h3 class="resource-title"><strong>COACH LAMANE</strong></h3>
-                <p class="resource-description">The inspiration behind this idea and our best supporter (Thank you!!!)</p>
-            </div>
-        </div>
-
-        <h2 class="section-title glow-text">Advisors</h2>
-        <div class="resources-grid">
-            <div class="resource-card glass-effect">
-                <h3 class="resource-title">Manas Aggarwal</h3>
-            </div>
-            <div class="resource-card glass-effect">
-                <h3 class="resource-title">Akshar Manjunath</h3>
-            </div>
-            <div class="resource-card glass-effect">
-                <h3 class="resource-title">Kanmi Oyebode</h3>
-            </div>
-        </div>
-        <div class="resources-grid">
-            <div class="resource-card glass-effect">
-                <h3 class="resource-title">Long Nguyen</h3>
-            </div>
-            <div class="resource-card glass-effect">
-                <h3 class="resource-title">Vir Sanghavi</h3>
-            </div>
-        </div>
-
-        <h2 class="section-title">Thank You to Our Teachers!</h2>
-        
-        <div class="carousel-section" id="teachers-carousel">
-            <button class="nav-arrow prev" onclick="navigate('teachers', -1)">←</button>
-            <button class="nav-arrow next" onclick="navigate('teachers', 1)">→</button>
-            
-            <div class="resource-cards-container">
-                <div class="resource-cards" id="teachers-cards">
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Principal Moss</h3>
-                            <p class="resource-description">Our Amazing Principal!</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Principal Moss">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Ngo</h3>
-                            <p class="resource-description">Assistant Test Coordinator</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Ngo">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Garner</h3>
-                            <p class="resource-description">Assistant Principal, African-American Studies</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Garner">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Ms. Williams</h3>
-                            <p class="resource-description">Student Support Specialist</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Ms. Williams">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Ramones</h3>
-                            <p class="resource-description">Computer Science, Algebra 2</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Ramones">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Khadem</h3>
-                            <p class="resource-description">Geometry</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Khadem">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Kulkarni</h3>
-                            <p class="resource-description">Algebra 2, Statistics</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Kulkarni">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Ms. Brode</h3>
-                            <p class="resource-description">Algebra 1, 2</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Ms. Brode">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Ms. Blythe</h3>
-                            <p class="resource-description">Pre-AP Biology, AP Biology</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Ms. Blythe">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Mata</h3>
-                            <p class="resource-description">Biology, Chemistry</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Mata">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Ms. Buso</h3>
-                            <p class="resource-description">Human Geography, Comparative World Mythology, World Religions</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Ms. Buso">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Dr. Haney</h3>
-                            <p class="resource-description">Human Geography, Psychology</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Dr. Haney">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Tristan</h3>
-                            <p class="resource-description">Spanish (multiple levels)</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Tristan">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Pena</h3>
-                            <p class="resource-description">Spanish (multiple levels)</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Pena">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Ms. Burley</h3>
-                            <p class="resource-description">English I</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Ms. Burley">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Ms. Bohenick</h3>
-                            <p class="resource-description">English I, Photography, TPSP</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Ms. Bohenick">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Savage</h3>
-                            <p class="resource-description">Theater, Technical Theater</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Savage">
-                    </div>
-
-                    <div class="resource-card">
-                        <div class="resource-content">
-                            <h3 class="resource-title">Mr. Arredondo</h3>
-                            <p class="resource-description">Biology, Chemistry</p>
-                        </div>
-                        <img class="resource-image" src="/api/placeholder/150/150" alt="Mr. Arredondo">
-                    </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Sathyan Gopal</h3>
+                    <p class="resource-description"><strong>Vice President: </strong>General coder, specialized for 𝙸𝚗𝚝𝚎𝚛𝚕𝚒𝚗𝚔𝙰𝙸</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Manuel Minisini</h3>
+                    <p class="resource-description"><strong>Co-Vice President: </strong>Our code refiner and reviewer</p>
                 </div>
             </div>
-            <div class="carousel-indicators" id="teachers-indicators"></div>
-        </div>
-    </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Malachi Moody</h3>
+                    <p class="resource-description"><strong>Secretary: </strong>Member manager and resource manager</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Bennett Woolsey</h3>
+                    <p class="resource-description"><strong>Treasurer: </strong>Our <i>amazing</i> financial manager</p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Faris Taghiyev</h3>
+                    <p class="resource-description"><strong>Social Media Manager: </strong>Our digital presence manager</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Krish Kalla</h3>
+                    <p class="resource-description"><strong>Student PR Manager: </strong>Manages networking with students</p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Alois LeCoz</h3>
+                    <p class="resource-description"><strong>Resource Creator: </strong>Creator of Quizlets and educational videos to help students</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Christopher Chen</h3>
+                    <p class="resource-description"><strong>Specialized Notetaker: </strong>Specialized in specific subjects at different times to maintain resources</p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Syon Mukherjee</h3>
+                    <p class="resource-description"><strong>Update Manager: </strong>Manages updates, refers student requests to coders, and creates specialized resources</p>
+                </div>
+            </div>
+            
+            <h2 class="section-title glow-text">Special Thanks To ...</h2>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title"><strong>COACH LAMANE</strong></h3>
+                    <p class="resource-description">The inspiration behind this idea and our best supporter (Thank you!!!)</p>
+                </div>
+            </div>
 
+            <h2 class="section-title glow-text">Advisors</h2>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Manas Aggarwal</h3>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Akshar Manjunath</h3>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Kanmi Oyebode</h3>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Long Nguyen</h3>
+                </div>>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Vir Sanghavi</h3>
+                </div>
+            </div>
+
+            <h2 class="section-title glow-text">Thank you to our teachers!</h2>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title"><strong><b>Principal Moss!</b></strong></h3>
+                    <p class="resource-description">Our Amazing Principal!</p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Ramones</h3>
+                    <p class="resource-description">Computer Science & Algebra 2</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Khadem</h3>
+                    <p class="resource-description">Geometry<p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Kulkarni</h3>
+                    <p class="resource-description">Algebra 2 & AP Statistics</p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Ms. Brode</h3>
+                    <p class="resource-description">Algebra 1 & 2</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Ms. Blythe</h3>
+                    <p class="resource-description">Pre-AP & AP Biology</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Mata</h3>
+                    <p class="resource-description">Pre-AP Biology & Chemistry<p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Ms. Buso</h3>
+                    <p class="resource-description">Human Geography, Comparative World Mythology & World Religions</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Dr. Haney</h3>
+                    <p class="resource-description">Human Geography & Psychology</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Tristan</h3>
+                    <p class="resource-description">Spanish (multiple levels)</p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Pena</h3>
+                    <p class="resource-description">Spanish (multiple levels)<p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Ms. Burley</h3>
+                    <p class="resource-description">English I</p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Ms. Bohenick</h3>
+                    <p class="resource-description">English I, Photography & TPSP<p>
+                </div>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Savage</h3>
+                    <p class="resource-description">Theater Arts & Tech Theater<p>
+                </div>
+                <div class="resource-card glass-effect">
+                    <h3 class="resource-title">Mr. Arredondo</h3>
+                    <p class="resource-description">Biology & Chemistry<p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
     <script>
-        const carousels = {
-            team: { currentIndex: 0, totalSlides: 11 },
-            teachers: { currentIndex: 0, totalSlides: 18 }
-        };
-
-        function navigate(section, direction) {
-            const carousel = carousels[section];
-            carousel.currentIndex = (carousel.currentIndex + direction + carousel.totalSlides) % carousel.totalSlides;
-            updateCarousel(section);
-        }
-
-        function goToSlide(section, index) {
-            carousels[section].currentIndex = index;
-            updateCarousel(section);
-        }
-
-        function updateCarousel(section) {
-            const carousel = carousels[section];
-            const container = document.getElementById(`${section}-cards`);
-            container.style.transform = `translateX(-${carousel.currentIndex * 100}%)`;
-            
-            // Update indicators
-            updateIndicators(section);
-        }
-
-        function createIndicators(section) {
-            const carousel = carousels[section];
-            const container = document.getElementById(`${section}-indicators`);
-            container.innerHTML = '';
-            
-            for (let i = 0; i < carousel.totalSlides; i++) {
-                const indicator = document.createElement('div');
-                indicator.className = `indicator ${i === carousel.currentIndex ? 'active' : ''}`;
-                indicator.onclick = () => goToSlide(section, i);
-                container.appendChild(indicator);
-            }
-        }
-
-        function updateIndicators(section) {
-            const indicators = document.querySelectorAll(`#${section}-indicators .indicator`);
-            indicators.forEach((indicator, index) => {
-                indicator.className = `indicator ${index === carousels[section].currentIndex ? 'active' : ''}`;
-            });
-        }
-
         // Load navigation from nav.html
         async function loadNav() {
             try {
@@ -597,14 +207,6 @@
 
         // Fetch assignments and load navigation when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
-        });
-        
-        // Initialize carousels
-        document.addEventListener('DOMContentLoaded', () => {
-            createIndicators('team');
-            createIndicators('teachers');
             loadNav();
             loadBanner();
         });
