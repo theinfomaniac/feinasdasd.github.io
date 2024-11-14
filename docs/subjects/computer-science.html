@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar styles */
         .sidebar {
             width: 300px;
             background: rgba(255, 255, 255, 0.1);
@@ -14,12 +27,70 @@
             padding: 20px;
             overflow-y: auto;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            height: 100%;
         }
 
+        .resources-grid {
+            margin-bottom: 20px;
+        }
+
+        .resource-title {
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .resource-title:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .active {
+            background-color: rgba(255, 255, 255, 0.6);
+            font-weight: bold;
+        }
+
+        /* Content section */
         .content {
             flex: 1;
             display: flex;
             flex-direction: column;
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Glass effect header */
+        header.glass-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .logo-container h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Glow text effect */
+        .glow-text {
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.8);
+        }
+
+        .section-title {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -32,24 +103,20 @@
         <div id="nav-container"></div> <!-- Placeholder for navigation -->
     </header>
 
-    <main class="fade-in">
-        <div class="games-container">
-            <h2 class="section-title glow-text">Computer Science Resources</h2>
-            <div class="sidebar">
-                <div class="resources-grid">
-                    <h3 class="resource-title">Computer Systems & The Flow of Data</h3>
-                    <p class="resource-description">Quick notes on computer systems</p>
-                </div>
-                <div class="resources-grid">
-                    <h3 class="resource-title">Converting Between Bases</h3>
-                    <p class="resource-description">Quick notes on base conversions</p>
-                </div>
+    <main class="fade-in main-container">
+        <div class="sidebar">
+            <div class="resources-grid">
+                <h3 class="resource-title" data-url="https://example.com/computer-systems">Computer Systems & The Flow of Data</h3>
             </div>
-            <div class="content">
-                <iframe class="content-frame" id="contentFrame" src="about:blank"></iframe>   
+            <div class="resources-grid">
+                <h3 class="resource-title" data-url="https://example.com/base-conversions">Converting Between Bases</h3>
             </div>
         </div>
+        <div class="content">
+            <iframe class="content-frame" id="contentFrame" src="about:blank"></iframe>   
+        </div>
     </main>
+
     <script src="script.js"></script>
     <script>
         // Load navigation from nav.html
@@ -76,10 +143,30 @@
             }
         }
 
-        // Fetch assignments and load navigation when the page loads
+        // Function to highlight the clicked button and load URL into iframe
+        function handleResourceClick(event) {
+            // Remove the active class from all resource titles
+            const allTitles = document.querySelectorAll('.resource-title');
+            allTitles.forEach(title => title.classList.remove('active'));
+            
+            // Add the active class to the clicked resource title
+            event.target.classList.add('active');
+            
+            // Get the URL from the data-url attribute and set it in the iframe
+            const url = event.target.getAttribute('data-url');
+            document.getElementById('contentFrame').src = url;
+        }
+
+        // Add event listeners to resource titles
         document.addEventListener('DOMContentLoaded', () => {
             loadNav();
             loadBanner();
+
+            // Add event listener to each resource title
+            const resourceTitles = document.querySelectorAll('.resource-title');
+            resourceTitles.forEach(title => {
+                title.addEventListener('click', handleResourceClick);
+            });
         });
     </script>
 </body>
