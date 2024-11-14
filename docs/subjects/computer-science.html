@@ -6,12 +6,15 @@
     <title>Computer Science Resources</title>
     <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Orbitron', sans-serif; /* Apply Orbitron font */
             height: 100%;
+            background-color: #121212; /* Dark background for contrast */
+            color: white; /* White text for contrast */
         }
 
         .main-container {
@@ -38,10 +41,11 @@
         .resource-title {
             font-size: 1.1em;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             padding: 10px;
             border-radius: 5px;
             background: rgba(255, 255, 255, 0.2);
+            text-align: center; /* Center-align text in sidebar buttons */
         }
 
         .resource-title:hover {
@@ -51,6 +55,7 @@
         .active {
             background-color: rgba(255, 255, 255, 0.6);
             font-weight: bold;
+            transform: scale(1.1); /* Grow effect when active */
         }
 
         /* Content section */
@@ -112,34 +117,34 @@
                 <h3 class="resource-title" data-url="https://example.com/base-conversions">Converting Between Bases</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Introduction to Programming</h3>
+                <h3 class="resource-title" data-url="https://example.com/intro-programming">Introduction to Programming</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Introduction to Java</h3>
+                <h3 class="resource-title" data-url="https://example.com/intro-java">Introduction to Java</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Number Systems</h3>
+                <h3 class="resource-title" data-url="https://example.com/number-systems">Number Systems</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Primitive Data Types</h3>
+                <h3 class="resource-title" data-url="https://example.com/primitive-data-types">Primitive Data Types</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Evolution of Computer Science</h3>
+                <h3 class="resource-title" data-url="https://example.com/evolution-computer-science">Evolution of Computer Science</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Creating Java Methods</h3>
+                <h3 class="resource-title" data-url="https://example.com/creating-java-methods">Creating Java Methods</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">The <i>String</i> Class</h3>
+                <h3 class="resource-title" data-url="https://example.com/string-class">The <i>String</i> Class</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">String Methods (Examples)</h3>
+                <h3 class="resource-title" data-url="https://example.com/string-methods">String Methods (Examples)</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">LED Video Notes</h3>
+                <h3 class="resource-title" data-url="https://example.com/led-video-notes">LED Video Notes</h3>
             </div>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://example.com/base-conversions">Resistors Video Notes</h3>
+                <h3 class="resource-title" data-url="https://example.com/resistors-video-notes">Resistors Video Notes</h3>
             </div>
         </div>
         <div class="content">
