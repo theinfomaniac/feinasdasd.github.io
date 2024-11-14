@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InterlinkCVHS</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.png" type="image/png">
     <style>
         body {
             margin: 0;
@@ -22,8 +20,6 @@
         main {
             padding: 20px;
         }
-
-        /* Table for P1 to P7 */
         .period-table {
             width: 100%;
             margin-bottom: 20px;
@@ -39,7 +35,6 @@
             font-size: 1em;
             width: 100%;
         }
-
         .assignments-container {
             display: flex;
             flex-wrap: wrap;
@@ -55,7 +50,6 @@
             min-width: calc(33.333% - 14px);
             max-width: calc(33.333% - 14px);
         }
-
         .logo-container {
             display: flex;
             flex-direction: row;
@@ -63,33 +57,27 @@
             justify-content: flex-start;
             gap: 10px;
         }
-
         .logo-container h1 {
             margin: 0;
             font-size: 2.5em;
             font-weight: bold;
         }
-
         .logo-container .tagline {
             font-size: 1.2em;
             font-style: italic;
             color: rgba(255, 255, 255, 0.7);
             font-weight: 300;
         }
-
-        /* Mobile styles */
         @media screen and (max-width: 768px) {
             .glass-header {
                 padding: 10px;
             }
-
             .logo-container {
                 padding-right: 50px;
                 flex-direction: column;
                 text-align: center;
             }
         }
-
     </style>
 </head>
 <body class="dark-theme">
@@ -103,7 +91,6 @@
     </header>
 
     <main class="fade-in">
-        <!-- Table for class selection P1 to P7 -->
         <table class="period-table">
             <thead>
                 <tr>
@@ -140,7 +127,6 @@
         const API_KEY = 'AIzaSyDFFmaGCZTbWVjedTxSyvkxg7obqvxDinw';
         const SHEET_NAME = 'Sheet1';
 
-        // List of classes that you define
         const predefinedClasses = [
             "AP Human Geography", 
             "Pre-AP Biology", 
@@ -164,8 +150,8 @@
         ];
 
         let allAssignments = [];
+        let selectedClasses = new Set();
 
-        // Fetch assignments from the Google Sheets API
         async function fetchAssignments() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
             
@@ -177,58 +163,35 @@
                     throw new Error('No data found in sheet');
                 }
 
-                const rows = data.values.slice(1); // Skip header row
-                allAssignments = rows;  // Store all assignments
-                updateDropdowns();  // Populate dropdowns with predefined classes
-                displayAssignments();  // Display all assignments initially
+                allAssignments = data.values.slice(1); // Skip header row
+                updateDropdowns();
             } catch (error) {
                 console.error('Error fetching assignments:', error);
-                const container = document.getElementById('assignments-container');
-                container.innerHTML = '<p>Error loading assignments. Please try again later.</p>';
+                document.getElementById('assignments-container').innerHTML = 
+                    '<p>Error loading assignments. Please try again later.</p>';
             }
         }
 
-        // Function to display assignments based on selected classes
         function displayAssignments() {
             const container = document.getElementById('assignments-container');
-            container.innerHTML = ''; // Clear existing cards
-    
-            // Get selected class values for all periods
-            const selectedClasses = {
-                p1: document.getElementById('p1-class').value,
-                p2: document.getElementById('p2-class').value,
-                p3: document.getElementById('p3-class').value,
-                p4: document.getElementById('p4-class').value,
-                p5: document.getElementById('p5-class').value,
-                p6: document.getElementById('p6-class').value,
-                p7: document.getElementById('p7-class').value
-            };
-    
-            // If no classes are selected at all, don't display assignments
-            if (Object.values(selectedClasses).every(value => value === "")) {
+            container.innerHTML = '';
+
+            if (selectedClasses.size === 0) {
+                container.innerHTML = '<p>Select your classes above to see assignments</p>';
                 return;
             }
-    
-            // Filter assignments based on the selected classes for each period
-            const filteredAssignments = allAssignments.filter(assignment => {
-                // Check if assignment matches the selected class for any of the periods (P1 to P7)
-                return Object.entries(selectedClasses).some(([period, selectedClass]) => {
-                    // If a class is selected for this period, check if it matches the assignment's class
-                    if (selectedClass) {
-                        return assignment[0] === selectedClass;
-                    }
-                    return true;  // If no class is selected for this period, include all assignments for this period
-                });
-            });
-    
-            // Create rows of three cards each
+
+            const filteredAssignments = allAssignments.filter(assignment => 
+                selectedClasses.has(assignment[0])
+            );
+
             for (let i = 0; i < filteredAssignments.length; i += 3) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'assignments-row';
-    
+
                 for (let j = i; j < i + 3 && j < filteredAssignments.length; j++) {
                     const [subject, dueDate, title] = filteredAssignments[j];
-    
+                    
                     const card = document.createElement('div');
                     card.className = 'assignment-card glass-effect';
                     card.innerHTML = `
@@ -242,54 +205,49 @@
                     `;
                     rowDiv.appendChild(card);
                 }
-    
+
                 container.appendChild(rowDiv);
             }
         }
-    
-        // Function to update dropdowns and disable selected class in other periods
-        function updateDropdownsOnSelect(selectedPeriod, selectedClass) {
-            const allSelects = document.querySelectorAll('select');
-            allSelects.forEach(select => {
-                if (select !== selectedPeriod) {
-                    const options = select.querySelectorAll('option');
-                    options.forEach(option => {
-                        if (option.value === selectedClass) {
-                            option.disabled = true;  // Disable the selected class in other dropdowns
-                        } else {
-                            option.disabled = false; // Re-enable other options
-                        }
-                    });
-                }
-            });
+
+        function handleClassSelection(select) {
+            const selectedClass = select.value;
+            
+            // Remove previously selected class for this period
+            const oldClass = select.getAttribute('data-previous');
+            if (oldClass) {
+                selectedClasses.delete(oldClass);
+            }
+
+            // Add newly selected class
+            if (selectedClass) {
+                selectedClasses.add(selectedClass);
+                select.setAttribute('data-previous', selectedClass);
+            } else {
+                select.removeAttribute('data-previous');
+            }
+
+            displayAssignments();
         }
-    
-        // Initialize the class dropdowns for all periods
+
         function updateDropdowns() {
-            const selectElements = [
-                document.getElementById('p1-class'),
-                document.getElementById('p2-class'),
-                document.getElementById('p3-class'),
-                document.getElementById('p4-class'),
-                document.getElementById('p5-class'),
-                document.getElementById('p6-class'),
-                document.getElementById('p7-class')
-            ];
-    
+            const selectElements = document.querySelectorAll('select');
+            
             selectElements.forEach(select => {
-                // Clear existing options
                 select.innerHTML = "<option value=''>---</option>";
-                // Add predefined class options
                 predefinedClasses.forEach(classOption => {
                     const option = document.createElement('option');
                     option.value = classOption;
                     option.text = classOption;
                     select.appendChild(option);
                 });
+
+                select.addEventListener('change', () => handleClassSelection(select));
             });
+
+            displayAssignments();
         }
-        
-        // Load navigation from nav.html
+
         async function loadNav() {
             try {
                 const response = await fetch('navnav.html');
@@ -297,11 +255,11 @@
                 document.getElementById('nav-container').innerHTML = nav;
             } catch (error) {
                 console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+                document.getElementById('nav-container').innerHTML = 
+                    '<p>Error loading navigation. Please try again later.</p>';
             }
         }
 
-        // Function to load the banner
         async function loadBanner() {
             try {
                 const response = await fetch('banner.html');
@@ -309,24 +267,15 @@
                 document.getElementById('banner-container').innerHTML = bannerContent;
             } catch (error) {
                 console.error('Error loading banner:', error);
-                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+                document.getElementById('banner-container').innerHTML = 
+                    '<p>Error loading banner. Please try again later.</p>';
             }
         }
 
-        // Listen to changes in the dropdowns to filter assignments and update dropdowns
-        document.querySelectorAll('select').forEach(select => {
-            select.addEventListener('change', function() {
-                const selectedClass = this.value;
-                updateDropdownsOnSelect(this, selectedClass);  // Update dropdowns
-                displayAssignments();  // Re-filter and display assignments
-            });
-        });
-
-        // Fetch assignments and update dropdowns when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             loadBanner();
             loadNav();
-            fetchAssignments();  // Fetch assignments and initialize the dropdowns
+            fetchAssignments();
         });
     </script>
 </body>
