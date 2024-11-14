@@ -19,7 +19,7 @@
 
         .main-container {
             display: flex;
-            height: 100vh; /* Ensure the main container takes up the full viewport height */
+            height: 100vh;
         }
 
         /* Sidebar styles */
@@ -30,12 +30,8 @@
             padding: 20px;
             overflow-y: auto;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; /* Rounded corners */
             flex-shrink: 0;
-            height: 100vh; /* Ensure sidebar takes the full height */
-            box-sizing: border-box; /* Include padding in height calculation */
-            padding-left: 20px; /* Add padding to prevent text from touching the edge */
-            padding-right: 20px; /* Add padding to prevent text from touching the edge */
+            height: 100%;
         }
 
         .resources-grid {
@@ -57,7 +53,7 @@
         }
 
         .active {
-            background-color: rgba(255, 255, 255, 0.5); /* Less white when active */
+            background-color: rgba(255, 255, 255, 0.6);
             font-weight: bold;
             transform: scale(1.1); /* Grow effect when active */
         }
@@ -68,8 +64,6 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
-            height: 100vh; /* Ensure content section takes the full height */
-            box-sizing: border-box; /* Include padding in height calculation */
         }
 
         iframe {
@@ -86,9 +80,6 @@
             padding: 20px;
             background: rgba(0, 0, 0, 0.5);
             color: white;
-            position: fixed;
-            width: 100%;
-            z-index: 100;
         }
 
         .logo-container h1 {
@@ -105,12 +96,6 @@
 
         .section-title {
             margin-bottom: 10px;
-        }
-
-        /* Add some padding to the main content to prevent it from getting covered by the fixed header */
-        .content {
-            padding-top: 80px; /* Add space for the header */
-            overflow: hidden; /* Prevent extra scrolling */
         }
     </style>
 </head>
