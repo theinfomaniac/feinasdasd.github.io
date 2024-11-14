@@ -6,14 +6,9 @@
     <title>Computer Science Resources</title>
     <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
     <link rel="icon" href="../favicon.png" type="image/png">
-    
     <style>
+        /* Additional styles specific to the sidebar layout */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #1a1a1a;
-            color: white;
             display: flex;
             min-height: 100vh;
         }
@@ -31,20 +26,6 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-        }
-
-        .header {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .resource-button {
@@ -66,100 +47,77 @@
             transform: translateY(-2px);
         }
 
-        .resource-title {
-            font-size: 16px;
-            margin: 0 0 5px 0;
-        }
-
-        .resource-description {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            display: flex;
-        }
-
         .content-frame {
             flex: 1;
             border: none;
             border-radius: 8px;
             background: white;
-        }
-
-        .section-title {
-            font-size: 18px;
-            margin: 20px 0 10px 0;
-            padding-bottom: 5px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin: 20px;
         }
     </style>
 </head>
 <body>
+    <div id="banner-container"></div>
+    
     <div class="sidebar">
-        <h2 class="section-title">Resources</h2>
+        <h2 class="section-title glow-text">Resources</h2>
         <div class="resource-buttons">
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1XEl8HRQ5yOiuDwXJ04ixcs1cBmMFnnXS/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1XEl8HRQ5yOiuDwXJ04ixcs1cBmMFnnXS/view?usp=drive_link">
                 <h3 class="resource-title">Computer Systems & The Flow of Data</h3>
                 <p class="resource-description">Quick notes on computer systems</p>
             </button>
             
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1deB0V0ko-1r81ioxSF6Y8KpW6QICZOxr/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1deB0V0ko-1r81ioxSF6Y8KpW6QICZOxr/view?usp=drive_link">
                 <h3 class="resource-title">Converting Between Bases</h3>
                 <p class="resource-description">Quick notes on base conversion</p>
             </button>
 
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1Uqu1718uQGToKzfzFb2Dchb3Z0weFpzI/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1Uqu1718uQGToKzfzFb2Dchb3Z0weFpzI/view?usp=drive_link">
                 <h3 class="resource-title">Introduction to Programming</h3>
                 <p class="resource-description">Quick notes on programming</p>
             </button>
 
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1Uqu1718uQGToKzfzFb2Dchb3Z0weFpzI/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1Uqu1718uQGToKzfzFb2Dchb3Z0weFpzI/view?usp=drive_link">
                 <h3 class="resource-title">Introduction to Java</h3>
                 <p class="resource-description">Quick notes on Java basics</p>
             </button>
 
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1Vq3QB8IS0uqzUdozjBdW4dc7XMGsePhC/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1Vq3QB8IS0uqzUdozjBdW4dc7XMGsePhC/view?usp=drive_link">
                 <h3 class="resource-title">Number Systems</h3>
                 <p class="resource-description">Quick notes on number systems</p>
             </button>
 
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1Oh7ZBAfANeVfIfQQmxY_5yjZ1xBGgUfN/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1Oh7ZBAfANeVfIfQQmxY_5yjZ1xBGgUfN/view?usp=drive_link">
                 <h3 class="resource-title">Primitive Data Types</h3>
                 <p class="resource-description">Quick notes on primitive data types</p>
             </button>
 
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1SdcgSqLYX9Xn4CslYEJdSBEY--Fw_mKP/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1SdcgSqLYX9Xn4CslYEJdSBEY--Fw_mKP/view?usp=drive_link">
                 <h3 class="resource-title">Evolution of Computer Science</h3>
                 <p class="resource-description">Quick notes on computer science's evolution</p>
             </button>
 
-            <button class="resource-button" data-url="https://drive.google.com/file/d/1cJ2yfy_350FvyTTADMIEi8eD3isV8Ciq/view?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://drive.google.com/file/d/1cJ2yfy_350FvyTTADMIEi8eD3isV8Ciq/view?usp=drive_link">
                 <h3 class="resource-title">Creating Java Methods</h3>
                 <p class="resource-description">Quick notes on Java methods</p>
             </button>
 
-            <button class="resource-button" data-url="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html">
+            <button class="resource-button glass-effect" data-url="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html">
                 <h3 class="resource-title">The String Class</h3>
                 <p class="resource-description">Official documentation on the String class in Java</p>
             </button>
 
-            <button class="resource-button" data-url="https://replit.com/@cvhshomeworkhub/StringMethods-CS-CVHSHW">
+            <button class="resource-button glass-effect" data-url="https://replit.com/@cvhshomeworkhub/StringMethods-CS-CVHSHW">
                 <h3 class="resource-title">String Methods (Examples)</h3>
                 <p class="resource-description">A Java Program with examples and explanations</p>
             </button>
 
-            <button class="resource-button" data-url="https://docs.google.com/document/d/1yIQwm1dnlQg1TqFopWt7ATFeAK8f6DOyhdDG8z3oGg4/edit?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://docs.google.com/document/d/1yIQwm1dnlQg1TqFopWt7ATFeAK8f6DOyhdDG8z3oGg4/edit?usp=drive_link">
                 <h3 class="resource-title">LED Notes</h3>
                 <p class="resource-description">Notes from the Engineering Mindset LED Video</p>
             </button>
 
-            <button class="resource-button" data-url="https://docs.google.com/document/d/1MHgw-Ll8IeZFt9C2tnngqHJl6Oa6HhvIgaXujL9YhF0/edit?usp=drive_link">
+            <button class="resource-button glass-effect" data-url="https://docs.google.com/document/d/1MHgw-Ll8IeZFt9C2tnngqHJl6Oa6HhvIgaXujL9YhF0/edit?usp=drive_link">
                 <h3 class="resource-title">Resistor Notes</h3>
                 <p class="resource-description">Notes from the Engineering Mindset LED Video</p>
             </button>
@@ -167,14 +125,18 @@
     </div>
 
     <div class="content">
-        <header class="header">
-            <h1>Computer Science 1 Resources</h1>
+        <header class="glass-header">
+            <div class="logo-container">
+                <h1 class="glow-text">Computer Science 1 Resources</h1>
+            </div>
+            <div id="nav-container"></div>
         </header>
-        <main class="main-content">
+        <main class="fade-in">
             <iframe class="content-frame" id="contentFrame" src="about:blank"></iframe>
         </main>
     </div>
 
+    <script src="../script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const buttons = document.querySelectorAll('.resource-button');
@@ -188,9 +150,35 @@
                     // Remove active state from all buttons
                     buttons.forEach(btn => btn.style.background = 'rgba(255, 255, 255, 0.1)');
                     // Add active state to clicked button
-                    button.style.background = 'rgba(255, 255, 255, 0.3)';
+                    button.style.background = 'rgba(255, 255, 255, 0.3)');
                 });
             });
+
+            // Load navigation and banner
+            async function loadNav() {
+                try {
+                    const response = await fetch('https://interlinkcvhs.org/navnav.html');
+                    const nav = await response.text();
+                    document.getElementById('nav-container').innerHTML = nav;
+                } catch (error) {
+                    console.error('Error loading navigation:', error);
+                    document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+                }
+            }
+
+            async function loadBanner() {
+                try {
+                    const response = await fetch('https://interlinkcvhs.org/banner.html');
+                    const bannerContent = await response.text();
+                    document.getElementById('banner-container').innerHTML = bannerContent;
+                } catch (error) {
+                    console.error('Error loading banner:', error);
+                    document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+                }
+            }
+
+            loadNav();
+            loadBanner();
         });
     </script>
 </body>
