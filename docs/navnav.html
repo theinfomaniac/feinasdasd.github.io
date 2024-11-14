@@ -54,16 +54,23 @@
 }
 
 /* Search styles */
-.search-container {
-    margin-left: auto;
+.nav-links {
     display: flex;
     align-items: center;
+    flex-grow: 1;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 
 .search-icon {
     color: white;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
     font-size: 1.2rem;
 }
 
@@ -133,10 +140,82 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* Hamburger menu icon */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+}
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 2px 0;
+    transition: 0.4s;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .hamburger {
+        display: flex;
+        align-self: flex-end;
+    }
+    .nav-links {
+        display: none;
+        width: 100%;
+    }
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+    }
+    .nav-link {
+        width: 100%;
+        padding: 0.8rem;
+        margin: 0;
+    }
+    .dropdown {
+        width: 100%;
+    }
+    .dropbtn {
+        width: 100%;
+        text-align: left;
+        padding: 0.8rem;
+        margin: 0;
+    }
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        background: rgba(0, 0, 0, 0.4);
+    }
+    .dropdown-content a {
+        padding-left: 2rem;
+    }
+    .search-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 0.8rem 0;
+    }
+    .search-icon {
+        width: 100%;
+        text-align: left;
+        margin: 0;
+    }
+}
 </style>
 </head>
 <body>
 <nav class="nav">
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
     
     <div class="nav-links">
         <a href="https://interlinkcvhs.org" class="nav-link">Home</a>
@@ -151,10 +230,9 @@
         <a href="https://interlinkcvhs.org/subject-study" class="nav-link">Subject Study</a>
         <a href="https://interlinkcvhs.org/qotd" class="nav-link">QOTD</a>
         <a href="https://interlinkcvhs.org/credits" class="nav-link">Credits</a>
-    </div>
-
-    <div class="search-container">
-        <div class="search-icon" onclick="toggleSearch()">🔍</div>
+        <div class="search-container">
+            <div class="search-icon" onclick="toggleSearch()">🔍</div>
+        </div>
     </div>
 
     <div class="search-box">
