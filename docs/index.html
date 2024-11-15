@@ -128,7 +128,7 @@
         const SHEET_ID = '1VDAI3EJC7Wf9tp7TKr__Y6CFzalE5aw43bVq5Bk02NA';
         const API_KEY = 'AIzaSyDFFmaGCZTbWVjedTxSyvkxg7obqvxDinw';
         const SHEET_NAME = 'Sheet1';
-
+        
         const predefinedClasses = [
             "AP Human Geography", 
             "Pre-AP Biology", 
@@ -150,10 +150,10 @@
             "UIL Baseball",
             "UIL Volleyball"
         ];
-
+        
         let allAssignments = [];
         let selectedClasses = new Set();
-
+        
         async function fetchAssignments() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
             
@@ -164,8 +164,17 @@
                 if (!data.values || data.values.length === 0) {
                     throw new Error('No data found in sheet');
                 }
-
-                allAssignments = data.values.slice(1); // Skip header row
+        
+                // Convert dates and sort assignments
+                allAssignments = data.values.slice(1).map(assignment => {
+                    return {
+                        subject: assignment[0],
+                        dueDate: new Date(assignment[1]),
+                        title: assignment[2],
+                        dueDateStr: assignment[1] // Keep original date string for display
+                    };
+                }).sort((a, b) => a.dueDate - b.dueDate);
+        
                 updateDropdowns();
             } catch (error) {
                 console.error('Error fetching assignments:', error);
@@ -173,45 +182,51 @@
                     '<p>Error loading assignments. Please try again later.</p>';
             }
         }
-
+        
         function displayAssignments() {
             const container = document.getElementById('assignments-container');
             container.innerHTML = '';
-
-            if (selectedClasses.size === 0) {
-                container.innerHTML = '<p>Select your classes above to see upcoming assignments.</p>';
+        
+            let filteredAssignments = allAssignments;
+            
+            // Only filter if there are selected classes
+            if (selectedClasses.size > 0) {
+                filteredAssignments = allAssignments.filter(assignment => 
+                    selectedClasses.has(assignment.subject)
+                );
+            }
+        
+            if (filteredAssignments.length === 0) {
+                container.innerHTML = '<p>No assignments found for the selected classes.</p>';
                 return;
             }
-
-            const filteredAssignments = allAssignments.filter(assignment => 
-                selectedClasses.has(assignment[0])
-            );
-
+        
+            // Create rows with 3 assignments each
             for (let i = 0; i < filteredAssignments.length; i += 3) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'assignments-row';
-
+        
                 for (let j = i; j < i + 3 && j < filteredAssignments.length; j++) {
-                    const [subject, dueDate, title] = filteredAssignments[j];
+                    const assignment = filteredAssignments[j];
                     
                     const card = document.createElement('div');
                     card.className = 'assignment-card glass-effect';
                     card.innerHTML = `
                         <div class="assignment-header">
-                            <h3 class="assignment-title">${subject}</h3>
-                            <span class="due-date">${dueDate}</span>
+                            <h3 class="assignment-title">${assignment.subject}</h3>
+                            <span class="due-date">${assignment.dueDateStr}</span>
                         </div>
                         <div class="assignment-content">
-                            <p class="assignment-details">${title}</p>
+                            <p class="assignment-details">${assignment.title}</p>
                         </div>
                     `;
                     rowDiv.appendChild(card);
                 }
-
+        
                 container.appendChild(rowDiv);
             }
         }
-
+        
         function handleClassSelection(select) {
             const selectedClass = select.value;
             
@@ -220,7 +235,7 @@
             if (oldClass) {
                 selectedClasses.delete(oldClass);
             }
-
+        
             // Add newly selected class
             if (selectedClass) {
                 selectedClasses.add(selectedClass);
@@ -228,10 +243,10 @@
             } else {
                 select.removeAttribute('data-previous');
             }
-
+        
             displayAssignments();
         }
-
+        
         function updateDropdowns() {
             const selectElements = document.querySelectorAll('select');
             
@@ -243,13 +258,13 @@
                     option.text = classOption;
                     select.appendChild(option);
                 });
-
+        
                 select.addEventListener('change', () => handleClassSelection(select));
             });
-
+        
             displayAssignments();
         }
-
+        
         async function loadNav() {
             try {
                 const response = await fetch('navnav.html');
@@ -261,7 +276,7 @@
                     '<p>Error loading navigation. Please try again later.</p>';
             }
         }
-
+        
         async function loadBanner() {
             try {
                 const response = await fetch('banner.html');
@@ -273,7 +288,7 @@
                     '<p>Error loading banner. Please try again later.</p>';
             }
         }
-
+        
         document.addEventListener('DOMContentLoaded', () => {
             loadBanner();
             loadNav();
