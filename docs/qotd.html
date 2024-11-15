@@ -386,23 +386,34 @@
             };
 
             if (loading) {
-                return <div className="text-center p-8">Loading questions...</div>;
+                return React.createElement('div', { className: 'text-center p-8' },
+                    React.createElement('p', null, 'Loading question of the day...')
+                );
             }
-        
-            return questions.length > 0 ? displayQOTD(questions[currentIndex]) : null;
-        };
-        
-        export default QOTDNavigator;
-
-        // Mount the React component
+    
+            if (questions.length === 0) {
+                return React.createElement('div', { className: 'text-center p-8' },
+                    React.createElement('p', null, 'No questions available.')
+                );
+            }
+    
+            const currentQuestion = questions[currentIndex];
+            if (!currentQuestion) {
+                return React.createElement('div', { className: 'text-center p-8' },
+                    React.createElement('p', null, 'Question not found.')
+                );
+            }
+    
+            return displayQOTD(currentQuestion);
+        }
+    
+        // Create root and render app
         const root = createRoot(document.getElementById('root'));
         root.render(React.createElement(QOTDNavigator));
-
+    
         // Load navigation and banner
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
-        });
+        loadNav();
+        loadBanner();
     </script>
 </body>
 </html>
