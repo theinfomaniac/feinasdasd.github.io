@@ -16,7 +16,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 2rem;
-            margin: 2rem auto;
+            margin: 0 auto;  /* Removed top margin to accommodate nav controls */
             max-width: 800px;
         }
         .qotd-header {
@@ -84,6 +84,8 @@
             border-radius: 5px;
             font-weight: bold;
             text-align: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
         .feedback.correct {
             background-color: rgba(0, 255, 0, 0.2);
@@ -92,6 +94,9 @@
         .feedback.incorrect {
             background-color: rgba(255, 0, 0, 0.2);
             color: #ff0000;
+        }
+        .feedback.hidden {
+            opacity: 0;
         }
         .attempts {
             margin-top: 1rem;
@@ -116,7 +121,7 @@
             box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
         }
 
-        /* New navigation styles */
+        /* Updated navigation styles */
         .nav-button {
             background: none;
             border: none;
@@ -158,7 +163,6 @@
             width: 100%;
             max-width: 800px;
             margin-bottom: 1rem;
-            padding: 0 1rem;
         }
     </style>
 </head>
@@ -223,7 +227,16 @@
                 setAnswered(false);
                 const feedbackElement = document.getElementById('feedback');
                 const attemptsElement = document.getElementById('attempts');
-                if (feedbackElement) feedbackElement.textContent = '';
+                
+                // Clear feedback with transition
+                if (feedbackElement) {
+                    feedbackElement.classList.add('hidden');
+                    setTimeout(() => {
+                        feedbackElement.textContent = '';
+                        feedbackElement.className = 'feedback hidden';
+                    }, 300);
+                }
+                
                 if (attemptsElement) {
                     attemptsElement.textContent = 'Attempts: 0/3';
                     attemptsElement.setAttribute('data-attempts', '0');
@@ -377,43 +390,38 @@
                                 id: 'qotdSubmit',
                                 onClick: () => handleSubmit(qotd),
                                 disabled: answered
-                            }, 'Submit')
-                        ),
-                        React.createElement('div', { id: 'feedback', className: 'feedback' }),
-                        React.createElement('div', { id: 'attempts', className: 'attempts', 'data-attempts': '0' }, 'Attempts: 0/3')
+                            },'Submit Answer'),
+                        React.createElement('div', {
+                            id: 'feedback',
+                            className: 'feedback hidden'
+                        }),
+                        React.createElement('div', {
+                            id: 'attempts',
+                            className: 'attempts'
+                        }, 'Attempts: 0/3')
                     )
                 );
             };
 
             if (loading) {
-                return React.createElement('div', { className: 'text-center p-8' },
-                    React.createElement('p', null, 'Loading question of the day...')
-                );
+                return React.createElement('div', { className: 'loading' }, 'Loading questions...');
             }
-    
-            if (questions.length === 0) {
-                return React.createElement('div', { className: 'text-center p-8' },
-                    React.createElement('p', null, 'No questions available.')
-                );
+
+            if (!questions.length) {
+                return React.createElement('div', { className: 'error' }, 'No questions available.');
             }
-    
+
             const currentQuestion = questions[currentIndex];
-            if (!currentQuestion) {
-                return React.createElement('div', { className: 'text-center p-8' },
-                    React.createElement('p', null, 'Question not found.')
-                );
-            }
-    
             return displayQOTD(currentQuestion);
         }
-    
-        // Create root and render app
-        const root = createRoot(document.getElementById('root'));
-        root.render(React.createElement(QOTDNavigator));
-    
-        // Load navigation and banner
-        loadNav();
-        loadBanner();
+
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            loadBanner();
+            const root = createRoot(document.getElementById('root'));
+            root.render(React.createElement(QOTDNavigator));
+        });
     </script>
 </body>
 </html>
