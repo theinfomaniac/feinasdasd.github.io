@@ -128,6 +128,7 @@
         const SHEET_ID = '1VDAI3EJC7Wf9tp7TKr__Y6CFzalE5aw43bVq5Bk02NA';
         const API_KEY = 'AIzaSyDFFmaGCZTbWVjedTxSyvkxg7obqvxDinw';
         const SHEET_NAME = 'Sheet1';
+        const STORAGE_KEY = 'savedClassSelections';
         
         const predefinedClasses = [
             "AP Human Geography", 
@@ -154,6 +155,36 @@
         let allAssignments = [];
         let selectedClasses = new Set();
         
+        // Save class selections to localStorage
+        function saveClassSelections() {
+            const selections = {};
+            document.querySelectorAll('select').forEach(select => {
+                selections[select.id] = select.value;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+        }
+        
+        // Load saved class selections from localStorage
+        function loadSavedSelections() {
+            try {
+                const savedSelections = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+                document.querySelectorAll('select').forEach(select => {
+                    const savedValue = savedSelections[select.id];
+                    if (savedValue && predefinedClasses.includes(savedValue)) {
+                        select.value = savedValue;
+                        if (savedValue !== '') {
+                            selectedClasses.add(savedValue);
+                            select.setAttribute('data-previous', savedValue);
+                        }
+                    }
+                });
+                displayAssignments();
+            } catch (error) {
+                console.error('Error loading saved selections:', error);
+                localStorage.removeItem(STORAGE_KEY); // Clear potentially corrupted data
+            }
+        }
+        
         async function fetchAssignments() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
             
@@ -165,17 +196,17 @@
                     throw new Error('No data found in sheet');
                 }
         
-                // Convert dates and sort assignments
                 allAssignments = data.values.slice(1).map(assignment => {
                     return {
                         subject: assignment[0],
                         dueDate: new Date(assignment[1]),
                         title: assignment[2],
-                        dueDateStr: assignment[1] // Keep original date string for display
+                        dueDateStr: assignment[1]
                     };
                 }).sort((a, b) => a.dueDate - b.dueDate);
         
                 updateDropdowns();
+                loadSavedSelections(); // Load saved selections after dropdowns are populated
             } catch (error) {
                 console.error('Error fetching assignments:', error);
                 document.getElementById('assignments-container').innerHTML = 
@@ -189,7 +220,6 @@
         
             let filteredAssignments = allAssignments;
             
-            // Only filter if there are selected classes
             if (selectedClasses.size > 0) {
                 filteredAssignments = allAssignments.filter(assignment => 
                     selectedClasses.has(assignment.subject)
@@ -201,7 +231,6 @@
                 return;
             }
         
-            // Create rows with 3 assignments each
             for (let i = 0; i < filteredAssignments.length; i += 3) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'assignments-row';
@@ -230,13 +259,11 @@
         function handleClassSelection(select) {
             const selectedClass = select.value;
             
-            // Remove previously selected class for this period
             const oldClass = select.getAttribute('data-previous');
             if (oldClass) {
                 selectedClasses.delete(oldClass);
             }
         
-            // Add newly selected class
             if (selectedClass) {
                 selectedClasses.add(selectedClass);
                 select.setAttribute('data-previous', selectedClass);
@@ -244,6 +271,7 @@
                 select.removeAttribute('data-previous');
             }
         
+            saveClassSelections(); // Save selections after any change
             displayAssignments();
         }
         
