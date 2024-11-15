@@ -390,38 +390,43 @@
                                 id: 'qotdSubmit',
                                 onClick: () => handleSubmit(qotd),
                                 disabled: answered
-                            },'Submit Answer'),
-                        React.createElement('div', {
-                            id: 'feedback',
-                            className: 'feedback hidden'
-                        }),
-                        React.createElement('div', {
-                            id: 'attempts',
-                            className: 'attempts'
-                        }, 'Attempts: 0/3')
+                            }, 'Submit')
+                        ),
+                        React.createElement('div', { id: 'feedback', className: 'feedback hidden' }),
+                        React.createElement('div', { id: 'attempts', className: 'attempts', 'data-attempts': '0' }, 'Attempts: 0/3')
                     )
                 );
             };
 
             if (loading) {
-                return React.createElement('div', { className: 'loading' }, 'Loading questions...');
+                return React.createElement('div', { className: 'text-center p-8' },
+                    React.createElement('p', null, 'Loading question of the day...')
+                );
             }
-
-            if (!questions.length) {
-                return React.createElement('div', { className: 'error' }, 'No questions available.');
+    
+            if (questions.length === 0) {
+                return React.createElement('div', { className: 'text-center p-8' },
+                    React.createElement('p', null, 'No questions available.')
+                );
             }
-
+    
             const currentQuestion = questions[currentIndex];
+            if (!currentQuestion) {
+                return React.createElement('div', { className: 'text-center p-8' },
+                    React.createElement('p', null, 'Question not found.')
+                );
+            }
+    
             return displayQOTD(currentQuestion);
         }
-
-        // Wait for DOM to be ready
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNav();
-            loadBanner();
-            const root = createRoot(document.getElementById('root'));
-            root.render(React.createElement(QOTDNavigator));
-        });
+    
+        // Create root and render app
+        const root = createRoot(document.getElementById('root'));
+        root.render(React.createElement(QOTDNavigator));
+    
+        // Load navigation and banner
+        loadNav();
+        loadBanner();
     </script>
 </body>
 </html>
