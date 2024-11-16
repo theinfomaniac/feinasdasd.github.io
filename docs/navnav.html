@@ -133,7 +133,6 @@
 
         .search-dropdown.active {
             display: block;
-            animation: fadeIn 0.2s ease-in-out;
         }
 
         @keyframes fadeIn {
@@ -263,21 +262,15 @@
 
         function filterSearch(query) {
             const normalizedQuery = query.toLowerCase().trim();
-            
+        
             const filteredItems = searchItems.filter(item => 
                 item.title.toLowerCase().includes(normalizedQuery)
             );
-            
-            // Only show dropdown if there are items and query isn't empty
+        
             if (filteredItems.length > 0 && normalizedQuery.length > 0) {
                 searchDropdown.innerHTML = filteredItems
-                    .map((item, index) => `
-                        <a href="${item.url}" 
-                           class="search-dropdown-item"
-                           data-index="${index}"
-                           role="option">
-                            ${highlightMatch(item.title, normalizedQuery)}
-                        </a>
+                    .map(item => `
+                        <a href="${item.url}" class="search-dropdown-item">${highlightMatch(item.title, normalizedQuery)}</a>
                     `).join('');
                 searchDropdown.classList.add('active');
             } else {
