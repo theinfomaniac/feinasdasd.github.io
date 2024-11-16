@@ -30,9 +30,11 @@
             overflow-y: auto;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
-            height: 100vh;
+            height: auto; /* Let it adjust based on content */
+            max-height: 100vh; /* Prevent it from being taller than the viewport */
             padding: 20px;
         }
+
 
         .resources-grid {
             margin-bottom: 20px;
