@@ -280,9 +280,11 @@
                     `).join('');
                 searchDropdown.classList.add('active');
             } else {
-                searchDropdown.classList.remove('active');
+                searchDropdown.innerHTML = '<div class="search-dropdown-item">No results found</div>';
+                searchDropdown.classList.add('active');
             }
         }
+
 
 
         function highlightMatch(text, query) {
