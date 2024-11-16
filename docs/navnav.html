@@ -125,7 +125,7 @@
             margin-top: 4px;
             max-height: 300px;
             overflow-y: auto;
-            z-index: 1000;
+            z-index: 1001;
             display: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -262,21 +262,28 @@
 
         function filterSearch(query) {
             const normalizedQuery = query.toLowerCase().trim();
-        
+            
             const filteredItems = searchItems.filter(item => 
                 item.title.toLowerCase().includes(normalizedQuery)
             );
-        
+            
+            // Show dropdown only when there are filtered items
             if (filteredItems.length > 0 && normalizedQuery.length > 0) {
                 searchDropdown.innerHTML = filteredItems
-                    .map(item => `
-                        <a href="${item.url}" class="search-dropdown-item">${highlightMatch(item.title, normalizedQuery)}</a>
+                    .map((item, index) => `
+                        <a href="${item.url}" 
+                           class="search-dropdown-item"
+                           data-index="${index}" 
+                           role="option">
+                            ${highlightMatch(item.title, normalizedQuery)}
+                        </a>
                     `).join('');
                 searchDropdown.classList.add('active');
             } else {
                 searchDropdown.classList.remove('active');
             }
         }
+
 
         function highlightMatch(text, query) {
             if (!query) return text;
@@ -296,20 +303,18 @@
         navSearch.addEventListener('keydown', (e) => {
             const items = searchDropdown.getElementsByClassName('search-dropdown-item');
             
-            if (e.key === 'ArrowDown') {
-                currentFocus++;
-                addActive(items);
-                e.preventDefault();
-            } else if (e.key === 'ArrowUp') {
-                currentFocus--;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                // Make sure the dropdown is visible before using arrow keys
+                if (!searchDropdown.classList.contains('active')) {
+                    searchDropdown.classList.add('active');
+                }
+                currentFocus = e.key === 'ArrowDown' ? currentFocus + 1 : currentFocus - 1;
                 addActive(items);
                 e.preventDefault();
             } else if (e.key === 'Enter') {
                 e.preventDefault();
-                if (currentFocus > -1) {
-                    if (items[currentFocus]) {
-                        window.location.href = items[currentFocus].href;
-                    }
+                if (currentFocus > -1 && items[currentFocus]) {
+                    window.location.href = items[currentFocus].href;
                 }
             }
         });
