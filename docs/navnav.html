@@ -263,12 +263,13 @@
         function filterSearch(query) {
             const normalizedQuery = query.toLowerCase().trim();
             
-            const filteredItems = searchItems.filter(item => 
-                item.title.toLowerCase().includes(normalizedQuery)
-            );
+            // Show all items when query is empty
+            const filteredItems = normalizedQuery === '' 
+                ? searchItems 
+                : searchItems.filter(item => item.title.toLowerCase().includes(normalizedQuery));
             
             // Show dropdown only when there are filtered items
-            if (filteredItems.length > 0 && normalizedQuery.length > 0) {
+            if (filteredItems.length > 0) {
                 searchDropdown.innerHTML = filteredItems
                     .map((item, index) => `
                         <a href="${item.url}" 
@@ -280,8 +281,7 @@
                     `).join('');
                 searchDropdown.classList.add('active');
             } else {
-                searchDropdown.innerHTML = '<div class="search-dropdown-item">No results found</div>';
-                searchDropdown.classList.add('active');
+                searchDropdown.classList.remove('active');
             }
         }
 
