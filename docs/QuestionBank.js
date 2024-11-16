@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X } from 'lucide-react';
 
+const { useState, useEffect } = React;
+
 const QuestionBank = () => {
   const [questions, setQuestions] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -92,153 +94,144 @@ const QuestionBank = () => {
       ...(includeAnswers && { answer: q.Correct1 })
     }));
 
-    // In a real implementation, you would generate a PDF here
     console.log('Generating PDF with:', content);
     alert('PDF generation would happen here with the selected questions');
   };
 
   if (loading) {
-    return (
-      <div className="text-center p-8">
-        <p>Loading question bank...</p>
-      </div>
+    return React.createElement('div', { className: 'text-center p-8' },
+      React.createElement('p', null, 'Loading question bank...')
     );
   }
 
-  return (
-    <div className="max-w-6xl mx-auto p-4">
-      <div className="mb-6 flex justify-end gap-4">
-        <button
-          onClick={() => generatePDF(false)}
-          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          <Download size={16} /> Export Questions
-        </button>
-        <button
-          onClick={() => generatePDF(true)}
-          className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          <Download size={16} /> Export with Answers
-        </button>
-      </div>
+  return React.createElement('div', { className: 'max-w-6xl mx-auto p-4' }, [
+    React.createElement('div', { className: 'mb-6 flex justify-end gap-4', key: 'buttons' }, [
+      React.createElement('button', {
+        key: 'export',
+        onClick: () => generatePDF(false),
+        className: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+      }, 'Export Questions'),
+      React.createElement('button', {
+        key: 'export-answers',
+        onClick: () => generatePDF(true),
+        className: 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600'
+      }, 'Export with Answers')
+    ]),
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <select
-          value={selectedSubject}
-          onChange={(e) => setSelectedSubject(e.target.value)}
-          className="p-2 border rounded bg-white/10 text-white"
-        >
-          <option value="">Select Subject</option>
-          {subjects.map(subject => (
-            <option key={subject} value={subject}>{subject}</option>
-          ))}
-        </select>
+    React.createElement('div', { className: 'grid grid-cols-3 gap-4 mb-6', key: 'filters' }, [
+      React.createElement('select', {
+        key: 'subject',
+        value: selectedSubject,
+        onChange: (e) => setSelectedSubject(e.target.value),
+        className: 'p-2 border rounded bg-white/10 text-white'
+      }, [
+        React.createElement('option', { value: '', key: 'default' }, 'Select Subject'),
+        ...subjects.map(subject => 
+          React.createElement('option', { key: subject, value: subject }, subject)
+        )
+      ]),
 
-        <select
-          value={selectedSubsection}
-          onChange={(e) => setSelectedSubsection(e.target.value)}
-          className="p-2 border rounded bg-white/10 text-white"
-          disabled={!selectedSubject}
-        >
-          <option value="">Select Subsection</option>
-          {subsections.map(subsection => (
-            <option key={subsection} value={subsection}>{subsection}</option>
-          ))}
-        </select>
+      React.createElement('select', {
+        key: 'subsection',
+        value: selectedSubsection,
+        onChange: (e) => setSelectedSubsection(e.target.value),
+        className: 'p-2 border rounded bg-white/10 text-white',
+        disabled: !selectedSubject
+      }, [
+        React.createElement('option', { value: '', key: 'default' }, 'Select Subsection'),
+        ...subsections.map(subsection => 
+          React.createElement('option', { key: subsection, value: subsection }, subsection)
+        )
+      ]),
 
-        <select
-          value={selectedSection}
-          onChange={(e) => setSelectedSection(e.target.value)}
-          className="p-2 border rounded bg-white/10 text-white"
-          disabled={!selectedSubsection}
-        >
-          <option value="">Select Section</option>
-          {sections.map(section => (
-            <option key={section} value={section}>{section}</option>
-          ))}
-        </select>
-      </div>
+      React.createElement('select', {
+        key: 'section',
+        value: selectedSection,
+        onChange: (e) => setSelectedSection(e.target.value),
+        className: 'p-2 border rounded bg-white/10 text-white',
+        disabled: !selectedSubsection
+      }, [
+        React.createElement('option', { value: '', key: 'default' }, 'Select Section'),
+        ...sections.map(section => 
+          React.createElement('option', { key: section, value: section }, section)
+        )
+      ])
+    ]),
 
-      <div className="bg-black/30 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-cyan-500/30">
-              <th className="p-2 text-left w-16">Select</th>
-              <th className="p-2 text-left">ID</th>
-              <th className="p-2 text-left">Subject</th>
-              <th className="p-2 text-left">Subsection</th>
-              <th className="p-2 text-left">Section</th>
-              <th className="p-2 text-left w-24">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredQuestions.map(question => (
-              <tr key={question.ID} className="border-b border-cyan-500/20">
-                <td className="p-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedQuestions.includes(question.ID)}
-                    onChange={() => handleCheckQuestion(question.ID)}
-                    className="w-4 h-4"
-                  />
-                </td>
-                <td className="p-2">{question.ID}</td>
-                <td className="p-2">{question.Subject}</td>
-                <td className="p-2">{question.Subsection}</td>
-                <td className="p-2">{question.Section}</td>
-                <td className="p-2">
-                  <button
-                    onClick={() => setViewingQuestion(question)}
-                    className="bg-cyan-500 text-white px-3 py-1 rounded hover:bg-cyan-600"
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    React.createElement('div', { className: 'bg-black/30 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4', key: 'table' },
+      React.createElement('table', { className: 'w-full' }, [
+        React.createElement('thead', { key: 'head' },
+          React.createElement('tr', { className: 'border-b border-cyan-500/30' }, [
+            React.createElement('th', { className: 'p-2 text-left w-16', key: 'select' }, 'Select'),
+            React.createElement('th', { className: 'p-2 text-left', key: 'id' }, 'ID'),
+            React.createElement('th', { className: 'p-2 text-left', key: 'subject' }, 'Subject'),
+            React.createElement('th', { className: 'p-2 text-left', key: 'subsection' }, 'Subsection'),
+            React.createElement('th', { className: 'p-2 text-left', key: 'section' }, 'Section'),
+            React.createElement('th', { className: 'p-2 text-left w-24', key: 'actions' }, 'Actions')
+          ])
+        ),
+        React.createElement('tbody', { key: 'body' },
+          filteredQuestions.map(question => 
+            React.createElement('tr', { key: question.ID, className: 'border-b border-cyan-500/20' }, [
+              React.createElement('td', { className: 'p-2', key: 'checkbox' },
+                React.createElement('input', {
+                  type: 'checkbox',
+                  checked: selectedQuestions.includes(question.ID),
+                  onChange: () => handleCheckQuestion(question.ID),
+                  className: 'w-4 h-4'
+                })
+              ),
+              React.createElement('td', { className: 'p-2', key: 'id' }, question.ID),
+              React.createElement('td', { className: 'p-2', key: 'subject' }, question.Subject),
+              React.createElement('td', { className: 'p-2', key: 'subsection' }, question.Subsection),
+              React.createElement('td', { className: 'p-2', key: 'section' }, question.Section),
+              React.createElement('td', { className: 'p-2', key: 'view' },
+                React.createElement('button', {
+                  onClick: () => setViewingQuestion(question),
+                  className: 'bg-cyan-500 text-white px-3 py-1 rounded hover:bg-cyan-600'
+                }, 'View')
+              )
+            ])
+          )
+        )
+      ])
+    ),
 
-      {viewingQuestion && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-black/80 border border-cyan-500/30 rounded-lg p-6 max-w-2xl w-full relative">
-            <button
-              onClick={() => setViewingQuestion(null)}
-              className="absolute top-4 right-4 text-white/60 hover:text-white"
-            >
-              <X size={24} />
-            </button>
-            <div className="mb-4">
-              <span className="text-cyan-400 text-sm">{viewingQuestion.Subject}</span>
-              <div className="text-white/60 text-sm mt-1">
-                {viewingQuestion.Subsection} • {viewingQuestion.Section}
-              </div>
-            </div>
-            <div className="text-xl text-white mb-6">{viewingQuestion.Question}</div>
-            {viewingQuestion.Options ? (
-              <div className="space-y-3">
-                {viewingQuestion.Options.split('\n').map((option, index) => (
-                  <div
-                    key={index}
-                    className="p-3 border border-cyan-500/30 rounded hover:bg-cyan-500/20 transition-colors cursor-pointer"
-                  >
-                    {option}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <input
-                type="text"
-                placeholder="Type your answer..."
-                className="w-full p-3 bg-white/10 border border-cyan-500/30 rounded"
-              />
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    viewingQuestion && React.createElement('div', { 
+      className: 'fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4',
+      key: 'modal'
+    },
+      React.createElement('div', { className: 'bg-black/80 border border-cyan-500/30 rounded-lg p-6 max-w-2xl w-full relative' }, [
+        React.createElement('button', {
+          key: 'close',
+          onClick: () => setViewingQuestion(null),
+          className: 'absolute top-4 right-4 text-white/60 hover:text-white'
+        }, '×'),
+        React.createElement('div', { className: 'mb-4', key: 'header' }, [
+          React.createElement('span', { className: 'text-cyan-400 text-sm' }, viewingQuestion.Subject),
+          React.createElement('div', { className: 'text-white/60 text-sm mt-1' },
+            `${viewingQuestion.Subsection} • ${viewingQuestion.Section}`
+          )
+        ]),
+        React.createElement('div', { className: 'text-xl text-white mb-6', key: 'question' }, viewingQuestion.Question),
+        viewingQuestion.Options ?
+          React.createElement('div', { className: 'space-y-3', key: 'options' },
+            viewingQuestion.Options.split('\n').map((option, index) =>
+              React.createElement('div', {
+                key: index,
+                className: 'p-3 border border-cyan-500/30 rounded hover:bg-cyan-500/20 transition-colors cursor-pointer'
+              }, option)
+            )
+          ) :
+          React.createElement('input', {
+            key: 'input',
+            type: 'text',
+            placeholder: 'Type your answer...',
+            className: 'w-full p-3 bg-white/10 border border-cyan-500/30 rounded'
+          })
+      ])
+    )
+  ]);
 };
 
 export default QuestionBank;
