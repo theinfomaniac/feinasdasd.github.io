@@ -13,6 +13,10 @@
             box-sizing: border-box;
         }
 
+        body {
+            background: #1a1a1a; /* Dark background for testing */
+        }
+
         /* Base nav styles */
         .nav {
             display: flex;
@@ -30,6 +34,12 @@
             align-items: center;
             gap: 1rem;
             flex: 1;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
         }
 
         /* Search container in nav */
@@ -58,6 +68,7 @@
             width: 300px;
             outline: none;
             background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .dropdown {
@@ -71,7 +82,7 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             color: white;
-            font-family: inherit;
+            font-family: 'Orbitron', sans-serif;
             font-size: inherit;
             margin: 0 0.5rem;
         }
@@ -84,6 +95,7 @@
             min-width: 160px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
             z-index: 1;
+            border-radius: 4px;
         }
         
         .dropdown-content a {
@@ -91,6 +103,7 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
+            font-family: 'Orbitron', sans-serif;
         }
         
         .dropdown-content a:hover {
@@ -101,6 +114,7 @@
             display: block;
         }
 
+        /* Enhanced search dropdown styles */
         .search-dropdown {
             position: absolute;
             top: 100%;
@@ -114,10 +128,24 @@
             overflow-y: auto;
             z-index: 1000;
             display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .search-dropdown.active {
             display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .search-dropdown-item {
@@ -134,16 +162,18 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Search input in overlay */
-        .search-overlay .search-input {
-            flex: 1;
+        /* Custom scrollbar for dropdown */
+        .search-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-dropdown::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 4px;
-            padding: 1rem;
-            color: white;
-            font-size: 1.2rem;
-            font-family: 'Orbitron', sans-serif;
+        }
+
+        .search-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
         }
 
         /* Mobile styles */
@@ -154,6 +184,10 @@
             
             .nav .search-input:focus {
                 width: 200px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -221,6 +255,7 @@
 
         const navSearch = document.getElementById('navSearch');
         const searchDropdown = document.getElementById('searchDropdown');
+        let currentFocus = -1;
 
         function filterSearch(query) {
             const normalizedQuery = query.toLowerCase().trim();
@@ -230,14 +265,23 @@
             );
             
             searchDropdown.innerHTML = filteredItems
-                .map(item => `
+                .map((item, index) => `
                     <a href="${item.url}" 
-                       class="search-dropdown-item">
-                        ${item.title}
+                       class="search-dropdown-item"
+                       data-index="${index}"
+                       role="option">
+                        ${highlightMatch(item.title, normalizedQuery)}
                     </a>
                 `).join('');
                 
             searchDropdown.classList.toggle('active', query.length > 0);
+            currentFocus = -1;
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<strong>$1</strong>');
         }
 
         // Event listeners
@@ -247,6 +291,45 @@
                 searchDropdown.classList.add('active');
             }
         });
+
+        // Keyboard navigation
+        navSearch.addEventListener('keydown', (e) => {
+            const items = searchDropdown.getElementsByClassName('search-dropdown-item');
+            
+            if (e.key === 'ArrowDown') {
+                currentFocus++;
+                addActive(items);
+                e.preventDefault();
+            } else if (e.key === 'ArrowUp') {
+                currentFocus--;
+                addActive(items);
+                e.preventDefault();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    if (items[currentFocus]) {
+                        window.location.href = items[currentFocus].href;
+                    }
+                }
+            }
+        });
+
+        function addActive(items) {
+            if (!items) return false;
+            removeActive(items);
+            if (currentFocus >= items.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (items.length - 1);
+            if (items[currentFocus]) {
+                items[currentFocus].classList.add('active');
+                items[currentFocus].scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        function removeActive(items) {
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+        }
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
