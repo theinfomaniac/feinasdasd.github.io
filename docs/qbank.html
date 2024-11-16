@@ -52,7 +52,7 @@
 
         // Wait for QuestionBank module to load
         window.addEventListener('load', async () => {
-            const { default: QuestionBank } = await import('./QuestionBank.js');
+            const { default: QuestionBank } = await import('QuestionBank.js');
             const root = ReactDOM.createRoot(document.getElementById('root'));
             root.render(React.createElement(QuestionBank));
             
