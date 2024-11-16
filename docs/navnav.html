@@ -120,15 +120,14 @@
             top: 100%;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgb(33, 33, 33); /* Solid background color */
             border-radius: 4px;
             margin-top: 4px;
             max-height: 300px;
             overflow-y: auto;
             z-index: 1000;
             display: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
@@ -156,10 +155,15 @@
             font-family: 'Orbitron', sans-serif;
             text-decoration: none;
             display: block;
+            background: transparent;
         }
 
         .search-dropdown-item:hover {
             background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-dropdown-item.active {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         /* Custom scrollbar for dropdown */
@@ -264,18 +268,21 @@
                 item.title.toLowerCase().includes(normalizedQuery)
             );
             
-            searchDropdown.innerHTML = filteredItems
-                .map((item, index) => `
-                    <a href="${item.url}" 
-                       class="search-dropdown-item"
-                       data-index="${index}"
-                       role="option">
-                        ${highlightMatch(item.title, normalizedQuery)}
-                    </a>
-                `).join('');
-                
-            searchDropdown.classList.toggle('active', query.length > 0);
-            currentFocus = -1;
+            // Only show dropdown if there are items and query isn't empty
+            if (filteredItems.length > 0 && normalizedQuery.length > 0) {
+                searchDropdown.innerHTML = filteredItems
+                    .map((item, index) => `
+                        <a href="${item.url}" 
+                           class="search-dropdown-item"
+                           data-index="${index}"
+                           role="option">
+                            ${highlightMatch(item.title, normalizedQuery)}
+                        </a>
+                    `).join('');
+                searchDropdown.classList.add('active');
+            } else {
+                searchDropdown.classList.remove('active');
+            }
         }
 
         function highlightMatch(text, query) {
