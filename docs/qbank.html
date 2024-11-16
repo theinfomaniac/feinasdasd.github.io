@@ -6,13 +6,9 @@
     <title>Question Bank</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
-    <!-- Add React and ReactDOM from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <!-- Add Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Add Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div id="banner-container"></div>
@@ -29,7 +25,7 @@
         </div>
     </main>
 
-    <script type="module">
+    <script>
         // Load navigation from nav.html
         async function loadNav() {
             try {
@@ -54,17 +50,16 @@
             }
         }
 
-        // Import and initialize the QuestionBank component
-        import QuestionBank from './QuestionBank.js';
-        const { createRoot } = ReactDOM;
-
-        // Create root and render app
-        const root = createRoot(document.getElementById('root'));
-        root.render(React.createElement(QuestionBank));
-
-        // Load navigation and banner
-        loadNav();
-        loadBanner();
+        // Wait for QuestionBank module to load
+        window.addEventListener('load', async () => {
+            const { default: QuestionBank } = await import('./QuestionBank.js');
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(QuestionBank));
+            
+            // Load navigation and banner
+            loadNav();
+            loadBanner();
+        });
     </script>
 </body>
 </html>
