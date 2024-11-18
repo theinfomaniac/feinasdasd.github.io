@@ -3,145 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interlink QBank</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+    <title>Question Bank</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <style>
+        :root {
+            --primary-color: #00FFFF;
+            --secondary-color: #0066FF;
+            --glass-background: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --transition-speed: 0.3s;
+        }
+
         body {
             margin: 0;
             padding: 0;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
         }
-        .glass-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-        }
-        main {
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
-        .period-table {
-            width: 100%;
-            margin-bottom: 20px;
-            border-collapse: collapse;
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
         }
-        .period-table th, .period-table td {
+
+        select {
+            width: 100%;
             padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: white;
+            font-size: 16px;
         }
-        .period-table select {
-            padding: 5px;
-            font-size: 1em;
+
+        .question-table {
             width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
         }
-        .assignments-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+
+        .question-table th,
+        .question-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
         }
-        .assignments-row {
-            display: flex;
+
+        .view-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .view-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            gap: 20px;
-        }
-        .assignment-card {
-            flex: 1;
-            min-width: calc(33.333% - 14px);
-            max-width: calc(33.333% - 14px);
-        }
-        .logo-container {
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
-            flex-direction: row;
+            justify-content: center;
             align-items: center;
-            justify-content: flex-start;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .question-view {
+            margin-top: 20px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
+            margin-top: 20px;
         }
-        .logo-container h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: bold;
+
+        .option {
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .logo-container .tagline {
-            font-size: 1.2em;
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 300;
+
+        .option:hover {
+            background: rgba(0, 255, 255, 0.1);
         }
-        @media screen and (max-width: 768px) {
-            .glass-header {
-                padding: 10px;
-            }
-            .logo-container {
-                padding-right: 50px;
-                flex-direction: column;
-                text-align: center;
-            }
+
+        .option.selected {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+
+        .feedback.incorrect {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
-<body class="dark-theme">
-    <div id="banner-container"></div>
-    <header class="glass-header">
-        <div class="logo-container">
-            <h1 class="glow-text">Question Bank</h1>
-        </div>
-        <div id="nav-container"></div>
-    </header>
+<body>
+    <div id="root"></div>
 
-    <main class="fade-in">
-        <table class="period-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Subject</th>
-                    <th>Section</th>
-                    <th>Subsection</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>FILL HERE</td>
-                    <td>FILL HERE</td>
-                    <td>FILL HERE</td>
-                    <td>FILL HERE</td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+    <script type="module">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
 
-    <script>        
-        async function loadNav() {
-            try {
-                const response = await fetch('navnav.html');
-                const nav = await response.text();
-                document.getElementById('nav-container').innerHTML = nav;
-            } catch (error) {
-                console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = 
-                    '<p>Error loading navigation. Please try again later.</p>';
+        function QuestionBank() {
+            const [questions, setQuestions] = useState([]);
+            const [categories, setCategories] = useState([]);
+            const [selectedSubject, setSelectedSubject] = useState('');
+            const [selectedSection, setSelectedSection] = useState('');
+            const [selectedSubsection, setSelectedSubsection] = useState('');
+            const [selectedQuestion, setSelectedQuestion] = useState(null);
+            const [feedback, setFeedback] = useState('');
+            const [attempts, setAttempts] = useState(0);
+            const [isAnswered, setIsAnswered] = useState(false);
+            const [selectedOption, setSelectedOption] = useState('');
+            const [textAnswer, setTextAnswer] = useState('');
+
+            useEffect(() => {
+                fetchQuestions();
+                fetchCategories();
+            }, []);
+
+            async function fetchQuestions() {
+                try {
+                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
+                    const data = await response.json();
+                    if (data.success) {
+                        setQuestions(data.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching questions:', error);
+                }
             }
-        }
-        
-        async function loadBanner() {
-            try {
-                const response = await fetch('banner.html');
-                const bannerContent = await response.text();
-                document.getElementById('banner-container').innerHTML = bannerContent;
-            } catch (error) {
-                console.error('Error loading banner:', error);
-                document.getElementById('banner-container').innerHTML = 
-                    '<p>Error loading banner. Please try again later.</p>';
+
+            async function fetchCategories() {
+                try {
+                    const response = await fetch('/subj-cat5.txt');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch categories');
+                    }
+                    const text = await response.text();
+                    const parsed = text.trim().split('\n').map(line => {
+                        const [subject, section, subsection] = line.split(' | ');
+                        return { subject, section, subsection };
+                    });
+                    setCategories(parsed);
+                } catch (error) {
+                    console.error('Error fetching categories:', error);
+                    // Fallback to empty categories array if fetch fails
+                    setCategories([]);
+                }
             }
+
+            const getSubjects = () => {
+                return ['---', ...new Set(categories.map(c => c.subject))];
+            };
+
+            const getSections = () => {
+                if (!selectedSubject || selectedSubject === '---') return ['---'];
+                return ['---', ...new Set(categories
+                    .filter(c => c.subject === selectedSubject)
+                    .map(c => c.section))];
+            };
+
+            const getSubsections = () => {
+                if (!selectedSection || selectedSection === '---') return ['---'];
+                return ['---', ...new Set(categories
+                    .filter(c => c.subject === selectedSubject && c.section === selectedSection)
+                    .map(c => c.subsection))];
+            };
+
+            const filteredQuestions = questions.filter(q => {
+                return (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
+                       (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
+                       (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
+            });
+
+            const handleSubmit = () => {
+                const answer = selectedQuestion.Options ? selectedOption : textAnswer;
+                const correct = selectedQuestion.Correct1.toLowerCase() === answer.toLowerCase();
+                
+                setAttempts(prev => prev + 1);
+                
+                if (correct) {
+                    setFeedback('Correct! Great job!');
+                    setIsAnswered(true);
+                } else if (attempts >= 2) {
+                    setFeedback(`Incorrect. The correct answer was: ${selectedQuestion.Correct1}`);
+                    setIsAnswered(true);
+                } else {
+                    setFeedback('Incorrect. Try again!');
+                }
+            };
+
+            const resetQuestion = () => {
+                setSelectedOption('');
+                setTextAnswer('');
+                setFeedback('');
+                setAttempts(0);
+                setIsAnswered(false);
+            };
+
+            return React.createElement('div', { className: 'container' },
+                React.createElement('div', { className: 'filters' },
+                    React.createElement('select', {
+                        value: selectedSubject,
+                        onChange: (e) => {
+                            setSelectedSubject(e.target.value);
+                            setSelectedSection('');
+                            setSelectedSubsection('');
+                        }
+                    }, getSubjects().map(subject => 
+                        React.createElement('option', { key: subject, value: subject }, subject)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSection,
+                        onChange: (e) => {
+                            setSelectedSection(e.target.value);
+                            setSelectedSubsection('');
+                        }
+                    }, getSections().map(section => 
+                        React.createElement('option', { key: section, value: section }, section)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSubsection,
+                        onChange: (e) => setSelectedSubsection(e.target.value)
+                    }, getSubsections().map(subsection => 
+                        React.createElement('option', { key: subsection, value: subsection }, subsection)
+                    ))
+                ),
+                React.createElement('table', { className: 'question-table' },
+                    React.createElement('thead',
+                        null,
+                        React.createElement('tr', null,
+                            React.createElement('th', null, 'ID'),
+                            React.createElement('th', null, 'Subject'),
+                            React.createElement('th', null, 'Section'),
+                            React.createElement('th', null, 'Subsection'),
+                            React.createElement('th', null, 'Action')
+                        )
+                    ),
+                    React.createElement('tbody', null,
+                        filteredQuestions.map(q => 
+                            React.createElement('tr', { key: q.ID },
+                                React.createElement('td', null, q.ID),
+                                React.createElement('td', null, q.Subject),
+                                React.createElement('td', null, q.Section),
+                                React.createElement('td', null, q.Subsection),
+                                React.createElement('td', null,
+                                    React.createElement('button', {
+                                        className: 'view-button',
+                                        onClick: () => {
+                                            setSelectedQuestion(q);
+                                            resetQuestion();
+                                        }
+                                    }, 'View')
+                                )
+                            )
+                        )
+                    )
+                ),
+                selectedQuestion && React.createElement('div', { className: 'modal' },
+                    React.createElement('div', { className: 'modal-content' },
+                        React.createElement('button', {
+                            className: 'close-button',
+                            onClick: () => setSelectedQuestion(null)
+                        }, '×'),
+                        React.createElement('h2', null, selectedQuestion.Question),
+                        selectedQuestion.Options ? 
+                            React.createElement('div', { className: 'options-container' },
+                                selectedQuestion.Options.split('\n').map(option => 
+                                    React.createElement('div', {
+                                        key: option,
+                                        className: `option ${selectedOption === option ? 'selected' : ''}`,
+                                        onClick: () => !isAnswered && setSelectedOption(option)
+                                    }, option)
+                                )
+                            ) :
+                            React.createElement('textarea', {
+                                value: textAnswer,
+                                onChange: (e) => setTextAnswer(e.target.value),
+                                disabled: isAnswered,
+                                placeholder: 'Type your answer here...'
+                            }),
+                        React.createElement('button', {
+                            className: 'submit-button',
+                            onClick: handleSubmit,
+                            disabled: isAnswered
+                        }, 'Submit'),
+                        feedback && React.createElement('div', {
+                            className: `feedback ${feedback.includes('Correct') ? 'correct' : 'incorrect'}`
+                        }, feedback),
+                        React.createElement('div', { className: 'attempts' },
+                            `Attempts: ${attempts}/3`
+                        )
+                    )
+                )
+            );
         }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            loadBanner();
-            loadNav();
-            fetchAssignments();
-        });
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(React.createElement(QuestionBank));
     </script>
 </body>
 </html>
