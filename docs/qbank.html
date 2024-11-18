@@ -13,8 +13,10 @@
             --glass-background: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
             --transition-speed: 0.3s;
+            --error-color: #ff4444;
         }
 
+        /* Previous styles remain the same until modal */
         body {
             margin: 0;
             padding: 0;
@@ -62,6 +64,14 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
+        .no-questions {
+            color: var(--error-color);
+            font-weight: bold;
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2em;
+        }
+
         .view-button {
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
@@ -98,19 +108,33 @@
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
+            position: relative;
         }
 
         .close-button {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
             color: white;
             font-size: 24px;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
         }
 
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* Rest of the styles remain the same */
         .question-view {
             margin-top: 20px;
         }
@@ -243,7 +267,6 @@
                     setCategories(parsed);
                 } catch (error) {
                     console.error('Error fetching categories:', error);
-                    // Fallback to empty categories array if fetch fails
                     setCategories([]);
                 }
             }
@@ -337,23 +360,30 @@
                         )
                     ),
                     React.createElement('tbody', null,
-                        filteredQuestions.map(q => 
-                            React.createElement('tr', { key: q.ID },
-                                React.createElement('td', null, q.ID),
-                                React.createElement('td', null, q.Subject),
-                                React.createElement('td', null, q.Section),
-                                React.createElement('td', null, q.Subsection),
-                                React.createElement('td', null,
-                                    React.createElement('button', {
-                                        className: 'view-button',
-                                        onClick: () => {
-                                            setSelectedQuestion(q);
-                                            resetQuestion();
-                                        }
-                                    }, 'View')
+                        filteredQuestions.length === 0 ?
+                            React.createElement('tr', null,
+                                React.createElement('td', {
+                                    colSpan: 5,
+                                    className: 'no-questions'
+                                }, 'NO QUESTIONS FOUND')
+                            ) :
+                            filteredQuestions.map(q => 
+                                React.createElement('tr', { key: q.ID },
+                                    React.createElement('td', null, q.ID),
+                                    React.createElement('td', null, q.Subject),
+                                    React.createElement('td', null, q.Section),
+                                    React.createElement('td', null, q.Subsection),
+                                    React.createElement('td', null,
+                                        React.createElement('button', {
+                                            className: 'view-button',
+                                            onClick: () => {
+                                                setSelectedQuestion(q);
+                                                resetQuestion();
+                                            }
+                                        }, 'View')
+                                    )
                                 )
                             )
-                        )
                     )
                 ),
                 selectedQuestion && React.createElement('div', { className: 'modal' },
