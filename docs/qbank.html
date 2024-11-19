@@ -315,17 +315,15 @@
         .nav-controls {
             position: absolute;
             top: 50%;
-            left: -100px;
-            right: -100px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
             padding: 0 20px;
             width: 100%;
-            transform: translateY(-50%);
             max-width: 800px;
             margin-bottom: 1rem;
             pointer-events: none;
-            z-index: 2;
         }
     </style>
 </head>
@@ -596,10 +594,7 @@
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
                             className: 'close-button',
-                            onClick: () => {
-                                setSelectedQuestion(null);
-                                setCurrentQuestionIndex(0);
-                            }
+                            onClick: () => setSelectedQuestion(null)
                         }, '×'),
                         
                         React.createElement('div', { className: 'nav-controls' },
@@ -610,8 +605,7 @@
                             },
                                 React.createElement('img', {
                                     src: currentQuestionIndex === 0 ? 'qotdBackward.png' : 'qotdBackwardHover.png',
-                                    alt: 'Previous',
-                                    style: { opacity: currentQuestionIndex === 0 ? 0.5 : 1 }
+                                    alt: 'Previous'
                                 })
                             ),
                             React.createElement('button', {
@@ -621,8 +615,7 @@
                             },
                                 React.createElement('img', {
                                     src: currentQuestionIndex === filteredQuestions.length - 1 ? 'qotdForward.png' : 'qotdForwardHover.png',
-                                    alt: 'Next',
-                                    style: { opacity: currentQuestionIndex === filteredQuestions.length - 1 ? 0.5 : 1 }
+                                    alt: 'Next'
                                 })
                             )
                         ),
