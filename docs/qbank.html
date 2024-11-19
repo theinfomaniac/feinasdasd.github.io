@@ -131,7 +131,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
-            padding: 2rem;
+            padding: 2rem 4rem;
             max-width: 800px;
             width: 90%;
             max-height: 90vh;
@@ -155,6 +155,11 @@
             justify-content: center;
             border-radius: 50%;
             transition: all var(--transition-speed) ease;
+        }
+
+        .question-container {
+            position: relative;
+            z-index: 1;
         }
         
         .close-button:hover {
@@ -277,11 +282,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            pointer-events: auto; /* This makes the buttons clickable */
+            width: 48px;
+            height: 48px;
         }
         
         .nav-button img {
             width: 48px;
             height: 48px;
+            object-fit: contain;
         }
         
         .nav-button:disabled {
@@ -304,11 +313,17 @@
         }
         
         .nav-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
+            padding: 0 20px;
             width: 100%;
             max-width: 800px;
             margin-bottom: 1rem;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -371,6 +386,7 @@
             const [textAnswer, setTextAnswer] = useState('');
             const [categoryOrder, setCategoryOrder] = useState({});
             const [searchQuery, setSearchQuery] = useState('');
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     
             useEffect(() => {
                 fetchQuestions();
@@ -431,6 +447,15 @@
                     .filter(c => c.subject === selectedSubject && c.section === selectedSection)
                     .map(c => c.subsection))];
             };
+
+            const navigateQuestion = (direction) => {
+                const newIndex = currentQuestionIndex + direction;
+                if (newIndex >= 0 && newIndex < filteredQuestions.length) {
+                    setCurrentQuestionIndex(newIndex);
+                    setSelectedQuestion(filteredQuestions[newIndex]);
+                    resetQuestion();
+                }
+            };
     
             const filteredQuestions = questions
                 .filter(q => {
@@ -466,6 +491,13 @@
                 } else {
                     setFeedback('Incorrect. Try again!');
                 }
+            };
+
+            const openQuestion = (question) => {
+                const index = filteredQuestions.findIndex(q => q.ID === question.ID);
+                setCurrentQuestionIndex(index);
+                setSelectedQuestion(question);
+                resetQuestion();
             };
     
             const resetQuestion = () => {
@@ -564,10 +596,35 @@
                             className: 'close-button',
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
-                        React.createElement('div', { className: 'question-metadata' },
-                            `ID: ${selectedQuestion.ID} | Subject: ${selectedQuestion.Subject} | Section: ${selectedQuestion.Section} | Subsection: ${selectedQuestion.Subsection}`
+                        
+                        React.createElement('div', { className: 'nav-controls' },
+                            React.createElement('button', {
+                                className: 'nav-button',
+                                onClick: () => navigateQuestion(-1),
+                                disabled: currentQuestionIndex === 0
+                            },
+                                React.createElement('img', {
+                                    src: currentQuestionIndex === 0 ? 'qotdBackward.png' : 'qotdBackwardHover.png',
+                                    alt: 'Previous'
+                                })
+                            ),
+                            React.createElement('button', {
+                                className: 'nav-button',
+                                onClick: () => navigateQuestion(1),
+                                disabled: currentQuestionIndex === filteredQuestions.length - 1
+                            },
+                                React.createElement('img', {
+                                    src: currentQuestionIndex === filteredQuestions.length - 1 ? 'qotdForward.png' : 'qotdForwardHover.png',
+                                    alt: 'Next'
+                                })
+                            )
                         ),
-                        React.createElement('h2', null, selectedQuestion.Question),
+                        
+                        React.createElement('div', { className: 'question-container' },
+                            React.createElement('div', { className: 'question-metadata' },
+                                `ID: ${selectedQuestion.ID} | Subject: ${selectedQuestion.Subject} | Section: ${selectedQuestion.Section} | Subsection: ${selectedQuestion.Subsection}`
+                            ),
+                            React.createElement('h2', null, selectedQuestion.Question),
                         selectedQuestion.Options ? 
                             React.createElement('div', { className: 'options-container' },
                                 selectedQuestion.Options.split('\n').map(option => 
