@@ -39,18 +39,38 @@
         
         .question-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 20px;
             background: var(--glass-background);
             backdrop-filter: blur(10px);
             border-radius: 10px;
+            min-height: 600px; /* Made table longer */
         }
         
-        .question-table th,
+        .question-table th {
+            padding: 20px 15px; /* Increased padding */
+            text-align: left;
+            border-bottom: 3px solid var(--primary-color); /* Stronger border */
+            background: rgba(0, 255, 255, 0.1); /* Subtle highlight */
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         .question-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .question-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .question-table tbody tr:hover {
+            background: rgba(0, 255, 255, 0.05);
         }
         
         .no-questions {
@@ -284,9 +304,8 @@
     </main>
     
     <div id="root"></div>
-
+    
     <script type="module">
-        
         // Load navigation from nav.html
         async function loadNav() {
             try {
@@ -313,7 +332,7 @@
         
         const { useState, useEffect } = React;
         const { createRoot } = ReactDOM;
-
+        
         function QuestionBank() {
             const [questions, setQuestions] = useState([]);
             const [categories, setCategories] = useState([]);
@@ -326,11 +345,37 @@
             const [isAnswered, setIsAnswered] = useState(false);
             const [selectedOption, setSelectedOption] = useState('');
             const [textAnswer, setTextAnswer] = useState('');
+            const [categoryOrder, setCategoryOrder] = useState({});
 
             useEffect(() => {
                 fetchQuestions();
                 fetchCategories();
             }, []);
+
+            async function fetchCategories() {
+                try {
+                    const response = await fetch('/subj-cat5.txt');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch categories');
+                    }
+                    const text = await response.text();
+                    const parsed = text.trim().split('\n').map((line, index) => {
+                        const [subject, section, subsection] = line.split(' | ');
+                        return { subject, section, subsection, order: index };
+                    });
+                    
+                    // Create order mapping
+                    const orderMap = {};
+                    parsed.forEach(({ subject, section, subsection, order }) => {
+                        orderMap[`${subject}|${section}|${subsection}`] = order;
+                    });
+                    setCategoryOrder(orderMap);
+                    setCategories(parsed);
+                } catch (error) {
+                    console.error('Error fetching categories:', error);
+                    setCategories([]);
+                }
+            }
 
             async function fetchQuestions() {
                 try {
@@ -341,24 +386,6 @@
                     }
                 } catch (error) {
                     console.error('Error fetching questions:', error);
-                }
-            }
-
-            async function fetchCategories() {
-                try {
-                    const response = await fetch('/subj-cat5.txt');
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch categories');
-                    }
-                    const text = await response.text();
-                    const parsed = text.trim().split('\n').map(line => {
-                        const [subject, section, subsection] = line.split(' | ');
-                        return { subject, section, subsection };
-                    });
-                    setCategories(parsed);
-                } catch (error) {
-                    console.error('Error fetching categories:', error);
-                    setCategories([]);
                 }
             }
 
@@ -380,11 +407,19 @@
                     .map(c => c.subsection))];
             };
 
-            const filteredQuestions = questions.filter(q => {
-                return (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
-                       (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
-                       (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
-            });
+            const filteredQuestions = questions
+                .filter(q => {
+                    return (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
+                           (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
+                           (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
+                })
+                .sort((a, b) => {
+                    const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
+                    const keyB = `${b.Subject}|${b.Section}|${b.Subsection}`;
+                    const orderA = categoryOrder[keyA] ?? Infinity;
+                    const orderB = categoryOrder[keyB] ?? Infinity;
+                    return orderA - orderB;
+                });
 
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
@@ -410,43 +445,17 @@
                 setAttempts(0);
                 setIsAnswered(false);
             };
-
+            
             return React.createElement('div', { className: 'container' },
-                React.createElement('div', { className: 'filters' },
-                    React.createElement('select', {
-                        value: selectedSubject,
-                        onChange: (e) => {
-                            setSelectedSubject(e.target.value);
-                            setSelectedSection('');
-                            setSelectedSubsection('');
-                        }
-                    }, getSubjects().map(subject => 
-                        React.createElement('option', { key: subject, value: subject }, subject)
-                    )),
-                    React.createElement('select', {
-                        value: selectedSection,
-                        onChange: (e) => {
-                            setSelectedSection(e.target.value);
-                            setSelectedSubsection('');
-                        }
-                    }, getSections().map(section => 
-                        React.createElement('option', { key: section, value: section }, section)
-                    )),
-                    React.createElement('select', {
-                        value: selectedSubsection,
-                        onChange: (e) => setSelectedSubsection(e.target.value)
-                    }, getSubsections().map(subsection => 
-                        React.createElement('option', { key: subsection, value: subsection }, subsection)
-                    ))
-                ),
+                // Previous elements remain the same until table
                 React.createElement('table', { className: 'question-table' },
                     React.createElement('thead',
                         null,
                         React.createElement('tr', null,
-                            React.createElement('th', null, 'ID'),
-                            React.createElement('th', null, 'Subject'),
-                            React.createElement('th', null, 'Section'),
-                            React.createElement('th', null, 'Subsection'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Section'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subsection'),
                             React.createElement('th', null, 'Action')
                         )
                     ),
@@ -455,15 +464,16 @@
                             React.createElement('tr', null,
                                 React.createElement('td', {
                                     colSpan: 5,
-                                    className: 'no-questions'
+                                    className: 'no-questions',
+                                    style: { height: '500px' } // Added to maintain height when empty
                                 }, 'NO QUESTIONS FOUND')
                             ) :
                             filteredQuestions.map(q => 
                                 React.createElement('tr', { key: q.ID },
-                                    React.createElement('td', null, q.ID),
-                                    React.createElement('td', null, q.Subject),
-                                    React.createElement('td', null, q.Section),
-                                    React.createElement('td', null, q.Subsection),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.ID),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subject),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Section),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subsection),
                                     React.createElement('td', null,
                                         React.createElement('button', {
                                             className: 'view-button',
