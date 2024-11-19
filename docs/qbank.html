@@ -352,6 +352,18 @@
                 fetchCategories();
             }, []);
 
+            async function fetchQuestions() {
+                try {
+                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
+                    const data = await response.json();
+                    if (data.success) {
+                        setQuestions(data.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching questions:', error);
+                }
+            }
+
             async function fetchCategories() {
                 try {
                     const response = await fetch('/subj-cat5.txt');
@@ -374,18 +386,6 @@
                 } catch (error) {
                     console.error('Error fetching categories:', error);
                     setCategories([]);
-                }
-            }
-
-            async function fetchQuestions() {
-                try {
-                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
-                    const data = await response.json();
-                    if (data.success) {
-                        setQuestions(data.data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching questions:', error);
                 }
             }
 
@@ -447,7 +447,33 @@
             };
             
             return React.createElement('div', { className: 'container' },
-                // Previous elements remain the same until table
+                React.createElement('div', { className: 'filters' },
+                    React.createElement('select', {
+                        value: selectedSubject,
+                        onChange: (e) => {
+                            setSelectedSubject(e.target.value);
+                            setSelectedSection('');
+                            setSelectedSubsection('');
+                        }
+                    }, getSubjects().map(subject => 
+                        React.createElement('option', { key: subject, value: subject }, subject)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSection,
+                        onChange: (e) => {
+                            setSelectedSection(e.target.value);
+                            setSelectedSubsection('');
+                        }
+                    }, getSections().map(section => 
+                        React.createElement('option', { key: section, value: section }, section)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSubsection,
+                        onChange: (e) => setSelectedSubsection(e.target.value)
+                    }, getSubsections().map(subsection => 
+                        React.createElement('option', { key: subsection, value: subsection }, subsection)
+                    ))
+                ),
                 React.createElement('table', { className: 'question-table' },
                     React.createElement('thead',
                         null,
