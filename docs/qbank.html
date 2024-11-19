@@ -317,7 +317,7 @@
                 document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
             }
         }
-
+    
         // Function to load the banner
         async function loadBanner() {
             try {
@@ -346,24 +346,12 @@
             const [selectedOption, setSelectedOption] = useState('');
             const [textAnswer, setTextAnswer] = useState('');
             const [categoryOrder, setCategoryOrder] = useState({});
-
+    
             useEffect(() => {
                 fetchQuestions();
                 fetchCategories();
             }, []);
-
-            async function fetchQuestions() {
-                try {
-                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
-                    const data = await response.json();
-                    if (data.success) {
-                        setQuestions(data.data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching questions:', error);
-                }
-            }
-
+    
             async function fetchCategories() {
                 try {
                     const response = await fetch('/subj-cat5.txt');
@@ -388,25 +376,37 @@
                     setCategories([]);
                 }
             }
-
+    
+            async function fetchQuestions() {
+                try {
+                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
+                    const data = await response.json();
+                    if (data.success) {
+                        setQuestions(data.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching questions:', error);
+                }
+            }
+    
             const getSubjects = () => {
                 return ['---', ...new Set(categories.map(c => c.subject))];
             };
-
+    
             const getSections = () => {
                 if (!selectedSubject || selectedSubject === '---') return ['---'];
                 return ['---', ...new Set(categories
                     .filter(c => c.subject === selectedSubject)
                     .map(c => c.section))];
             };
-
+    
             const getSubsections = () => {
                 if (!selectedSection || selectedSection === '---') return ['---'];
                 return ['---', ...new Set(categories
                     .filter(c => c.subject === selectedSubject && c.section === selectedSection)
                     .map(c => c.subsection))];
             };
-
+    
             const filteredQuestions = questions
                 .filter(q => {
                     return (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
@@ -420,7 +420,7 @@
                     const orderB = categoryOrder[keyB] ?? Infinity;
                     return orderA - orderB;
                 });
-
+    
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
                 const correct = selectedQuestion.Correct1.toLowerCase() === answer.toLowerCase();
@@ -437,7 +437,7 @@
                     setFeedback('Incorrect. Try again!');
                 }
             };
-
+    
             const resetQuestion = () => {
                 setSelectedOption('');
                 setTextAnswer('');
@@ -447,36 +447,8 @@
             };
             
             return React.createElement('div', { className: 'container' },
-                React.createElement('div', { className: 'filters' },
-                    React.createElement('select', {
-                        value: selectedSubject,
-                        onChange: (e) => {
-                            setSelectedSubject(e.target.value);
-                            setSelectedSection('');
-                            setSelectedSubsection('');
-                        }
-                    }, getSubjects().map(subject => 
-                        React.createElement('option', { key: subject, value: subject }, subject)
-                    )),
-                    React.createElement('select', {
-                        value: selectedSection,
-                        onChange: (e) => {
-                            setSelectedSection(e.target.value);
-                            setSelectedSubsection('');
-                        }
-                    }, getSections().map(section => 
-                        React.createElement('option', { key: section, value: section }, section)
-                    )),
-                    React.createElement('select', {
-                        value: selectedSubsection,
-                        onChange: (e) => setSelectedSubsection(e.target.value)
-                    }, getSubsections().map(subsection => 
-                        React.createElement('option', { key: subsection, value: subsection }, subsection)
-                    ))
-                ),
                 React.createElement('table', { className: 'question-table' },
-                    React.createElement('thead',
-                        null,
+                    React.createElement('thead', null,
                         React.createElement('tr', null,
                             React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
                             React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
@@ -491,7 +463,14 @@
                                 React.createElement('td', {
                                     colSpan: 5,
                                     className: 'no-questions',
-                                    style: { height: '500px' } // Added to maintain height when empty
+                                    style: { 
+                                        height: '500px',
+                                        verticalAlign: 'top',
+                                        paddingTop: '30px',
+                                        color: '#ff0000',
+                                        fontSize: '1.5em',
+                                        fontWeight: 'bold'
+                                    }
                                 }, 'NO QUESTIONS FOUND')
                             ) :
                             filteredQuestions.map(q => 
@@ -551,10 +530,10 @@
                 )
             );
         }
-
+    
         const root = createRoot(document.getElementById('root'));
         root.render(React.createElement(QuestionBank));
-
+    
         // Load navigation and banner
         loadNav();
         loadBanner();
