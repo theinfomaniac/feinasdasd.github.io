@@ -80,6 +80,21 @@
             padding: 30px;
             font-size: 1.2em;
         }
+        .search-container {
+            margin: 20px 0;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: white;
+            font-size: 16px;
+            font-family: 'Orbitron', sans-serif;
+        }
         
         .view-button {
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
@@ -149,7 +164,7 @@
         
         /* Question View Styles */
         .modal-content h2 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
             color: #FFFFFF;
         }
@@ -159,6 +174,14 @@
             flex-direction: column;
             gap: 1rem;
             margin-top: 20px;
+        }
+        .question-metadata {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: var(--primary-color);
         }
         
         .option {
@@ -347,6 +370,7 @@
             const [selectedOption, setSelectedOption] = useState('');
             const [textAnswer, setTextAnswer] = useState('');
             const [categoryOrder, setCategoryOrder] = useState({});
+            const [searchQuery, setSearchQuery] = useState('');
     
             useEffect(() => {
                 fetchQuestions();
@@ -410,9 +434,14 @@
     
             const filteredQuestions = questions
                 .filter(q => {
-                    return (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
+                    const matchesCategories = (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
                            (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
                            (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
+                    
+                    const matchesSearch = searchQuery === '' || 
+                        q.ID.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                    
+                    return matchesCategories && matchesSearch;
                 })
                 .sort((a, b) => {
                     const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
@@ -475,6 +504,15 @@
                         React.createElement('option', { key: subsection, value: subsection }, subsection)
                     ))
                 ),
+                React.createElement('div', { className: 'search-container' },
+                    React.createElement('input', {
+                        type: 'text',
+                        className: 'search-input',
+                        placeholder: 'Search by ID...',
+                        value: searchQuery,
+                        onChange: (e) => setSearchQuery(e.target.value)
+                    })
+                ),
                 React.createElement('table', { className: 'question-table' },
                     React.createElement('thead', null,
                         React.createElement('tr', null,
@@ -526,6 +564,9 @@
                             className: 'close-button',
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
+                        React.createElement('div', { className: 'question-metadata' },
+                            `ID: ${selectedQuestion.ID} | Subject: ${selectedQuestion.Subject} | Section: ${selectedQuestion.Section} | Subsection: ${selectedQuestion.Subsection}`
+                        ),
                         React.createElement('h2', null, selectedQuestion.Question),
                         selectedQuestion.Options ? 
                             React.createElement('div', { className: 'options-container' },
