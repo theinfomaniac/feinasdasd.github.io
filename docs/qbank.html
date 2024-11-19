@@ -447,6 +447,33 @@
             };
             
             return React.createElement('div', { className: 'container' },
+                React.createElement('div', { className: 'filters' },
+                    React.createElement('select', {
+                        value: selectedSubject,
+                        onChange: (e) => {
+                            setSelectedSubject(e.target.value);
+                            setSelectedSection('');
+                            setSelectedSubsection('');
+                        }
+                    }, getSubjects().map(subject => 
+                        React.createElement('option', { key: subject, value: subject }, subject)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSection,
+                        onChange: (e) => {
+                            setSelectedSection(e.target.value);
+                            setSelectedSubsection('');
+                        }
+                    }, getSections().map(section => 
+                        React.createElement('option', { key: section, value: section }, section)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSubsection,
+                        onChange: (e) => setSelectedSubsection(e.target.value)
+                    }, getSubsections().map(subsection => 
+                        React.createElement('option', { key: subsection, value: subsection }, subsection)
+                    ))
+                ),
                 React.createElement('table', { className: 'question-table' },
                     React.createElement('thead', null,
                         React.createElement('tr', null,
