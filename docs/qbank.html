@@ -435,51 +435,25 @@
                     .filter(c => c.subject === selectedSubject && c.section === selectedSection)
                     .map(c => c.subsection))];
             };
-    
-            function QuestionBank() {
-                const [questions, setQuestions] = useState([]);
-                const [categories, setCategories] = useState([]);
-                const [selectedSubject, setSelectedSubject] = useState('');
-                const [selectedSection, setSelectedSection] = useState('');
-                const [selectedSubsection, setSelectedSubsection] = useState('');
-                const [selectedQuestion, setSelectedQuestion] = useState(null);
-                const [feedback, setFeedback] = useState('');
-                const [attempts, setAttempts] = useState(0);
-                const [isAnswered, setIsAnswered] = useState(false);
-                const [selectedOption, setSelectedOption] = useState('');
-                const [textAnswer, setTextAnswer] = useState('');
-                const [categoryOrder, setCategoryOrder] = useState({});
-                const [searchQuery, setSearchQuery] = useState('');
-                
-                // New state for multi-select
-                const [selectedQuestions, setSelectedQuestions] = useState(new Set());
-                const [isSelectAllChecked, setIsSelectAllChecked] = useState(false);
             
-                useEffect(() => {
-                    fetchQuestions();
-                    fetchCategories();
-                }, []);
-            
-                // ... [previous fetchCategories and fetchQuestions methods remain the same]
-            
-                const filteredQuestions = questions
-                    .filter(q => {
-                        const matchesCategories = (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
-                               (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
-                               (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
-                        
-                        const matchesSearch = searchQuery === '' || 
-                            q.ID.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                        
-                        return matchesCategories && matchesSearch;
-                    })
-                    .sort((a, b) => {
-                        const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
-                        const keyB = `${b.Subject}|${b.Section}|${b.Subsection}`;
-                        const orderA = categoryOrder[keyA] ?? Infinity;
-                        const orderB = categoryOrder[keyB] ?? Infinity;
-                        return orderA - orderB;
-                    });
+            const filteredQuestions = questions
+                .filter(q => {
+                    const matchesCategories = (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
+                           (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
+                           (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
+                    
+                    const matchesSearch = searchQuery === '' || 
+                        q.ID.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                    
+                    return matchesCategories && matchesSearch;
+                })
+                .sort((a, b) => {
+                    const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
+                    const keyB = `${b.Subject}|${b.Section}|${b.Subsection}`;
+                    const orderA = categoryOrder[keyA] ?? Infinity;
+                    const orderB = categoryOrder[keyB] ?? Infinity;
+                    return orderA - orderB;
+                });
     
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
