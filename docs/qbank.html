@@ -454,6 +454,27 @@
                     const orderB = categoryOrder[keyB] ?? Infinity;
                     return orderA - orderB;
                 });
+
+            // Effect to manage selected questions based on filtered questions
+            useEffect(() => {
+                // Create a set of current filtered question IDs
+                const currentFilteredQuestionIds = new Set(filteredQuestions.map(q => q.ID));
+                
+                // Update selected questions to only keep those in the current filtered set
+                setSelectedQuestions(prev => {
+                    const updatedSelected = new Set(
+                        [...prev].filter(id => currentFilteredQuestionIds.has(id))
+                    );
+                    
+                    // Update select all checkbox
+                    setIsSelectAllChecked(
+                        updatedSelected.size > 0 && 
+                        updatedSelected.size === currentFilteredQuestionIds.size
+                    );
+                    
+                    return updatedSelected;
+                });
+            }, [selectedSubject, selectedSection, selectedSubsection, searchQuery, questions]);
     
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
@@ -490,19 +511,22 @@
                     }
                     
                     // Update select all checkbox
-                    setIsSelectAllChecked(newSelectedQuestions.size === filteredQuestions.length);
+                    setIsSelectAllChecked(
+                        newSelectedQuestions.size > 0 && 
+                        newSelectedQuestions.size === filteredQuestions.length
+                    );
                     
                     return newSelectedQuestions;
                 });
             };
-
+            
             const handleSelectAll = () => {
                 if (isSelectAllChecked) {
                     // Deselect all
                     setSelectedQuestions(new Set());
                     setIsSelectAllChecked(false);
                 } else {
-                    // Select all
+                    // Select all currently filtered questions
                     const allQuestionIds = new Set(filteredQuestions.map(q => q.ID));
                     setSelectedQuestions(allQuestionIds);
                     setIsSelectAllChecked(true);
@@ -618,13 +642,15 @@
                             )
                     )
                 ),
-                selectedQuestions.size > 0 && React.createElement('div', { 
+                filteredQuestions.length > 0 && selectedQuestions.size > 0 && 
+                React.createElement('div', { 
                     style: { 
                         marginTop: '10px', 
                         color: 'var(--primary-color)', 
                         fontWeight: 'bold' 
                     }
                 }, `${selectedQuestions.size} question(s) selected`),
+                                       
                 selectedQuestion && React.createElement('div', { className: 'modal' },
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
