@@ -570,54 +570,88 @@
 
             const exportQuestions = (withAnswers = false) => {
                 const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+            
+                // Set background color and font
+                doc.setFont('Orbitron', 'normal');
                 
-                // Logo and header
-                const logoUrl = 'favicon.png';
-                doc.addImage(logoUrl, 'PNG', 10, 10, 30, 30);
-                
-                doc.setFontSize(20);
-                doc.text('Interlink CVHS', 160, 20, { align: 'right' });
-                
-                doc.setFontSize(12);
-                doc.setTextColor(100);
-                
+                // Custom page background with gradient
+                function addGradientBackground(doc) {
+                    doc.setFillColor(0, 0, 0);  // Black base
+                    doc.rect(0, 0, 210, 297, 'F');
+                    
+                    // Blue gradient overlay
+                    const gradient = doc.createLinearGradient(0, 0, 210, 297, 'rgba(0,0,50,0.9)', 'rgba(0,0,100,0.7)');
+                    doc.setFillStyle(gradient);
+                    doc.rect(0, 0, 210, 297, 'F');
+                }
+            
+                // Function to add header
+                function addHeader(doc, withAnswers) {
+                    // Add gradient background
+                    addGradientBackground(doc);
+            
+                    // Small logo
+                    const logoUrl = 'favicon.png';
+                    doc.addImage(logoUrl, 'PNG', 10, 10, 15, 15);
+            
+                    // Header text
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(14);
+                    doc.text('Interlink CVHS QBank', 35, 20);
+                    
+                    doc.setFontSize(10);
+                    doc.text('https://interlinkcvhs.org', 35, 26);
+            
+                    doc.setTextColor(100, 200, 255);
+                    doc.text(withAnswers ? 'Questions with Answers' : 'Practice Questions', 150, 20, { align: 'right' });
+                }
+            
+                let currentPage = 1;
                 let yOffset = 50;
-                
+            
                 // Filter and export selected questions
                 const exportableQuestions = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
                 
                 exportableQuestions.forEach((question, index) => {
-                    // Check if page needs to be added
-                    if (yOffset > 250) {
-                        doc.addPage();
+                    // Add new page if needed
+                    if (yOffset > 250 || currentPage === 1) {
+                        if (currentPage > 1) {
+                            doc.addPage();
+                        }
+                        addHeader(doc, withAnswers);
                         yOffset = 50;
+                        currentPage++;
                     }
                     
-                    // Question header with metadata
-                    doc.setFontSize(10);
-                    doc.setTextColor(0, 100, 200);
-                    doc.text(`ID: ${question.ID} | Subject: ${question.Subject} | Section: ${question.Section} | Subsection: ${question.Subsection}`, 10, yOffset);
-                    yOffset += 10;
+                    // Question metadata
+                    doc.setFontSize(8);
+                    doc.setTextColor(100, 200, 255);
+                    doc.text(`Subject: ${question.Subject} | Section: ${question.Section} | Subsection: ${question.Subsection}`, 10, yOffset);
+                    yOffset += 7;
                     
                     // Question text
-                    doc.setFontSize(12);
-                    doc.setTextColor(0);
+                    doc.setFontSize(10);
+                    doc.setTextColor(255, 255, 255);
                     const splitQuestion = doc.splitTextToSize(question.Question, 190);
                     doc.text(splitQuestion, 10, yOffset);
-                    yOffset += (splitQuestion.length * 7) + 5;
+                    yOffset += (splitQuestion.length * 5) + 5;
                     
-                    // Options or open-ended line
+                    // Options or open-ended space
                     if (question.Options) {
-                        // Multiple choice options
+                        // Multiple choice options without A/B/C/D labels
                         const options = question.Options.split('\n');
-                        options.forEach((option, i) => {
-                            doc.text(`${String.fromCharCode(65 + i)}. ${option}`, 10, yOffset);
+                        options.forEach((option) => {
+                            doc.text(`• ${option}`, 10, yOffset);
                             yOffset += 7;
                         });
                     } else {
                         // Open-ended with lines
-                        doc.setTextColor(200);
+                        doc.setTextColor(200, 200, 200);
                         for (let i = 0; i < 3; i++) {
                             doc.text('__________________________________________', 10, yOffset);
                             yOffset += 7;
@@ -626,7 +660,7 @@
                     
                     // Answers section (if with answers)
                     if (withAnswers) {
-                        doc.setTextColor(0, 150, 0);
+                        doc.setTextColor(0, 255, 0);
                         doc.text(`Correct Answer: ${question.Correct1}`, 10, yOffset);
                         yOffset += 10;
                     }
@@ -634,40 +668,50 @@
                     // Space between questions
                     yOffset += 10;
                 });
+            
+                // Generate filename
+                const filename = `InterlinkCVHS_${selectedSubject}_${selectedSection}_${selectedSubsection}_${withAnswers ? 'WA' : 'NA'}.pdf`;
                 
-                // Save the PDF
-                doc.save(`Interlink_CVHS_Questions_${withAnswers ? 'With_Answers' : 'No_Answers'}.pdf`);
+                doc.save(filename);
             };
             
             return React.createElement('div', { className: 'container' },
                 React.createElement('div', { 
-                    className: 'export-buttons-container'
+                    className: 'export-buttons-container',
+                    style: { 
+                        display: 'flex', 
+                        justifyContent: 'center', 
+                        gap: '20px', 
+                        width: '100%' 
+                    }
                 },
                     React.createElement('button', {
                         className: 'export-button export-button-questions',
+                        style: { flex: '0 0 40%' },  // Take up 40% of the container
                         onClick: () => exportQuestions(false),
                         disabled: selectedQuestions.size === 0
                     }, 
                         React.createElement('img', {
-                            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>',
+                            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>',
                             alt: 'Export',
-                            style: { width: '20px', marginRight: '8px' }
+                            style: { width: '20px', marginRight: '8px', filter: 'invert(1)' }
                         }),
                         'Export Questions'
                     ),
                     React.createElement('button', {
                         className: 'export-button export-button-answers',
+                        style: { flex: '0 0 40%' },  // Take up 40% of the container
                         onClick: () => exportQuestions(true),
                         disabled: selectedQuestions.size === 0
                     }, 
                         React.createElement('img', {
-                            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/><path d="M12 15l-3-3 3-3"/></svg>',
+                            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/><path d="M12 15l-3-3 3-3"/></svg>',
                             alt: 'Export with Answers',
-                            style: { width: '20px', marginRight: '8px' }
+                            style: { width: '20px', marginRight: '8px', filter: 'invert(1)' }
                         }),
                         'Export with Answers'
                     )
-                ),
+                )
                 React.createElement('div', { className: 'filters' },
                     React.createElement('select', {
                         value: selectedSubject,
