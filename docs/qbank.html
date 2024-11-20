@@ -570,6 +570,14 @@
                         onChange: (e) => setSearchQuery(e.target.value)
                     })
                 ),
+                filteredQuestions.length > 0 && selectedQuestions.size > 0 && 
+                React.createElement('div', { 
+                    style: { 
+                        marginTop: '10px', 
+                        color: 'var(--primary-color)', 
+                        fontWeight: 'bold' 
+                    }
+                }, `${selectedQuestions.size} question(s) selected`),
                 React.createElement('table', { className: 'question-table' },
                     React.createElement('thead', null,
                         React.createElement('tr', null,
@@ -642,14 +650,6 @@
                             )
                     )
                 ),
-                filteredQuestions.length > 0 && selectedQuestions.size > 0 && 
-                React.createElement('div', { 
-                    style: { 
-                        marginTop: '10px', 
-                        color: 'var(--primary-color)', 
-                        fontWeight: 'bold' 
-                    }
-                }, `${selectedQuestions.size} question(s) selected`),
                                        
                 selectedQuestion && React.createElement('div', { className: 'modal' },
                     React.createElement('div', { className: 'modal-content' },
