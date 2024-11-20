@@ -372,6 +372,10 @@
             const [categoryOrder, setCategoryOrder] = useState({});
             const [searchQuery, setSearchQuery] = useState('');
     
+            // New state for multi-select
+            const [selectedQuestions, setSelectedQuestions] = useState(new Set());
+            const [isSelectAllChecked, setIsSelectAllChecked] = useState(false);
+    
             useEffect(() => {
                 fetchQuestions();
                 fetchCategories();
@@ -432,24 +436,50 @@
                     .map(c => c.subsection))];
             };
     
-            const filteredQuestions = questions
-                .filter(q => {
-                    const matchesCategories = (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
-                           (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
-                           (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
-                    
-                    const matchesSearch = searchQuery === '' || 
-                        q.ID.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                    
-                    return matchesCategories && matchesSearch;
-                })
-                .sort((a, b) => {
-                    const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
-                    const keyB = `${b.Subject}|${b.Section}|${b.Subsection}`;
-                    const orderA = categoryOrder[keyA] ?? Infinity;
-                    const orderB = categoryOrder[keyB] ?? Infinity;
-                    return orderA - orderB;
-                });
+            function QuestionBank() {
+                const [questions, setQuestions] = useState([]);
+                const [categories, setCategories] = useState([]);
+                const [selectedSubject, setSelectedSubject] = useState('');
+                const [selectedSection, setSelectedSection] = useState('');
+                const [selectedSubsection, setSelectedSubsection] = useState('');
+                const [selectedQuestion, setSelectedQuestion] = useState(null);
+                const [feedback, setFeedback] = useState('');
+                const [attempts, setAttempts] = useState(0);
+                const [isAnswered, setIsAnswered] = useState(false);
+                const [selectedOption, setSelectedOption] = useState('');
+                const [textAnswer, setTextAnswer] = useState('');
+                const [categoryOrder, setCategoryOrder] = useState({});
+                const [searchQuery, setSearchQuery] = useState('');
+                
+                // New state for multi-select
+                const [selectedQuestions, setSelectedQuestions] = useState(new Set());
+                const [isSelectAllChecked, setIsSelectAllChecked] = useState(false);
+            
+                useEffect(() => {
+                    fetchQuestions();
+                    fetchCategories();
+                }, []);
+            
+                // ... [previous fetchCategories and fetchQuestions methods remain the same]
+            
+                const filteredQuestions = questions
+                    .filter(q => {
+                        const matchesCategories = (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
+                               (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
+                               (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
+                        
+                        const matchesSearch = searchQuery === '' || 
+                            q.ID.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                        
+                        return matchesCategories && matchesSearch;
+                    })
+                    .sort((a, b) => {
+                        const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
+                        const keyB = `${b.Subject}|${b.Section}|${b.Subsection}`;
+                        const orderA = categoryOrder[keyA] ?? Infinity;
+                        const orderB = categoryOrder[keyB] ?? Infinity;
+                        return orderA - orderB;
+                    });
     
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
@@ -474,6 +504,35 @@
                 setFeedback('');
                 setAttempts(0);
                 setIsAnswered(false);
+            };
+
+            const handleQuestionSelect = (questionId) => {
+                setSelectedQuestions(prev => {
+                    const newSelectedQuestions = new Set(prev);
+                    if (newSelectedQuestions.has(questionId)) {
+                        newSelectedQuestions.delete(questionId);
+                    } else {
+                        newSelectedQuestions.add(questionId);
+                    }
+                    
+                    // Update select all checkbox
+                    setIsSelectAllChecked(newSelectedQuestions.size === filteredQuestions.length);
+                    
+                    return newSelectedQuestions;
+                });
+            };
+
+            const handleSelectAll = () => {
+                if (isSelectAllChecked) {
+                    // Deselect all
+                    setSelectedQuestions(new Set());
+                    setIsSelectAllChecked(false);
+                } else {
+                    // Select all
+                    const allQuestionIds = new Set(filteredQuestions.map(q => q.ID));
+                    setSelectedQuestions(allQuestionIds);
+                    setIsSelectAllChecked(true);
+                }
             };
             
             return React.createElement('div', { className: 'container' },
@@ -516,6 +575,20 @@
                 React.createElement('table', { className: 'question-table' },
                     React.createElement('thead', null,
                         React.createElement('tr', null,
+                            React.createElement('th', { 
+                                style: { 
+                                    width: '50px', 
+                                    textAlign: 'center', 
+                                    borderRight: '1px solid var(--primary-color)' 
+                                }
+                            }, 
+                                React.createElement('input', {
+                                    type: 'checkbox',
+                                    checked: isSelectAllChecked,
+                                    onChange: handleSelectAll,
+                                    style: { margin: 0 }
+                                })
+                            ),
                             React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
                             React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
                             React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Section'),
@@ -527,7 +600,7 @@
                         filteredQuestions.length === 0 ?
                             React.createElement('tr', null,
                                 React.createElement('td', {
-                                    colSpan: 5,
+                                    colSpan: 6,
                                     className: 'no-questions',
                                     style: { 
                                         height: '500px',
@@ -541,6 +614,19 @@
                             ) :
                             filteredQuestions.map(q => 
                                 React.createElement('tr', { key: q.ID },
+                                    React.createElement('td', { 
+                                        style: { 
+                                            textAlign: 'center', 
+                                            borderRight: '1px solid var(--glass-border)' 
+                                        }
+                                    },
+                                        React.createElement('input', {
+                                            type: 'checkbox',
+                                            checked: selectedQuestions.has(q.ID),
+                                            onChange: () => handleQuestionSelect(q.ID),
+                                            style: { margin: 0 }
+                                        })
+                                    ),
                                     React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.ID),
                                     React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subject),
                                     React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Section),
@@ -558,6 +644,13 @@
                             )
                     )
                 ),
+                selectedQuestions.size > 0 && React.createElement('div', { 
+                    style: { 
+                        marginTop: '10px', 
+                        color: 'var(--primary-color)', 
+                        fontWeight: 'bold' 
+                    }
+                }, `${selectedQuestions.size} question(s) selected`),
                 selectedQuestion && React.createElement('div', { className: 'modal' },
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
