@@ -582,7 +582,7 @@
                     format: 'a4'
                 });
             
-                // Set default font to Helvetica
+                // Set base font to Arial/Helvetica
                 doc.setFont('helvetica');
                 
                 // Utility function to add background
@@ -591,28 +591,34 @@
                     doc.rect(0, 0, 210, 297, 'F');
                 }
             
-                // Function to add header to each page
+                // Enhanced header function with better typography
                 function addHeader(doc, withAnswers, pageNum) {
                     addPageBackground(doc);
                     
-                    // Header text
+                    // Main title - Large, bold
                     doc.setTextColor(255, 255, 255);
-                    doc.setFontSize(14);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(18);
                     doc.text('Interlink CVHS QBank', 20, 20);
                     
-                    // Add clickable URL with styling
+                    // URL with styled link
+                    doc.setFont('helvetica', 'normal');
                     doc.setFontSize(10);
                     const url = 'https://interlinkcvhs.org';
                     doc.setTextColor(100, 200, 255);
-                    doc.textWithLink('https://interlinkcvhs.org', 35, 26, {
+                    doc.textWithLink(url, 35, 26, {
                         url: url,
                         underline: true
                     });
                     
-                    // Add page number
+                    // Page number - Small, normal weight
+                    doc.setFont('helvetica', 'normal');
                     doc.setFontSize(8);
                     doc.text(`Page ${pageNum}`, 180, 290);
                     
+                    // Document type header - Medium, bold
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(12);
                     doc.setTextColor(100, 200, 255);
                     doc.text(withAnswers ? 'Questions with Answers' : 'Practice Questions', 150, 20);
                 }
@@ -641,14 +647,14 @@
                 selectedQuestionsList.forEach((question, index) => {
                     checkNewPage(60);
             
-                    // Question number - Bold
-                    doc.setFontSize(10);
+                    // Question number - Bold, larger
+                    doc.setFontSize(12);
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('helvetica', 'bold');
                     doc.text(`Question ${index + 1}`, 20, yOffset);
                     yOffset += 5;
             
-                    // Metadata box
+                    // Metadata box with improved styling
                     doc.setTextColor(100, 200, 255);
                     doc.setFontSize(8);
                     doc.setFont('helvetica', 'normal');
@@ -663,8 +669,8 @@
                     doc.text(metadataText, 23, yOffset + 2);
                     yOffset += 10;
             
-                    // Question text
-                    doc.setFontSize(10);
+                    // Question text - Clear, readable size
+                    doc.setFontSize(11);
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('helvetica', 'normal');
                     const questionLines = doc.splitTextToSize(question.Question, 170);
@@ -679,6 +685,7 @@
                             checkNewPage(7);
                             // Remove A) B) C) etc. and just show the option text
                             const optionText = option.replace(/^[A-E]\)\s*/, '');
+                            doc.setFontSize(10);
                             doc.text(optionText, 25, yOffset);
                             yOffset += 7;
                         });
@@ -697,6 +704,7 @@
                         checkNewPage(10);
                         doc.setTextColor(0, 255, 0);
                         doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(11);
                         doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
                         yOffset += 10;
                     }
