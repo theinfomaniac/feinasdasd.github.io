@@ -11,10 +11,10 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Orbitron', sans-serif; /* Apply Orbitron font */
+            font-family: 'Orbitron', sans-serif;
             height: 100vh;
-            background-color: #121212; /* Dark background for contrast */
-            color: white; /* White text for contrast */
+            background-color: #121212;
+            color: white;
         }
 
         .main-container {
@@ -22,7 +22,6 @@
             height: 84.5vh;
         }
 
-        /* Sidebar styles */
         .sidebar {
             width: 350px;
             background: rgba(255, 255, 255, 0.1);
@@ -30,11 +29,28 @@
             overflow-y: auto;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
-            height: auto; /* Let it adjust based on content */
-            max-height: 84.5vh; /* Prevent it from being taller than the viewport */
+            height: auto;
+            max-height: 84.5vh;
             padding: 20px;
         }
 
+        .subject-dropdown {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .subject-dropdown option {
+            background-color: #121212;
+            color: white;
+        }
 
         .resources-grid {
             margin-bottom: 20px;
@@ -45,9 +61,11 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             padding: 10px;
+            margin-bottom: 10px;
             border-radius: 5px;
             background: rgba(255, 255, 255, 0.2);
-            text-align: center; /* Center-align text in sidebar buttons */
+            text-align: center;
+            display: block;
         }
 
         .resource-title:hover {
@@ -57,10 +75,13 @@
         .active {
             background-color: rgba(255, 255, 255, 0.3);
             font-weight: bold;
-            transform: scale(1.1); /* Grow effect when active */
+            transform: scale(1.1);
         }
 
-        /* Content section */
+        .hidden {
+            display: none;
+        }
+
         .content {
             flex: 1;
             display: flex;
@@ -75,7 +96,6 @@
             border-radius: 5px;
         }
 
-        /* Glass effect header */
         header.glass-header {
             display: flex;
             justify-content: space-between;
@@ -91,7 +111,6 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
         }
 
-        /* Glow text effect */
         .glow-text {
             color: #00ffcc;
             text-shadow: 0 0 5px rgba(0, 255, 204, 0.8);
@@ -103,18 +122,42 @@
     </style>
 </head>
 <body>
-    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <div id="banner-container"></div>
     <header class="glass-header">
         <div class="logo-container">
             <h1 class="glow-text">Quizlet Study Flashcards</h1>
         </div>
-        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+        <div id="nav-container"></div>
     </header>
 
     <main class="fade-in main-container">
         <div class="sidebar">
+            <select class="subject-dropdown" id="subjectFilter">
+                <option value="">--- Select Subject ---</option>
+                <option value="human-geography">AP Human Geography</option>
+                <option value="biology">Pre-AP Biology</option>
+                <option value="theater">Theater 1</option>
+                <option value="tech-theater">Tech Theater 1</option>
+                <option value="art">Art 1</option>
+                <option value="english">English 1</option>
+                <option value="algebra2">Algebra 2</option>
+                <option value="geometry">Geometry</option>
+                <option value="algebra1">Algebra 1</option>
+                <option value="computer-science">Computer Science 1</option>
+                <option value="pe">PE / Health</option>
+                <option value="chemistry">Pre-AP Chemistry</option>
+                <option value="dance">Dance</option>
+                <option value="spanish1">Spanish I</option>
+                <option value="spanish2">Spanish II</option>
+                <option value="spanish3">Spanish III</option>
+                <option value="french1">French I</option>
+                <option value="french2">French II</option>
+                <option value="french3">French III</option>
+                <option value="baseball">UIL Baseball</option>
+                <option value="volleyball">UIL Volleyball</option>
+            </select>
             <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://quizlet.com/974474821/unit-6-pre-ap-biology-test-interlinkcvhs-review-flash-cards/">Unit 6 Test (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/974474821/unit-6-pre-ap-biology-test-interlinkcvhs-review-flash-cards/">Unit 6 Test (Pre-AP Biology)</h3>
             </div>
         </div>
         <div class="content">
@@ -122,7 +165,6 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
     <script>
         // Load navigation from nav.html
         async function loadNav() {
@@ -148,24 +190,37 @@
             }
         }
 
+        // Function to filter resources by subject
+        function filterResources(subject) {
+            const resources = document.querySelectorAll('.resource-title');
+            resources.forEach(resource => {
+                if (!subject || resource.getAttribute('data-subject') === subject) {
+                    resource.classList.remove('hidden');
+                } else {
+                    resource.classList.add('hidden');
+                }
+            });
+        }
+
         // Function to highlight the clicked button and load URL into iframe
         function handleResourceClick(event) {
-            // Remove the active class from all resource titles
             const allTitles = document.querySelectorAll('.resource-title');
             allTitles.forEach(title => title.classList.remove('active'));
-            
-            // Add the active class to the clicked resource title
             event.target.classList.add('active');
-            
-            // Get the URL from the data-url attribute and set it in the iframe
             const url = event.target.getAttribute('data-url');
             document.getElementById('contentFrame').src = url;
         }
 
-        // Add event listeners to resource titles
+        // Add event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             loadNav();
             loadBanner();
+
+            // Add event listener to subject dropdown
+            const subjectFilter = document.getElementById('subjectFilter');
+            subjectFilter.addEventListener('change', (event) => {
+                filterResources(event.target.value);
+            });
 
             // Add event listener to each resource title
             const resourceTitles = document.querySelectorAll('.resource-title');
