@@ -569,6 +569,12 @@
             };
 
             const exportQuestions = (withAnswers = false) => {
+                // Check if jsPDF is available
+                if (!window.jspdf || !window.jspdf.jsPDF) {
+                    console.error('jsPDF not loaded');
+                    return;
+                }
+            
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({
                     orientation: 'portrait',
@@ -576,103 +582,119 @@
                     format: 'a4'
                 });
             
-                // Set background color and font
-                doc.setFont('Orbitron', 'normal');
+                // Set default font
+                doc.setFont('Orbitron', 'sans-serif');
                 
-                // Custom page background with gradient
-                function addGradientBackground(doc) {
-                    doc.setFillColor(0, 0, 0);  // Black base
-                    doc.rect(0, 0, 210, 297, 'F');
-                    
-                    // Blue gradient overlay
-                    const gradient = doc.createLinearGradient(0, 0, 210, 297, 'rgba(0,0,50,0.9)', 'rgba(0,0,100,0.7)');
-                    doc.setFillStyle(gradient);
+                // Utility function to add background
+                function addPageBackground(doc) {
+                    // Add solid background
+                    doc.setFillColor(20, 20, 40); // Dark blue background
                     doc.rect(0, 0, 210, 297, 'F');
                 }
             
-                // Function to add header
-                function addHeader(doc, withAnswers) {
-                    // Add gradient background
-                    addGradientBackground(doc);
-            
-                    // Small logo
-                    const logoUrl = 'favicon.png';
-                    doc.addImage(logoUrl, 'PNG', 10, 10, 15, 15);
-            
+                // Function to add header to each page
+                function addHeader(doc, withAnswers, pageNum) {
+                    addPageBackground(doc);
+                    
                     // Header text
                     doc.setTextColor(255, 255, 255);
                     doc.setFontSize(14);
-                    doc.text('Interlink CVHS QBank', 35, 20);
+                    doc.text('Interlink CVHS QBank', 20, 20);
                     
                     doc.setFontSize(10);
-                    doc.text('https://interlinkcvhs.org', 35, 26);
-            
+                    doc.text('https://interlinkcvhs.org', 20, 26);
+                    
+                    // Add page number
+                    doc.setFontSize(8);
+                    doc.text(`Page ${pageNum}`, 180, 290);
+                    
                     doc.setTextColor(100, 200, 255);
-                    doc.text(withAnswers ? 'Questions with Answers' : 'Practice Questions', 150, 20, { align: 'right' });
+                    doc.text(withAnswers ? 'Questions with Answers' : 'Practice Questions', 150, 20);
                 }
             
                 let currentPage = 1;
-                let yOffset = 50;
+                let yOffset = 40;
+                const pageHeight = 270; // Leave margin for header and footer
             
-                // Filter and export selected questions
-                const exportableQuestions = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
-                
-                exportableQuestions.forEach((question, index) => {
-                    // Add new page if needed
-                    if (yOffset > 250 || currentPage === 1) {
-                        if (currentPage > 1) {
-                            doc.addPage();
-                        }
-                        addHeader(doc, withAnswers);
-                        yOffset = 50;
+                // Add first page header
+                addHeader(doc, withAnswers, currentPage);
+            
+                // Helper function to check if we need a new page
+                function checkNewPage(requiredSpace) {
+                    if (yOffset + requiredSpace > pageHeight) {
+                        doc.addPage();
                         currentPage++;
+                        addHeader(doc, withAnswers, currentPage);
+                        yOffset = 40;
+                        return true;
                     }
-                    
-                    // Question metadata
+                    return false;
+                }
+            
+                // Process each selected question
+                const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
+                
+                selectedQuestionsList.forEach((question, index) => {
+                    // Check if we need a new page
+                    checkNewPage(60); // Estimate initial space needed
+            
+                    // Question number and metadata
                     doc.setFontSize(8);
                     doc.setTextColor(100, 200, 255);
-                    doc.text(`Subject: ${question.Subject} | Section: ${question.Section} | Subsection: ${question.Subsection}`, 10, yOffset);
-                    yOffset += 7;
-                    
+                    doc.text(`Question ${index + 1}`, 20, yOffset);
+                    yOffset += 5;
+                    doc.text(`${question.Subject} | ${question.Section} | ${question.Subsection}`, 20, yOffset);
+                    yOffset += 10;
+            
                     // Question text
                     doc.setFontSize(10);
                     doc.setTextColor(255, 255, 255);
-                    const splitQuestion = doc.splitTextToSize(question.Question, 190);
-                    doc.text(splitQuestion, 10, yOffset);
-                    yOffset += (splitQuestion.length * 5) + 5;
-                    
-                    // Options or open-ended space
+                    const questionLines = doc.splitTextToSize(question.Question, 170);
+                    checkNewPage(questionLines.length * 7);
+                    doc.text(questionLines, 20, yOffset);
+                    yOffset += questionLines.length * 7 + 5;
+            
+                    // Handle options or free response space
                     if (question.Options) {
-                        // Multiple choice options without A/B/C/D labels
                         const options = question.Options.split('\n');
-                        options.forEach((option) => {
-                            doc.text(`• ${option}`, 10, yOffset);
+                        options.forEach((option, i) => {
+                            checkNewPage(7);
+                            doc.text(`${String.fromCharCode(65 + i)}) ${option}`, 25, yOffset);
                             yOffset += 7;
                         });
                     } else {
-                        // Open-ended with lines
-                        doc.setTextColor(200, 200, 200);
+                        // Add lines for free response
+                        checkNewPage(21);
                         for (let i = 0; i < 3; i++) {
-                            doc.text('__________________________________________', 10, yOffset);
+                            doc.setDrawColor(100, 200, 255);
+                            doc.line(25, yOffset, 185, yOffset);
                             yOffset += 7;
                         }
                     }
-                    
-                    // Answers section (if with answers)
+            
+                    // Add correct answer if requested
                     if (withAnswers) {
+                        checkNewPage(10);
                         doc.setTextColor(0, 255, 0);
-                        doc.text(`Correct Answer: ${question.Correct1}`, 10, yOffset);
+                        doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
                         yOffset += 10;
                     }
-                    
-                    // Space between questions
+            
+                    // Add spacing between questions
                     yOffset += 10;
                 });
             
-                // Generate filename
-                const filename = `InterlinkCVHS_${selectedSubject}_${selectedSection}_${selectedSubsection}_${withAnswers ? 'WA' : 'NA'}.pdf`;
-                
-                doc.save(filename);
+                // Generate filename with current date
+                const date = new Date().toISOString().split('T')[0];
+                const filename = `InterlinkCVHS_QBank_${date}_${withAnswers ? 'with_answers' : 'questions'}.pdf`;
+            
+                // Save the PDF
+                try {
+                    doc.save(filename);
+                } catch (error) {
+                    console.error('Error saving PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                }
             };
             
             return React.createElement('div', { className: 'container' },
