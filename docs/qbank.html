@@ -633,13 +633,7 @@
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(8);
                     doc.text(`Page ${pageNum}`, 180, 290);
-                    
-                    // Document type header - Medium, bold
-                    doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(12);
-                    doc.setTextColor(100, 200, 255);
-                    doc.text(withAnswers ? 'Questions with Answers' : 'Practice Questions', 150, 20);
-
+                
                     addFavicon(doc);
                 }
             
