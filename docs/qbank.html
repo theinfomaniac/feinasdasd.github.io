@@ -682,12 +682,14 @@
                     // Handle options or free response space
                     if (question.Options) {
                         const options = question.Options.split('\n');
-                        options.forEach((option) => {
+                        options.forEach((option, index) => {
                             checkNewPage(7);
-                            // Remove A) B) C) etc. and just show the option text
-                            const optionText = option.replace(/^[A-E]\)\s*/, '');
+                            // Get the option letter (A, B, C, D, E)
+                            const optionLetter = String.fromCharCode(65 + index);
+                            // Keep only the option text after the first occurrence of ")"
+                            const optionText = option.split(')').slice(1).join(')').trim();
                             doc.setFontSize(10);
-                            doc.text(optionText, 25, yOffset);
+                            doc.text(`${optionLetter}) ${optionText}`, 25, yOffset);
                             yOffset += 7;
                         });
                     } else {
