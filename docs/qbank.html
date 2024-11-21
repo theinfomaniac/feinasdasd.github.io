@@ -328,6 +328,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Orbitron', sans-serif;
+            font-weight: bold;  /* Added font-weight */
         }
         .export-button:disabled {
             opacity: 0.5;
@@ -743,9 +744,9 @@
                         disabled: selectedQuestions.size === 0
                     }, 
                         React.createElement('img', {
-                            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>',
+                            src: 'qbankExport.png',
                             alt: 'Export',
-                            style: { width: '20px', marginRight: '8px', filter: 'invert(1)' }
+                            style: { width: '20px', marginRight: '8px' }
                         }),
                         'Export Questions'
                     ),
@@ -756,9 +757,9 @@
                         disabled: selectedQuestions.size === 0
                     }, 
                         React.createElement('img', {
-                            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/><path d="M12 15l-3-3 3-3"/></svg>',
+                            src: 'qbankExport.png',
                             alt: 'Export with Answers',
-                            style: { width: '20px', marginRight: '8px', filter: 'invert(1)' }
+                            style: { width: '20px', marginRight: '8px' }
                         }),
                         'Export with Answers'
                     )
