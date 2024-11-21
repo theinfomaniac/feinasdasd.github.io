@@ -601,8 +601,16 @@
                     doc.setFontSize(14);
                     doc.text('Interlink CVHS QBank', 20, 20);
                     
+                    // Add clickable URL with styling
                     doc.setFontSize(10);
-                    doc.text('https://interlinkcvhs.org', 20, 26);
+                    const url = 'https://interlinkcvhs.org';
+                    // Create clickable link
+                    doc.setTextColor(100, 200, 255); // Make URL blue to indicate it's clickable
+                    doc.textWithLink('https://interlinkcvhs.org', 35, 26, {
+                        url: url,
+                        underline: true
+                    });
+
                     
                     // Add page number
                     doc.setFontSize(8);
