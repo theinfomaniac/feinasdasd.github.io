@@ -582,12 +582,11 @@
                     format: 'a4'
                 });
             
-                // Set default font
-                doc.setFont('Orbitron', 'sans-serif');
+                // Set default font to Helvetica
+                doc.setFont('helvetica');
                 
                 // Utility function to add background
                 function addPageBackground(doc) {
-                    // Add solid background
                     doc.setFillColor(20, 20, 40); // Dark blue background
                     doc.rect(0, 0, 210, 297, 'F');
                 }
@@ -604,13 +603,11 @@
                     // Add clickable URL with styling
                     doc.setFontSize(10);
                     const url = 'https://interlinkcvhs.org';
-                    // Create clickable link
-                    doc.setTextColor(100, 200, 255); // Make URL blue to indicate it's clickable
+                    doc.setTextColor(100, 200, 255);
                     doc.textWithLink('https://interlinkcvhs.org', 35, 26, {
                         url: url,
                         underline: true
                     });
-
                     
                     // Add page number
                     doc.setFontSize(8);
@@ -622,12 +619,11 @@
             
                 let currentPage = 1;
                 let yOffset = 40;
-                const pageHeight = 270; // Leave margin for header and footer
+                const pageHeight = 270;
             
                 // Add first page header
                 addHeader(doc, withAnswers, currentPage);
             
-                // Helper function to check if we need a new page
                 function checkNewPage(requiredSpace) {
                     if (yOffset + requiredSpace > pageHeight) {
                         doc.addPage();
@@ -643,20 +639,34 @@
                 const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
                 
                 selectedQuestionsList.forEach((question, index) => {
-                    // Check if we need a new page
-                    checkNewPage(60); // Estimate initial space needed
+                    checkNewPage(60);
             
-                    // Question number and metadata
-                    doc.setFontSize(8);
-                    doc.setTextColor(100, 200, 255);
+                    // Question number - Bold
+                    doc.setFontSize(10);
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont('helvetica', 'bold');
                     doc.text(`Question ${index + 1}`, 20, yOffset);
                     yOffset += 5;
-                    doc.text(`${question.Subject} | ${question.Section} | ${question.Subsection}`, 20, yOffset);
+            
+                    // Metadata box
+                    doc.setTextColor(100, 200, 255);
+                    doc.setFontSize(8);
+                    doc.setFont('helvetica', 'normal');
+                    
+                    // Draw box around metadata
+                    const metadataText = `${question.Subject} | ${question.Section} | ${question.Subsection}`;
+                    const metadataWidth = doc.getTextWidth(metadataText) + 6; // Add padding
+                    doc.setDrawColor(100, 200, 255);
+                    doc.rect(20, yOffset - 3, metadataWidth, 8);
+                    
+                    // Add metadata text
+                    doc.text(metadataText, 23, yOffset + 2);
                     yOffset += 10;
             
                     // Question text
                     doc.setFontSize(10);
                     doc.setTextColor(255, 255, 255);
+                    doc.setFont('helvetica', 'normal');
                     const questionLines = doc.splitTextToSize(question.Question, 170);
                     checkNewPage(questionLines.length * 7);
                     doc.text(questionLines, 20, yOffset);
@@ -665,9 +675,11 @@
                     // Handle options or free response space
                     if (question.Options) {
                         const options = question.Options.split('\n');
-                        options.forEach((option, i) => {
+                        options.forEach((option) => {
                             checkNewPage(7);
-                            doc.text(`${String.fromCharCode(65 + i)}) ${option}`, 25, yOffset);
+                            // Remove A) B) C) etc. and just show the option text
+                            const optionText = option.replace(/^[A-E]\)\s*/, '');
+                            doc.text(optionText, 25, yOffset);
                             yOffset += 7;
                         });
                     } else {
@@ -684,6 +696,7 @@
                     if (withAnswers) {
                         checkNewPage(10);
                         doc.setTextColor(0, 255, 0);
+                        doc.setFont('helvetica', 'bold');
                         doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
                         yOffset += 10;
                     }
