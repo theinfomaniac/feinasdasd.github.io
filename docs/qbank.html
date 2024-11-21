@@ -569,6 +569,25 @@
                 }
             };
 
+            function addFavicon(doc) {
+                try {
+                    const imgData = 'favicon.png';
+                    const imgProps = doc.getImageProperties(imgData);
+                    const imgWidth = 50; // 50% of original size
+                    const imgHeight = (imgProps.height / imgProps.width) * imgWidth;
+                    
+                    // Calculate center of page
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const pageHeight = doc.internal.pageSize.getHeight();
+                    const x = (pageWidth - imgWidth) / 2;
+                    const y = (pageHeight - imgHeight) / 2;
+                    
+                    doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+                } catch (error) {
+                    console.error('Error adding favicon:', error);
+                }
+            }
+            
             const exportQuestions = (withAnswers = false) => {
                 // Check if jsPDF is available
                 if (!window.jspdf || !window.jspdf.jsPDF) {
@@ -705,25 +724,6 @@
                             doc.setDrawColor(100, 200, 255);
                             doc.line(25, yOffset, 185, yOffset);
                             yOffset += 7;
-                        }
-                    }
-
-                    function addFavicon(doc) {
-                        try {
-                            const imgData = 'favicon.png';
-                            const imgProps = doc.getImageProperties(imgData);
-                            const imgWidth = 50; // 50% of original size
-                            const imgHeight = (imgProps.height / imgProps.width) * imgWidth;
-                            
-                            // Calculate center of page
-                            const pageWidth = doc.internal.pageSize.getWidth();
-                            const pageHeight = doc.internal.pageSize.getHeight();
-                            const x = (pageWidth - imgWidth) / 2;
-                            const y = (pageHeight - imgHeight) / 2;
-                            
-                            doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
-                        } catch (error) {
-                            console.error('Error adding favicon:', error);
                         }
                     }
             
