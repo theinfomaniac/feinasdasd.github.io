@@ -6,102 +6,161 @@
     <title>Subject-Specific Resources</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        .search-container {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .resource-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .resource-card:hover {
+            transform: scale(1.05);
+        }
+
+        .resource-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <div id="banner-container"></div>
     <header class="glass-header">
         <div class="logo-container">
             <h1 class="glow-text">All Courses</h1>
         </div>
-        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+        <div id="nav-container"></div>
     </header>
 
     <main class="fade-in">
         <div class="games-container">
             <h2 class="section-title glow-text">Course Resources</h2>
-    
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/human-geography"><h3 class="resource-title">AP Human Geography</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/biology"><h3 class="resource-title">Pre-AP Biology</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/theater"><h3 class="resource-title">Theater 1</h3></a>
-                </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search courses..." id="courseSearch">
             </div>
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/tech-theater"><h3 class="resource-title">Tech Theater 1</h3></a>
+
+            <div id="resourcesContainer">
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/human-geography" class="resource-card glass-effect">
+                        <h3 class="resource-title">AP Human Geography</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/biology" class="resource-card glass-effect">
+                        <h3 class="resource-title">Pre-AP Biology</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/theater" class="resource-card glass-effect">
+                        <h3 class="resource-title">Theater 1</h3>
+                    </a>
                 </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/art"><h3 class="resource-title">Art 1</h3></a>
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/tech-theater" class="resource-card glass-effect">
+                        <h3 class="resource-title">Tech Theater 1</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/art" class="resource-card glass-effect">
+                        <h3 class="resource-title">Art 1</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/english" class="resource-card glass-effect">
+                        <h3 class="resource-title">English 1</h3>
+                    </a>
                 </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/english"><h3 class="resource-title">English 1</h3></a>
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/algebra2" class="resource-card glass-effect">
+                        <h3 class="resource-title">Algebra 2</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/geometry" class="resource-card glass-effect">
+                        <h3 class="resource-title">Geometry</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/algebra1" class="resource-card glass-effect">
+                        <h3 class="resource-title">Algebra 1</h3>
+                    </a>
                 </div>
-            </div>
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/algebra2"><h3 class="resource-title">Algebra 2</h3></a>
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/computer-science" class="resource-card glass-effect">
+                        <h3 class="resource-title">Computer Science 1</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/pe" class="resource-card glass-effect">
+                        <h3 class="resource-title">Physical Education & Health</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/chemistry" class="resource-card glass-effect">
+                        <h3 class="resource-title">Pre-AP Chemistry</h3>
+                    </a>
                 </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/geometry"><h3 class="resource-title">Geometry</h3></a>
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/dance" class="resource-card glass-effect">
+                        <h3 class="resource-title">Dance</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/spanish1" class="resource-card glass-effect">
+                        <h3 class="resource-title">Spanish I</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/spanish2" class="resource-card glass-effect">
+                        <h3 class="resource-title">Spanish II</h3>
+                    </a>
                 </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/algebra1"><h3 class="resource-title">Algebra 1</h3></a>
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/spanish3" class="resource-card glass-effect">
+                        <h3 class="resource-title">Spanish III</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/french1" class="resource-card glass-effect">
+                        <h3 class="resource-title">French I</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/french2" class="resource-card glass-effect">
+                        <h3 class="resource-title">French II</h3>
+                    </a>
                 </div>
-            </div>
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/computer-science"><h3 class="resource-title">Computer Science 1</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/pe"><h3 class="resource-title">Physical Education & Health</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/chemistry"><h3 class="resource-title">Pre-AP Chemistry</h3></a>
-                </div>
-            </div>
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/dance"><h3 class="resource-title">Dance</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/spanish1"><h3 class="resource-title">Spanish I</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/spanish2"><h3 class="resource-title">Spanish II</h3></a>
-                </div>
-            </div>
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/spanish3"><h3 class="resource-title">Spanish III</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/french1"><h3 class="resource-title">French I</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/french2"><h3 class="resource-title">French II</h3></a>
-                </div>
-            </div>
-            <div class="resources-grid">
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/french3"><h3 class="resource-title">French III</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/baseball"><h3 class="resource-title">UIL Baseball</h3></a>
-                </div>
-                <div class="resource-card glass-effect">
-                    <a href="https://interlinkcvhs.org/subjects/volleyball"><h3 class="resource-title">UIL Volleyball</h3></a>
+                <div class="resources-grid">
+                    <a href="https://interlinkcvhs.org/subjects/french3" class="resource-card glass-effect">
+                        <h3 class="resource-title">French III</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/baseball" class="resource-card glass-effect">
+                        <h3 class="resource-title">UIL Baseball</h3>
+                    </a>
+                    <a href="https://interlinkcvhs.org/subjects/volleyball" class="resource-card glass-effect">
+                        <h3 class="resource-title">UIl Volleyball</h3>
+                    </a>
                 </div>
             </div>
         </div>
     </main>
-    <script src="script.js"></script>
+
     <script>
-        // Load navigation from nav.html
+        // Load navigation and banner functions remain the same
         async function loadNav() {
             try {
                 const response = await fetch('navnav.html');
@@ -113,7 +172,6 @@
             }
         }
 
-        // Function to load the banner
         async function loadBanner() {
             try {
                 const response = await fetch('banner.html');
@@ -125,10 +183,41 @@
             }
         }
 
-        // Fetch assignments and load navigation when the page loads
+        // Search functionality
         document.addEventListener('DOMContentLoaded', () => {
             loadNav();
             loadBanner();
+
+            const searchInput = document.getElementById('courseSearch');
+            const resourceCards = document.getElementsByClassName('resource-card');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                let hasResults = false;
+
+                Array.from(resourceCards).forEach(card => {
+                    const title = card.querySelector('.resource-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.style.display = '';
+                        hasResults = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Show/hide no results message
+                let noResultsMsg = document.querySelector('.no-results');
+                if (!hasResults) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement('div');
+                        noResultsMsg.className = 'no-results';
+                        noResultsMsg.textContent = 'No search results.';
+                        document.getElementById('resourcesContainer').appendChild(noResultsMsg);
+                    }
+                } else if (noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            });
         });
     </script>
 </body>
