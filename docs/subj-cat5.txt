@@ -174,7 +174,6 @@ Pre-AP Biology | Chapter 30: The Human Body | 30.1 Organization of the Human Bod
 Pre-AP Biology | Chapter 30: The Human Body | 30.2 Human Body Systems I
 Pre-AP Biology | Chapter 30: The Human Body | 30.3 Human Body Systems II
 Pre-AP Biology | Chapter 30: The Human Body | 30.4 Immunity & Disease
-English 1 | 
 Pre-AP Algebra 2 | Chapter 1: Linear Functions | 1.1 Interval & Set Notation
 Pre-AP Algebra 2 | Chapter 1: Linear Functions | 1.2 Parent Functions & Transformations
 Pre-AP Algebra 2 | Chapter 1: Linear Functions | 1.3 Transformations of Linear & Absolute Value Functions
@@ -222,97 +221,94 @@ Pre-AP Algebra 2 | Chapter 8: Rational Functions | 8.2 Graphing Rational Functio
 Pre-AP Algebra 2 | Chapter 8: Rational Functions | 8.3 Multiplying & Dividing Rational Expressions
 Pre-AP Algebra 2 | Chapter 8: Rational Functions | 8.4 Adding & Subtracting Rational Expressions
 Pre-AP Algebra 2 | Chapter 8: Rational Functions | 8.5 Solving Rational Equations
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.1 The Three Dimensions
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.2 Angles
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.3 Polygons
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.4 Triangles
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.5 Quadrilaterals
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.6 Area or Perimeter of Triangles and Quadrilaters
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.7 The Pythagorean Theorem
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.8 Cirlces
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.9 Composite Shapes
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.10 Volumes of Solids
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.11 Surface Area
-Pre-AP Geometry | Unit 8: Two-Dimensional Geometry | 8.12 Cross Sections of Solids
-Pre-AP Geometry | Unit 9: Transformations | 9.1 Transformations in the Plane
-Pre-AP Geometry | Unit 9: Transformations | 9.2 Translations
-Pre-AP Geometry | Unit 9: Transformations | 9.3 Geometry Software for Translations
-Pre-AP Geometry | Unit 9: Transformations | 9.4 Reflections
-Pre-AP Geometry | Unit 9: Transformations | 9.5 Geometry Software for Reflections
-Pre-AP Geometry | Unit 9: Transformations | 9.6 Reflection Symmetry
-Pre-AP Geometry | Unit 9: Transformations | 9.7 Rotations
-Pre-AP Geometry | Unit 9: Transformations | 9.8 Geometry Software for Rotations
-Pre-AP Geometry | Unit 9: Transformations | 9.9 Rotation Symmetry
-Pre-AP Geometry | Unit 9: Transformations | 9.10 Composite Transformations and Reflections Over Lines
-Pre-AP Geometry | Unit 9: Transformations | 9.11 Tessellations
-Pre-AP Geometry | Unit 10: Triangle Congruence | 10.1 The Definition of Congruence
-Pre-AP Geometry | Unit 10: Triangle Congruence | 10.2 ASA and AAS Triangle Congruence
-Pre-AP Geometry | Unit 10: Triangle Congruence | 10.3 SAS Triangle Congruence
-Pre-AP Geometry | Unit 10: Triangle Congruence | 10.4 SSS Triangle Congruence
-Pre-AP Geometry | Unit 10: Triangle Congruence | 10.5 Applications of Congruent Triangles
-Pre-AP Geometry | Unit 10: Triangle Congruence | 10.6 Semiregular Tessellation
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.1 Inductive Reasoning from Patterns
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.2 If-Then Statements
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.3 Truth Tables
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.4 Deductive Reasoning
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.5 Converse, Inverse & Contrapositive
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.6 Conjectures & Counterexamples
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.7 Properties of Equality & Congruence
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.8 Two-Column Proofs
-Pre-AP Geometry | Unit 11: Logical Reasoning | 11.9 Multi-Uniform Tessellations
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.1 Theorems & Proofs
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.2 Theorems About Lines & Angles
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.3 Applications of Line & Angle Theorems
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.4 Theorems About Triangles
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.5 Theorems About Congruence in Triangles
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.6 Applications of Triangle Theorems
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.7 Theorems of Quadrilaterals
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.8 Applications of Quadrilateral Theorems
-Pre-AP Geometry | Unit 12: Theorems & Proofs | 12.9 Escher-Style Tessellations
-Pre-AP Geometry | Unit 13: Constructions | 13.1 Copies of Line Segments & Angles
-Pre-AP Geometry | Unit 13: Constructions | 13.2 Bisectors of Line Segments & Angles
-Pre-AP Geometry | Unit 13: Constructions | 13.3 Parallel & Perpendicular Line Constructions
-Pre-AP Geometry | Unit 13: Constructions | 13.4 Constructions of Regular Polygons
-Pre-AP Geometry | Unit 13: Constructions | 13.5 Geometry Software for Constructions
-Pre-AP Geometry | Unit 14: Similarity | 14.1 Dilations
-Pre-AP Geometry | Unit 14: Similarity | 14.2 The Definition of Similarity
-Pre-AP Geometry | Unit 14: Similarity | 14.3 AA Triangle Similarity
-Pre-AP Geometry | Unit 14: Similarity | 14.4 SAS Triangle Similarity
-Pre-AP Geometry | Unit 14: Similarity | 14.5 SSS Triangle Similarity
-Pre-AP Geometry | Unit 14: Similarity | 14.6 Theorems Involving Similarity
-Pre-AP Geometry | Unit 14: Similarity | 14.7 Applications of Similar Triangles
-Pre-AP Geometry | Unit 15: Trigonometry | 15.1 Tangent Ratio
-Pre-AP Geometry | Unit 15: Trigonometry | 15.2 Sine & Cosine Ratios
-Pre-AP Geometry | Unit 15: Trigonometry | 15.3 Sine & Cosine of Complementary Angles
-Pre-AP Geometry | Unit 15: Trigonometry | 15.4 Inverse Trigonometric Ratios
-Pre-AP Geometry | Unit 15: Trigonometry | 15.5 Sine to Find the Area of a Triangle
-Pre-AP Geometry | Unit 15: Trigonometry | 15.6 Law of Sines
-Pre-AP Geometry | Unit 15: Trigonometry | 15.7 Law of Cosines
-Pre-AP Geometry | Unit 15: Trigonometry | 15.8 Triangles in Applied Problems
-Pre-AP Geometry | Unit 16: Circles | 16.1 Circles & Similarity
-Pre-AP Geometry | Unit 16: Circles | 16.2 Circumference & Area of a Circle
-Pre-AP Geometry | Unit 16: Circles | 16.3 Central Angles & Chords
-Pre-AP Geometry | Unit 16: Circles | 16.4 Inscribed Angles
-Pre-AP Geometry | Unit 16: Circles | 16.5 Inscribed & Circumscribed Circles of Triangles
-Pre-AP Geometry | Unit 16: Circles | 16.6 Quadrilaterals Inscribed in Circles
-Pre-AP Geometry | Unit 16: Circles | 16.7 Tangent Lines to Circles
-Pre-AP Geometry | Unit 16: Circles | 16.8 Secant Lines to Circles
-Pre-AP Geometry | Unit 16: Circles | 16.9 Arc Length
-Pre-AP Geometry | Unit 16: Circles | 16.10 Sector Area
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.1 Cylinders
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.2 Pyramids & Cones
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.3 Spheres
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.4 Connections Between Two & Three Dimensions
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.5 Modeling in Three Dimensions
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.6 Density Problems
-Pre-AP Geometry | Unit 17: Three-Dimensional Geometry | 17.7 Design Problems in Three Dimensions
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.1 Conic Sections
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.2 Equations of Circles
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.3 Equations of Parabolas
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.4 Slope of Parallel & Perpendicular Lines
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.5 The Distance Formula
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.6 Points that Partition Line Segments
-Pre-AP Geometry | Unit 18: Conic Sections & Coordinate Geometry | 18.7 Coordinate Proofs
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.1 The Three Dimensiosn
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.2 Angles
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.3 Polygons
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.4 Triangles
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.5 Quadrilaterals
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.6 Area/Perimeter of Triangles & Quadrilaterals
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.7 The Pythagorean Theorem
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.8 Circles
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.9 Composite Figures
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.10 Volume of Solids
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.11 Surface Area
+Pre-AP Geometry | Unit 1: Two-Dimensional Geometry | 1.12 Cross Sections of Solids
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.1 Transformations on the Plane
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.2 Translations
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.3 Geometry Software for Translations
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.4 Reflections
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.5 Geometry Software for Reflections
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.6 Reflection Symmetry
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.7 Rotations
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.8 Geometry Software for Rotations
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.9 Rotation Symmetry
+Pre-AP Geometry | Unit 2: Rigid Transformations | 2.10 Composite Transformations
+Pre-AP Geometry | Unit 3: Triangle Congruence | 3.1 The Definition of Congruence
+Pre-AP Geometry | Unit 3: Triangle Congruence | 3.2 ASA and AAS Triangle Congruence
+Pre-AP Geometry | Unit 3: Triangle Congruence | 3.3 SAS Triangle Congruence
+Pre-AP Geometry | Unit 3: Triangle Congruence | 3.4 SSS Triangle Congruence
+Pre-AP Geometry | Unit 3: Triangle Congruence | 3.5 Applications of Congruent Triangles
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.1 Theorems & Proofs
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.2 Theorems about Lines & Angles
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.3 Applications of Line & Angle Theorems
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.4 Triangle Theorems
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.5 Triangle Concurrence Theorems
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.6 Applications of Triangle Theorems
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.7 Quadrilateral Theorems
+Pre-AP Geometry | Unit 4: Logical Reasoning | 4.8 Applications of Quadrilateral Theorems
+Pre-AP Geometry | Unit 5: Constructions | 5.1 Copies of Line Segments & Angles
+Pre-AP Geometry | Unit 5: Constructions | 5.2 Bisectors of Line Segments & Angles
+Pre-AP Geometry | Unit 5: Constructions | 5.3 Parallel & Perpendicular Line Constructions
+Pre-AP Geometry | Unit 5: Constructions | 5.4 Constructions of Regular Polygons
+Pre-AP Geometry | Unit 5: Constructions | 5.5 Geometry Software for Constructions
+Pre-AP Geometry | Unit 6: Similarity | 6.1 Dilations
+Pre-AP Geometry | Unit 6: Similarity | 6.2 The Definition of Similarity
+Pre-AP Geometry | Unit 6: Similarity | 6.3 AA Triangle Similarity
+Pre-AP Geometry | Unit 6: Similarity | 6.4 SAS Triangle Similarity
+Pre-AP Geometry | Unit 6: Similarity | 6.5 SSS Triangle Similarity
+Pre-AP Geometry | Unit 6: Similarity | 6.6 Similarity Theorems
+Pre-AP Geometry | Unit 6: Similarity | 6.7 Applications of Similar Triangles
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.1 Tangent Ratio
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.2 Sine & Cosine Ratios
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.3 Sine & Cosine of Complementary Angles
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.4 Inverse Trigonometric Ratios
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.5 Sine for Triangle Area
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.6 Law of Sines
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.7 Law of Cosines
+Pre-AP Geometry | Unit 7: Basic Trigonometry | 7.8 Triangles in Applied Problems
+Pre-AP Geometry | Unit 8: Circles | 8.1 Circles & Similarity
+Pre-AP Geometry | Unit 8: Circles | 8.2 Circumference & Area of Circles
+Pre-AP Geometry | Unit 8: Circles | 8.3 Central Angles & Chords
+Pre-AP Geometry | Unit 8: Circles | 8.4 Inscribed Angles
+Pre-AP Geometry | Unit 8: Circles | 8.5 Inscribed & Circumscribed Circles of Triangles
+Pre-AP Geometry | Unit 8: Circles | 8.6 Quadrilaterals Inscribed in Circles
+Pre-AP Geometry | Unit 8: Circles | 8.7 Tangent Lines to Circles
+Pre-AP Geometry | Unit 8: Circles | 8.8 Secant Lines to Circles
+Pre-AP Geometry | Unit 8: Circles | 8.9 Arc Length
+Pre-AP Geometry | Unit 8: Circles | 8.10 Sector Area
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.1 Cylinders
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.2 Pyramids & Cones
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.3 Spheres
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.4 Connections Between Two & Three Dimensions
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.5 Modeling in Three Dimensions
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.6 Density Problems
+Pre-AP Geometry | Unit 9: Three-Dimensional Geometry | 9.7 Design Problems in Three Dimensions
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.1 Conic Sections
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.2 Equations of Circles
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.3 Equations of Parabolas
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.4 Slope of Parallel & Perpendicular Lines
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.5 The Distance Formula
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.6 Points that Partition Line Segments
+Pre-AP Geometry | Unit 10: Conics & Coordinate Geometry | 10.7 Coordinate Proofs
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.1 Descriptions of Events
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.2 Independent Events
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.3 Conditional Probability
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.4 Two-Way Frequency Tables
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.5 Independence & Probability Examples
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.6 Probability of Unions
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.7 Probability of Intersections
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.8 Permutations & Combinations
+Pre-AP Geometry | Unit 11: Applications of Probability | 11.9 Probability for Fairness & Decision Analysis
 Pre-AP Algebra 1 | Chapter 1: Solving Linear Equations | 1.1 Solving Simple Equations
 Pre-AP Algebra 1 | Chapter 1: Solving Linear Equations | 1.2 Solving Multi-Step Equations
 Pre-AP Algebra 1 | Chapter 1: Solving Linear Equations | 1.3 Solving Equations with Variables on Both Sides
@@ -369,23 +365,6 @@ Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.2 Solving Quadrati
 Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.3 Determining the Number of Solutions to a Quadratic Equation
 Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.4 Solving Quadratic Equations by Completing the Square
 Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.5 Solving Quadratic Equations Using the Quadratic Formula
-Computer Science 1 | Introduction to Programming | Understanding Computer Programming
-Computer Science 1 | Introduction to Programming | Getting Started with Java
-Computer Science 1 | Introduction to Programming | The Eclipse IDE
-Computer Science 1 | Java Basics | Data Types & Variables
-Computer Science 1 | Java Basics | Working with Strings
-Computer Science 1 | Java Basics | User Input
-Computer Science 1 | Java Logic | Basic Flow Control
-Computer Science 1 | Java Logic | Writing Methods
-Computer Science 1 | Java Logic | Debugging & Exceptions
-Computer Science 1 | Object-Oriented Programming | Introduction to OOP
-Computer Science 1 | Object-Oriented Programming | Objects in Java
-Computer Science 1 | More Advanced Java | Graphic Java Programs
-Computer Science 1 | More Advanced Java | Swing Input Controls
-Computer Science 1 | More Advanced Java | Arrays & Collections
-Computer Science 1 | More Advanced Java | Inheritance & Polymorphism
-Computer Science 1 | More Advanced Java | Math Functions in Java
-Computer Science 1 | More Advanced Java | File Access
 Health | Unit 1: Mental & Emotional Health | 1.1 Introduction to Health
 Health | Unit 1: Mental & Emotional Health | 1.2 Your Mental & Emotional Health
 Health | Unit 1: Mental & Emotional Health | 1.3 Suicide & Violence Prevention
