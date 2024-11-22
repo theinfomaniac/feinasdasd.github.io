@@ -82,6 +82,20 @@
             display: none;
         }
 
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #ff0000;
+            font-weight: 900;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
         .content {
             flex: 1;
             display: flex;
@@ -158,6 +172,7 @@
             </select>
             <div class="resources-grid">
                 <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/974474821/unit-6-pre-ap-biology-test-interlinkcvhs-review-flash-cards/">Unit 6 Test (Pre-AP Biology)</h3>
+                <div class="no-results">NO MATCHING RESULTS</div>
             </div>
         </div>
         <div class="content">
@@ -193,13 +208,24 @@
         // Function to filter resources by subject
         function filterResources(subject) {
             const resources = document.querySelectorAll('.resource-title');
+            const noResultsDiv = document.querySelector('.no-results');
+            let visibleCount = 0;
+
             resources.forEach(resource => {
                 if (!subject || resource.getAttribute('data-subject') === subject) {
                     resource.classList.remove('hidden');
+                    visibleCount++;
                 } else {
                     resource.classList.add('hidden');
                 }
             });
+
+            // Show/hide the "NO MATCHING RESULTS" message
+            if (visibleCount === 0 && subject) {
+                noResultsDiv.style.display = 'block';
+            } else {
+                noResultsDiv.style.display = 'none';
+            }
         }
 
         // Function to highlight the clicked button and load URL into iframe
