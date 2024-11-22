@@ -79,7 +79,7 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         .no-results {
@@ -88,6 +88,7 @@
             font-weight: 900;
             font-size: 1.2em;
             letter-spacing: 1px;
+            display: none;
         }
 
         .content {
@@ -166,7 +167,7 @@
             </select>
             <div class="resources-grid">
                 <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/974474821/unit-6-pre-ap-biology-test-interlinkcvhs-review-flash-cards/">Unit 6 Test (Pre-AP Biology)</h3>
-                <div class="no-results">NO MATCHING RESULTS</div>
+                <div class="no-results hidden">NO MATCHING RESULTS</div>
             </div>
         </div>
         <div class="content">
@@ -215,11 +216,7 @@
             });
 
             // Show/hide the "NO MATCHING RESULTS" message
-            if (visibleCount === 0 && subject) {
-                noResultsDiv.style.display = 'block';
-            } else {
-                noResultsDiv.style.display = 'none';
-            }
+            noResultsDiv.classList.toggle('hidden', !subject || visibleCount > 0);
         }
 
         // Function to highlight the clicked button and load URL into iframe
