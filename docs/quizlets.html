@@ -88,6 +88,7 @@
             font-weight: 900;
             font-size: 1.2em;
             letter-spacing: 1px;
+            margin-top: 20px;
             display: none;
         }
 
@@ -165,10 +166,10 @@
                 <option value="baseball">UIL Baseball</option>
                 <option value="volleyball">UIL Volleyball</option>
             </select>
-            <div class="resources-grid">
+            <div class="resources-grid" id="resourcesContainer">
                 <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/974474821/unit-6-pre-ap-biology-test-interlinkcvhs-review-flash-cards/">Unit 6 Test (Pre-AP Biology)</h3>
-                <div class="no-results hidden">NO MATCHING RESULTS</div>
             </div>
+            <div class="no-results hidden">NO MATCHING RESULTS</div>
         </div>
         <div class="content">
             <iframe class="content-frame" id="contentFrame" src="about:blank"></iframe>   
@@ -206,8 +207,18 @@
             const noResultsDiv = document.querySelector('.no-results');
             let visibleCount = 0;
 
+            // If no subject is selected, show all resources and hide no results message
+            if (!subject) {
+                resources.forEach(resource => {
+                    resource.classList.remove('hidden');
+                });
+                noResultsDiv.classList.add('hidden');
+                return;
+            }
+
+            // Filter resources based on selected subject
             resources.forEach(resource => {
-                if (!subject || resource.getAttribute('data-subject') === subject) {
+                if (resource.getAttribute('data-subject') === subject) {
                     resource.classList.remove('hidden');
                     visibleCount++;
                 } else {
@@ -216,7 +227,11 @@
             });
 
             // Show/hide the "NO MATCHING RESULTS" message
-            noResultsDiv.classList.toggle('hidden', !subject || visibleCount > 0);
+            if (visibleCount === 0) {
+                noResultsDiv.classList.remove('hidden');
+            } else {
+                noResultsDiv.classList.add('hidden');
+            }
         }
 
         // Function to highlight the clicked button and load URL into iframe
