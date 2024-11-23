@@ -406,7 +406,7 @@ Pre-AP Algebra 1 | Chapter 3: Graphing Linear Functions | 3.7 Transformations
 Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.1 Writing Equations in Slope-Intercept Form
 Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.2 Writing Equations in Point-Slope Form
 Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.3 Writing Equations in Standard Form
-Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.4 Writing Equationsof Parallel & Perpendicular Lines
+Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.4 Writing Equations of Parallel & Perpendicular Lines
 Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.5 Scatter Plots & Lines of Fit
 Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.6 Analyzing Lines of Fit
 Pre-AP Algebra 1 | Chapter 4: Writing Linear Functions | 4.7 Arithmetic Sequences
