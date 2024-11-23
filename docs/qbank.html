@@ -908,10 +908,9 @@
                             className: 'close-button',
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
-                        React.createElement('div', { className: 'question-metadata' }, 
-                            React.createElement('span', { style: { fontWeight: 'bold' } }, `ID: ${selectedQuestion.ID} `), 
-                            `| ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}` 
-                        );
+                        React.createElement('div', { className: 'question-metadata' },
+                            `<strong>ID: ${selectedQuestion.ID}</strong> | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
+                        ),
                         React.createElement('h2', null, selectedQuestion.Question),
                         selectedQuestion.Options ? 
                             React.createElement('div', { className: 'options-container' },
