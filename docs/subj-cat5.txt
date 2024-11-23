@@ -174,6 +174,81 @@ Pre-AP Biology | Chapter 30: The Human Body | 30.1 Organization of the Human Bod
 Pre-AP Biology | Chapter 30: The Human Body | 30.2 Human Body Systems I
 Pre-AP Biology | Chapter 30: The Human Body | 30.3 Human Body Systems II
 Pre-AP Biology | Chapter 30: The Human Body | 30.4 Immunity & Disease
+Pre-AP Chemistry | Chapter 1: Matter & Change | 1.1 Chemistry is a Physical Science
+Pre-AP Chemistry | Chapter 1: Matter & Change | 1.2 Matter & its Properties
+Pre-AP Chemistry | Chapter 1: Matter & Change | 1.3 Elements
+Pre-AP Chemistry | Chapter 2: Measurements & Calculations | 2.1 The Scientific Method
+Pre-AP Chemistry | Chapter 2: Measurements & Calculations | 2.2 Units of Measurement
+Pre-AP Chemistry | Chapter 2: Measurements & Calculations | 2.3 Using Scientific Measurements
+Pre-AP Chemistry | Chapter 3: Atoms | 3.1 Discovery of the Atom
+Pre-AP Chemistry | Chapter 3: Atoms | 3.2 The Structure of the Atom
+Pre-AP Chemistry | Chapter 3: Atoms | 3.3 Counting Atoms
+Pre-AP Chemistry | Chapter 4: Arrangement of Electrons in Atoms | 4.1 The Development of a New Atomic Model
+Pre-AP Chemistry | Chapter 4: Arrangement of Electrons in Atoms | 4.2 The Quantum Model of the Atom
+Pre-AP Chemistry | Chapter 4: Arrangement of Electrons in Atoms | 4.3 Electron Configurations
+Pre-AP Chemistry | Chapter 5: The Periodic Law | 5.1 History of the Periodic Table
+Pre-AP Chemistry | Chapter 5: The Periodic Law | 5.2 Electron Configuration and the Periodic Table
+Pre-AP Chemistry | Chapter 5: The Periodic Law | 5.3 Electron Configuration & Periodic Properties
+Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.1 Introduction to Chemical Bonding
+Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.2 Covalent Bonding & Molecular Compounds
+Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.3 Ionic Bonding & Ionic Compounds
+Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.4 Metallic Bonding
+Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.5 Molecular Geometry
+Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.1 Chemical Names & Formulas
+Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.2 Oxidation Numbers
+Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.3 Using Chemical Formulas
+Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.4 Determining Chemical Formulas
+Pre-AP Chemistry | Chapter 8: Chemical Equations & Reactions | 8.1 Describing Chemical Reactions
+Pre-AP Chemistry | Chapter 8: Chemical Equations & Reactions | 8.2 Types of Chemical Reactions
+Pre-AP Chemistry | Chapter 8: Chemical Equations & Reactions | 8.3 Activity Series of the Elements
+Pre-AP Chemistry | Chapter 9: Stoichiometry | 9.1 Introduction to Stoichiometry
+Pre-AP Chemistry | Chapter 9: Stoichiometry | 9.2 Ideal Stiochiometric Calculations
+Pre-AP Chemistry | Chapter 9: Stoichiometry | 9.3 Limiting Reactants & Percentage Yield
+Pre-AP Chemistry | Chapter 10: States of Matter | 10.1 The Kinetic-Molecular Theory of Matter
+Pre-AP Chemistry | Chapter 10: States of Matter | 10.2 Liquids
+Pre-AP Chemistry | Chapter 10: States of Matter | 10.3 Solids
+Pre-AP Chemistry | Chapter 10: States of Matter | 10.4 Changes of State
+Pre-AP Chemistry | Chapter 10: States of Matter | 10.5 Water
+Pre-AP Chemistry | Chapter 11: Gases | 11.1 Gases & Pressure
+Pre-AP Chemistry | Chapter 11: Gases | 11.2 The Gas Laws
+Pre-AP Chemistry | Chapter 11: Gases | 11.3 Gas Volumes & the Ideal Gas Law
+Pre-AP Chemistry | Chapter 11: Gases | 11.4 Diffusion & Effusion
+Pre-AP Chemistry | Chapter 12: Solutions | 12.1 Types of Mixtures
+Pre-AP Chemistry | Chapter 12: Solutions | 12.2 The Solution Process
+Pre-AP Chemistry | Chapter 12: Solutions | 12.3 Concentration of Solutions
+Pre-AP Chemistry | Chapter 13: Ions in Aqueous Solutions & Colligative Properties | 13.1 Compounds in Aqueous Solutions
+Pre-AP Chemistry | Chapter 13: Ions in Aqueous Solutions & Colligative Properties | 13.2 Colligative Properties of Solutions
+Pre-AP Chemistry | Chapter 14: Acids & Bases | 14.1 Properties of Acids & Bases
+Pre-AP Chemistry | Chapter 14: Acids & Bases | 14.2 Acid-Base Theories
+Pre-AP Chemistry | Chapter 14: Acids & Bases | 14.3 Acid-Base Reactions
+Pre-AP Chemistry | Chapter 15: Acid-Base Titration and pH | 15.1 Aqueous Solutions & pH
+Pre-AP Chemistry | Chapter 15: Acid-Base Titration and pH | 15.2 Determining pH & Titrations
+Pre-AP Chemistry | Chapter 16: Reaction Energy | 16.1 Thermochemistry
+Pre-AP Chemistry | Chapter 16: Reaction Energy | 16.2 Driving Force of Reactions
+Pre-AP Chemistry | Chapter 17: Reaction Kinetics | 17.1 The Reaction Process
+Pre-AP Chemistry | Chapter 17: Reaction Kinetics | 17.2 Reaction Rate
+Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.1 The Nature of Chemical Equilibrium
+Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.2 Shifting Equilibrium
+Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.3 Equilibria of Acids, Bases & Salts
+Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.4 Solubility Equilibrium
+Pre-AP Chemistry | Chapter 19: Oxidation-Reduction Reactions | 19.1 Oxidation & Reduction
+Pre-AP Chemistry | Chapter 19: Oxidation-Reduction Reactions | 19.2 Balancing Redox Equations
+Pre-AP Chemistry | Chapter 19: Oxidation-Reduction Reactions | 19.3 Oxidizing & Reducing Agents
+Pre-AP Chemistry | Chapter 20: Electrochemistry | 20.1 Introduction to Electrochemistry
+Pre-AP Chemistry | Chapter 20: Electrochemistry | 20.2 Voltaic Cells
+Pre-AP Chemistry | Chapter 20: Electrochemistry | 20.3 Electrolytic Cells
+Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.1 The Nucleus
+Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.2 Radioactive Decay
+Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.3 Nuclear Radiation
+Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.4 Nuclear Fission & Nuclear Fusion
+Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.1 Organic Compounds
+Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.2 Hydrocarbons
+Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.3 Functional Groups
+Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.4 Organic Reactions
+Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.1 Carbohydrates & Lipids
+Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.2 Amino Acids & Proteins
+Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.3 Metabolism
+Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.4 Nucleic Acids
 Pre-AP Algebra 2 | Chapter 1: Linear Functions | 1.1 Interval & Set Notation
 Pre-AP Algebra 2 | Chapter 1: Linear Functions | 1.2 Parent Functions & Transformations
 Pre-AP Algebra 2 | Chapter 1: Linear Functions | 1.3 Transformations of Linear & Absolute Value Functions
@@ -365,98 +440,3 @@ Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.2 Solving Quadrati
 Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.3 Determining the Number of Solutions to a Quadratic Equation
 Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.4 Solving Quadratic Equations by Completing the Square
 Pre-AP Algebra 1 | Chapter 9: Solving Quadratic Equations | 9.5 Solving Quadratic Equations Using the Quadratic Formula
-Health | Unit 1: Mental & Emotional Health | 1.1 Introduction to Health
-Health | Unit 1: Mental & Emotional Health | 1.2 Your Mental & Emotional Health
-Health | Unit 1: Mental & Emotional Health | 1.3 Suicide & Violence Prevention
-Health | Unit 1: Mental & Emotional Health | 1.4 Communication Skills
-Health | Unit 2: Fitness & Nutrition | 2.1 Guidelines for Fitness & Nutrition
-Health | Unit 2: Fitness & Nutrition | 2.2 Threats to Fitness & Good Nutrition
-Health | Unit 2: Fitness & Nutrition | 2.3 Planning for Fitness & Good Nutrition
-Health | Unit 3: Drugs | 3.1 Drug Use & Abuse
-Health | Unit 3: Drugs | 3.2 Living Drug-Free
-Health | Unit 3: Drugs | 3.3 Advocating for a Drug-Free Lifestyle
-Health | Unit 4: Disease | 4.1 Types of Diseases
-Health | Unit 4: Disease | 4.2 Preventing Disease
-Health | Unit 4: Disease | 4.3 Susceptibility, Detection & Treatment of Disease
-Health | Unit 5: Injuries | 5.1 Safety & Injury Prevention
-Health | Unit 5: Injuries | 5.2 Safety Laws & First Aid
-Health | Unit 5: Injuries | 5.3 Weather & Natural Disaster Safety
-Health | Unit 6: Sexual Health | 6.1 Reproductive Health & Relationships
-Health | Unit 6: Sexual Health | 6.2 Abstinence & Online Safety
-Health | Unit 6: Sexual Health | 6.3 Recognizing Harmful Relationships
-Health | Unit 6: Sexual Health | 6.4 Safe Sexuality & Pregnancy
-Pre-AP Chemistry | Chapter 1: Matter & Change | 1.1 Chemistry is a Physical Science
-Pre-AP Chemistry | Chapter 1: Matter & Change | 1.2 Matter & its Properties
-Pre-AP Chemistry | Chapter 1: Matter & Change | 1.3 Elements
-Pre-AP Chemistry | Chapter 2: Measurements & Calculations | 2.1 The Scientific Method
-Pre-AP Chemistry | Chapter 2: Measurements & Calculations | 2.2 Units of Measurement
-Pre-AP Chemistry | Chapter 2: Measurements & Calculations | 2.3 Using Scientific Measurements
-Pre-AP Chemistry | Chapter 3: Atoms | 3.1 Discovery of the Atom
-Pre-AP Chemistry | Chapter 3: Atoms | 3.2 The Structure of the Atom
-Pre-AP Chemistry | Chapter 3: Atoms | 3.3 Counting Atoms
-Pre-AP Chemistry | Chapter 4: Arrangement of Electrons in Atoms | 4.1 The Development of a New Atomic Model
-Pre-AP Chemistry | Chapter 4: Arrangement of Electrons in Atoms | 4.2 The Quantum Model of the Atom
-Pre-AP Chemistry | Chapter 4: Arrangement of Electrons in Atoms | 4.3 Electron Configurations
-Pre-AP Chemistry | Chapter 5: The Periodic Law | 5.1 History of the Periodic Table
-Pre-AP Chemistry | Chapter 5: The Periodic Law | 5.2 Electron Configuration and the Periodic Table
-Pre-AP Chemistry | Chapter 5: The Periodic Law | 5.3 Electron Configuration & Periodic Properties
-Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.1 Introduction to Chemical Bonding
-Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.2 Covalent Bonding & Molecular Compounds
-Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.3 Ionic Bonding & Ionic Compounds
-Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.4 Metallic Bonding
-Pre-AP Chemistry | Chapter 6: Chemical Bonding | 6.5 Molecular Geometry
-Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.1 Chemical Names & Formulas
-Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.2 Oxidation Numbers
-Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.3 Using Chemical Formulas
-Pre-AP Chemistry | Chapter 7: Chemical Formulas & Chemical Compounds | 7.4 Determining Chemical Formulas
-Pre-AP Chemistry | Chapter 8: Chemical Equations & Reactions | 8.1 Describing Chemical Reactions
-Pre-AP Chemistry | Chapter 8: Chemical Equations & Reactions | 8.2 Types of Chemical Reactions
-Pre-AP Chemistry | Chapter 8: Chemical Equations & Reactions | 8.3 Activity Series of the Elements
-Pre-AP Chemistry | Chapter 9: Stoichiometry | 9.1 Introduction to Stoichiometry
-Pre-AP Chemistry | Chapter 9: Stoichiometry | 9.2 Ideal Stiochiometric Calculations
-Pre-AP Chemistry | Chapter 9: Stoichiometry | 9.3 Limiting Reactants & Percentage Yield
-Pre-AP Chemistry | Chapter 10: States of Matter | 10.1 The Kinetic-Molecular Theory of Matter
-Pre-AP Chemistry | Chapter 10: States of Matter | 10.2 Liquids
-Pre-AP Chemistry | Chapter 10: States of Matter | 10.3 Solids
-Pre-AP Chemistry | Chapter 10: States of Matter | 10.4 Changes of State
-Pre-AP Chemistry | Chapter 10: States of Matter | 10.5 Water
-Pre-AP Chemistry | Chapter 11: Gases | 11.1 Gases & Pressure
-Pre-AP Chemistry | Chapter 11: Gases | 11.2 The Gas Laws
-Pre-AP Chemistry | Chapter 11: Gases | 11.3 Gas Volumes & the Ideal Gas Law
-Pre-AP Chemistry | Chapter 11: Gases | 11.4 Diffusion & Effusion
-Pre-AP Chemistry | Chapter 12: Solutions | 12.1 Types of Mixtures
-Pre-AP Chemistry | Chapter 12: Solutions | 12.2 The Solution Process
-Pre-AP Chemistry | Chapter 12: Solutions | 12.3 Concentration of Solutions
-Pre-AP Chemistry | Chapter 13: Ions in Aqueous Solutions & Colligative Properties | 13.1 Compounds in Aqueous Solutions
-Pre-AP Chemistry | Chapter 13: Ions in Aqueous Solutions & Colligative Properties | 13.2 Colligative Properties of Solutions
-Pre-AP Chemistry | Chapter 14: Acids & Bases | 14.1 Properties of Acids & Bases
-Pre-AP Chemistry | Chapter 14: Acids & Bases | 14.2 Acid-Base Theories
-Pre-AP Chemistry | Chapter 14: Acids & Bases | 14.3 Acid-Base Reactions
-Pre-AP Chemistry | Chapter 15: Acid-Base Titration and pH | 15.1 Aqueous Solutions & pH
-Pre-AP Chemistry | Chapter 15: Acid-Base Titration and pH | 15.2 Determining pH & Titrations
-Pre-AP Chemistry | Chapter 16: Reaction Energy | 16.1 Thermochemistry
-Pre-AP Chemistry | Chapter 16: Reaction Energy | 16.2 Driving Force of Reactions
-Pre-AP Chemistry | Chapter 17: Reaction Kinetics | 17.1 The Reaction Process
-Pre-AP Chemistry | Chapter 17: Reaction Kinetics | 17.2 Reaction Rate
-Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.1 The Nature of Chemical Equilibrium
-Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.2 Shifting Equilibrium
-Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.3 Equilibria of Acids, Bases & Salts
-Pre-AP Chemistry | Chapter 18: Chemcial Equilibrium | 18.4 Solubility Equilibrium
-Pre-AP Chemistry | Chapter 19: Oxidation-Reduction Reactions | 19.1 Oxidation & Reduction
-Pre-AP Chemistry | Chapter 19: Oxidation-Reduction Reactions | 19.2 Balancing Redox Equations
-Pre-AP Chemistry | Chapter 19: Oxidation-Reduction Reactions | 19.3 Oxidizing & Reducing Agents
-Pre-AP Chemistry | Chapter 20: Electrochemistry | 20.1 Introduction to Electrochemistry
-Pre-AP Chemistry | Chapter 20: Electrochemistry | 20.2 Voltaic Cells
-Pre-AP Chemistry | Chapter 20: Electrochemistry | 20.3 Electrolytic Cells
-Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.1 The Nucleus
-Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.2 Radioactive Decay
-Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.3 Nuclear Radiation
-Pre-AP Chemistry | Chapter 21: Nuclear Chemistry | 21.4 Nuclear Fission & Nuclear Fusion
-Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.1 Organic Compounds
-Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.2 Hydrocarbons
-Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.3 Functional Groups
-Pre-AP Chemistry | Chapter 22: Organic Chemistry | 22.4 Organic Reactions
-Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.1 Carbohydrates & Lipids
-Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.2 Amino Acids & Proteins
-Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.3 Metabolism
-Pre-AP Chemistry | Chapter 23: Biological Chemistry | 23.4 Nucleic Acids
