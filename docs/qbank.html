@@ -909,7 +909,7 @@
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
                         React.createElement('div', { className: 'question-metadata' },
-                            `ID: ${selectedQuestion.ID} | Subject: ${selectedQuestion.Subject} | Section: ${selectedQuestion.Section} | Subsection: ${selectedQuestion.Subsection}`
+                            `<strong>ID: ${selectedQuestion.ID}</strong> | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
                         ),
                         React.createElement('h2', null, selectedQuestion.Question),
                         selectedQuestion.Options ? 
