@@ -614,12 +614,12 @@
                     
                     // Main title - Large, bold
                     doc.setTextColor(255, 255, 255);
-                    doc.setFont('helvetica', 'bold');
+                    doc.setFont('courier', 'bold');
                     doc.setFontSize(18);
                     doc.text('Interlink CVHS QBank', 20, 20);
                     
                     // URL with styled link
-                    doc.setFont('helvetica', 'normal');
+                    doc.setFont('courier', 'normal');
                     doc.setFontSize(10);
                     const url = 'https://interlinkcvhs.org';
                     doc.setTextColor(100, 200, 255);
@@ -629,7 +629,7 @@
                     });
                     
                     // Page number - Small, normal weight
-                    doc.setFont('helvetica', 'normal');
+                    doc.setFont('courier', 'normal');
                     doc.setFontSize(8);
                     doc.text(`Page ${pageNum}`, 180, 290);
                 
@@ -663,7 +663,7 @@
                     // Question number and ID - Bold, larger
                     doc.setFontSize(12);
                     doc.setTextColor(255, 255, 255);
-                    doc.setFont('helvetica', 'bold');
+                    doc.setFont('courier', 'bold');
                     doc.text(`Question ${index + 1}`, 20, yOffset);
                     
                     // Add ID in bold next to question number
@@ -675,7 +675,7 @@
                     // Metadata box with improved styling
                     doc.setTextColor(100, 200, 255);
                     doc.setFontSize(8);
-                    doc.setFont('helvetica', 'normal');
+                    doc.setFont('courier', 'normal');
                     
                     // Draw box around metadata
                     const metadataText = `${question.Subject} | ${question.Section} | ${question.Subsection}`;
@@ -690,7 +690,7 @@
                     // Question text - Clear, readable size
                     doc.setFontSize(11);
                     doc.setTextColor(255, 255, 255);
-                    doc.setFont('helvetica', 'normal');
+                    doc.setFont('courier', 'normal');
                     const questionLines = doc.splitTextToSize(question.Question, 170);
                     checkNewPage(questionLines.length * 7);
                     doc.text(questionLines, 20, yOffset);
@@ -722,7 +722,7 @@
                     if (withAnswers) {
                         checkNewPage(10);
                         doc.setTextColor(0, 255, 0);
-                        doc.setFont('helvetica', 'bold');
+                        doc.setFont('courier', 'bold');
                         doc.setFontSize(11);
                         doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
                         yOffset += 10;
