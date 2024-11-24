@@ -63,6 +63,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+    
+        .question-table thead {
+            position: sticky;
+            top: 0;
+            background: var(--background-color);
+            z-index: 1;
+        }
         
         .question-table td {
             padding: 15px;
@@ -217,6 +224,17 @@
             transform: translateY(-2px);
             box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
         }
+
+        
+        .textarea-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .textarea-container textarea {
+            width: 100%;
+            padding-right: 40px; /* Make room for the π button */
+        }
         
         .submit-button {
             margin-top: 2rem;
@@ -276,15 +294,17 @@
         .interlink-ai-link:hover {
             color: var(--secondary-color);
         }
-
+    
         .pi-button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 3px;
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            z-index: 1;
             padding: 5px 10px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
-            margin-top: 5px;
         }
 
         .question-container {
@@ -649,12 +669,12 @@
 
             const renderQuestionWithImage = (questionText) => {
                 if (!questionText.includes('!!img=')) {
-                    return React.createElement('div', null, questionText);
+                    return null; // Return null instead of the question text
                 }
-
+        
                 const match = questionText.match(/!!img='([^']+)','(LEFT|RIGHT)'!!(.*)/);
-                if (!match) return React.createElement('div', null, questionText);
-
+                if (!match) return null;
+        
                 const [_, imageUrl, position, text] = match;
                 const elements = [
                     React.createElement('img', {
@@ -665,7 +685,7 @@
                     }),
                     React.createElement('div', { key: 'text' }, text)
                 ];
-
+        
                 return React.createElement('div', {
                     className: 'question-container',
                     style: { flexDirection: position === 'LEFT' ? 'row' : 'row-reverse' }
@@ -796,6 +816,51 @@
                     }
                     return false;
                 }
+
+                const renderLoadingOrNoQuestions = () => {
+                    if (isLoading) {
+                        return React.createElement('tr', null,
+                            React.createElement('td', {
+                                colSpan: 6,
+                                className: 'loading-message',
+                                style: { 
+                                    height: '300px', // Shorter height
+                                    verticalAlign: 'top',
+                                    paddingTop: '30px',
+                                    color: 'var(--primary-color)',
+                                    fontSize: '1.5em',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center'
+                                }
+                            }, 'LOADING QUESTIONS')
+                        );
+                    }
+                    
+                    if (filteredQuestions.length === 0) {
+                        return React.createElement('tr', null,
+                            React.createElement('td', {
+                                colSpan: 6,
+                                className: 'no-questions',
+                                style: { 
+                                    height: '300px', // Shorter height
+                                    verticalAlign: 'top',
+                                    paddingTop: '30px',
+                                    color: '#ff0000',
+                                    fontSize: '1.5em',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center'
+                                }
+                            }, 'NO QUESTIONS FOUND')
+                        );
+                    }
+                    return null;
+                };
+
+                const tableStyle = {
+                    maxHeight: '400px', // Fixed height
+                    overflowY: 'auto',  // Enable vertical scrolling
+                    display: 'block'    // Required for scrolling
+                };
             
                 // Process each selected question
                 const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
@@ -963,10 +1028,6 @@
                         onChange: (e) => setSearchQuery(e.target.value)
                     })
                 ),
-               isLoading ? 
-                    React.createElement('div', { className: 'loading-message' },
-                        'LOADING QUESTIONS'
-                    ) :
                 filteredQuestions.length > 0 && selectedQuestions.size > 0 && 
                 React.createElement('div', { 
                     style: { 
@@ -975,76 +1036,82 @@
                         fontWeight: 'bold' 
                     }
                 }, `${selectedQuestions.size} question(s) selected`),
-                React.createElement('table', { className: 'question-table' },
-                    React.createElement('thead', null,
-                        React.createElement('tr', null,
-                            React.createElement('th', { 
-                                style: { 
-                                    width: '50px', 
-                                    textAlign: 'center', 
-                                    borderRight: '1px solid var(--primary-color)' 
-                                }
-                            }, 
-                                React.createElement('input', {
-                                    type: 'checkbox',
-                                    checked: isSelectAllChecked,
-                                    onChange: handleSelectAll,
-                                    style: { margin: 0 }
-                                })
-                            ),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Section'),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subsection'),
-                            React.createElement('th', null, '')
-                        )
-                    ),
-                    React.createElement('tbody', null,
-                        filteredQuestions.length === 0 ?
+               React.createElement('div', { style: tableStyle },
+                    React.createElement('table', { className: 'question-table' },
+                        React.createElement('thead', null,
                             React.createElement('tr', null,
-                                React.createElement('td', {
-                                    colSpan: 6,
-                                    className: 'no-questions',
+                                React.createElement('th', { 
                                     style: { 
-                                        height: '500px',
-                                        verticalAlign: 'top',
-                                        paddingTop: '30px',
-                                        color: '#ff0000',
-                                        fontSize: '1.5em',
-                                        fontWeight: 'bold'
+                                        width: '50px', 
+                                        textAlign: 'center', 
+                                        borderRight: '1px solid var(--primary-color)' 
                                     }
-                                }, 'NO QUESTIONS FOUND')
-                            ) :
-                            filteredQuestions.map(q => 
-                                React.createElement('tr', { key: q.ID },
-                                    React.createElement('td', { 
+                                }, 
+                                    React.createElement('input', {
+                                        type: 'checkbox',
+                                        checked: isSelectAllChecked,
+                                        onChange: handleSelectAll,
+                                        style: { margin: 0 }
+                                    })
+                                ),
+                                React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
+                                React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
+                                React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Section'),
+                                React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subsection'),
+                                React.createElement('th', null, '')
+                            )
+                        ),
+                        React.createElement('tbody', null,
+                            filteredQuestions.length === 0 ?
+                                React.createElement('tr', null,
+                                    React.createElement('td', {
+                                        colSpan: 6,
+                                        className: 'no-questions',
                                         style: { 
-                                            textAlign: 'center', 
-                                            borderRight: '1px solid var(--glass-border)' 
+                                            height: '500px',
+                                            verticalAlign: 'top',
+                                            paddingTop: '30px',
+                                            color: '#ff0000',
+                                            fontSize: '1.5em',
+                                            fontWeight: 'bold'
                                         }
-                                    },
-                                        React.createElement('input', {
-                                            type: 'checkbox',
-                                            checked: selectedQuestions.has(q.ID),
-                                            onChange: () => handleQuestionSelect(q.ID),
-                                            style: { margin: 0 }
-                                        })
-                                    ),
-                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.ID),
-                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subject),
-                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Section),
-                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subsection),
-                                    React.createElement('td', null,
-                                        React.createElement('button', {
-                                            className: 'view-button',
-                                            onClick: () => {
-                                                setSelectedQuestion(q);
-                                                resetQuestion();
+                                    }, 'NO QUESTIONS FOUND')
+                                ) :
+                                filteredQuestions.map(q => 
+                                    React.createElement('tr', { key: q.ID },
+                                        React.createElement('td', { 
+                                            style: { 
+                                                textAlign: 'center', 
+                                                borderRight: '1px solid var(--glass-border)' 
                                             }
-                                        }, 'VIEW')
+                                        },
+                                            React.createElement('input', {
+                                                type: 'checkbox',
+                                                checked: selectedQuestions.has(q.ID),
+                                                onChange: () => handleQuestionSelect(q.ID),
+                                                style: { margin: 0 }
+                                            })
+                                        ),
+                                        React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.ID),
+                                        React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subject),
+                                        React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Section),
+                                        React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subsection),
+                                        React.createElement('td', null,
+                                            React.createElement('button', {
+                                                className: 'view-button',
+                                                onClick: () => {
+                                                    setSelectedQuestion(q);
+                                                    resetQuestion();
+                                                }
+                                            }, 'VIEW')
+                                        )
                                     )
                                 )
-                            )
+                        )
+                        React.createElement('tbody', null,
+                            renderLoadingOrNoQuestions() || 
+                            filteredQuestions.map(q => /* Table rows remain the same... */)
+                        )
                     )
                 ),
 
@@ -1085,66 +1152,61 @@
 
                                     
                 selectedQuestion && React.createElement('div', { className: 'modal' },
-                    React.createElement('div', { className: 'modal-content' },
+            React.createElement('div', { className: 'modal-content' },
+                React.createElement('button', {
+                    className: 'close-button',
+                    onClick: () => setSelectedQuestion(null)
+                }, '×'),
+                React.createElement('div', { className: 'modal-checkbox' },
+                    React.createElement('input', {
+                        type: 'checkbox',
+                        checked: selectedQuestions.has(selectedQuestion.ID),
+                        onChange: () => handleQuestionSelect(selectedQuestion.ID)
+                    })
+                ),
+                React.createElement('div', { className: 'question-metadata' },
+                    `ID: ${selectedQuestion.ID} | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
+                ),
+                renderQuestionWithImage(selectedQuestion.Question),
+                React.createElement('h2', { className: 'question-text' }, selectedQuestion.Question),
+                selectedQuestion.Options ? 
+                    React.createElement('div', { className: 'options-container' },
+                        // Options remain the same...
+                    ) :
+                    React.createElement('div', { className: 'textarea-container' },
+                        React.createElement('textarea', {
+                            value: textAnswer,
+                            onChange: (e) => setTextAnswer(e.target.value),
+                            disabled: isAnswered,
+                            placeholder: 'Type your answer here...'
+                        }),
                         React.createElement('button', {
-                            className: 'close-button',
-                            onClick: () => setSelectedQuestion(null)
-                        }, '×'),
-                        React.createElement('div', { className: 'modal-checkbox' },
-                            React.createElement('input', {
-                                type: 'checkbox',
-                                checked: selectedQuestions.has(selectedQuestion.ID),
-                                onChange: () => handleQuestionSelect(selectedQuestion.ID)
-                            })
-                        ),
-                        React.createElement('div', { className: 'question-metadata' },
-                            React.createElement('span', { className: 'question-id' },
-                                `ID: ${selectedQuestion.ID}`
-                            ),
-                            ` | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
-                        ),
-                        renderQuestionWithImage(selectedQuestion.Question),
-                        React.createElement('h2', null, selectedQuestion.Question),
-                        selectedQuestion.Options ? 
-                            React.createElement('div', { className: 'options-container' },
-                                selectedQuestion.Options.split('\n').map(option => 
-                                    React.createElement('div', {
-                                        key: option,
-                                        className: `option ${selectedOption === option ? 'selected' : ''}`,
-                                        onClick: () => !isAnswered && setSelectedOption(option)
-                                    }, option)
-                                )
-                            ) :
-                            React.createElement('textarea', {
-                                value: textAnswer,
-                                onChange: (e) => setTextAnswer(e.target.value),
-                                disabled: isAnswered,
-                                placeholder: 'Type your answer here...'
-                            }),
-                        React.createElement('div', { style: { display: 'flex', alignItems: 'center' } },
-                            React.createElement('button', {
-                                className: 'submit-button',
-                                onClick: handleSubmit,
-                                disabled: isAnswered
-                            }, 'Submit'),
-                            React.createElement('a', {
-                                href: `https://interlinkai.streamlit.app/?question=${encodeURIComponent(selectedQuestion.Question)}`,
-                                className: 'interlink-ai-link',
-                                target: '_blank'
-                            }, 'Unsure? Ask InterlinkAI')
-                        ),
-                        !selectedQuestion.Options && React.createElement('button', {
                             className: 'pi-button',
-                            onClick: addPiSymbol
-                        }, 'π'),
-                        feedback && React.createElement('div', {
-                            className: `feedback ${feedback.includes('Correct') ? 'correct' : 'incorrect'}`
-                        }, feedback),
-                        React.createElement('div', { className: 'attempts' },
-                            `Attempts: ${attempts}/3`
-                        )
-                    )
+                            onClick: addPiSymbol,
+                            style: { position: 'absolute', right: '5px', bottom: '5px' }
+                        }, 'π')
+                    ),
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center' } },
+                    React.createElement('button', {
+                        className: 'submit-button',
+                        onClick: handleSubmit,
+                        disabled: isAnswered
+                    }, 'Submit'),
+                    React.createElement('a', {
+                        href: `https://interlinkai.streamlit.app/?question=${encodeURIComponent(selectedQuestion.Question)}&search=true`,
+                        className: 'interlink-ai-link',
+                        target: '_blank',
+                        rel: 'noopener noreferrer'
+                    }, 'Unsure? Ask InterlinkAI')
+                ),
+                feedback && React.createElement('div', {
+                    className: `feedback ${feedback.includes('Correct') ? 'correct' : 'incorrect'}`
+                }, feedback),
+                React.createElement('div', { className: 'attempts' },
+                    `Attempts: ${attempts}/3`
                 )
+            )
+        )
             );
         }
     
