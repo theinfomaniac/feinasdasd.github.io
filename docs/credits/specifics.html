@@ -32,25 +32,12 @@
             text-align: center;
             border: 1px solid #ddd;
         }
-        .period-table select {
-            padding: 5px;
-            font-size: 1em;
-            width: 100%;
+        .period-table th:first-child, .period-table td:first-child {
+            width: 30%; /* Adjust the width of the first column */
         }
-        .assignments-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .assignments-row {
-            display: flex;
-            width: 100%;
-            gap: 20px;
-        }
-        .assignment-card {
-            flex: 1;
-            min-width: calc(33.333% - 14px);
-            max-width: calc(33.333% - 14px);
+        
+        .period-table th:last-child, .period-table td:last-child {
+            width: 70%; /* Adjust the width of the second column */
         }
         .logo-container {
             display: flex;
@@ -106,7 +93,6 @@
                     <td><strong>Kavin Elangovan</strong></td>
                     <td>
                         <h4>Thing 1</h4>
-                        <h4>Thing 2</h4>
                     </td>
                 </tr>
             </tbody>
