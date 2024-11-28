@@ -42,6 +42,8 @@
         
         .question-table {
             width: 100%;
+            min-width: 800px;
+            tableLayout: fixed;
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 20px;
@@ -130,6 +132,8 @@
             position: fixed;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
@@ -143,13 +147,16 @@
             background: var(--glass-background);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
+            boxShadow: 0 0 20px rgba(0, 0, 0, 0.5),
             border-radius: 10px;
-            padding: 2rem;
+            padding: 40px;
             max-width: 800px;
-            min-width: 45vh;
+            width: 90%;
+            maxWidth: 1200px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            margin: 20px;
         }
 
         .modal-navigation {
@@ -781,7 +788,46 @@
                     }
                     return false;
                 }
-            
+
+                async function processImages(text) {
+                    if (!text.includes('!!img=')) return text;
+                    
+                    const imgMatch = text.match(/!!img='([^']+)'/);
+                    if (imgMatch) {
+                        try {
+                            const imgUrl = imgMatch[1];
+                            const response = await fetch(imgUrl);
+                            const blob = await response.blob();
+                            const base64 = await new Promise((resolve) => {
+                                const reader = new FileReader();
+                                reader.onloadend = () => resolve(reader.result);
+                                reader.readAsDataURL(blob);
+                            });
+                            
+                            const img = new Image();
+                            await new Promise((resolve) => {
+                                img.onload = resolve;
+                                img.src = base64;
+                            });
+                            
+                            // Calculate image dimensions (max width 150mm)
+                            const maxWidth = 150;
+                            const aspectRatio = img.height / img.width;
+                            const width = Math.min(maxWidth, img.width);
+                            const height = width * aspectRatio;
+                            
+                            doc.addImage(base64, 'JPEG', 20, yOffset, width, height);
+                            yOffset += height + 10;
+                            
+                            return text.replace(/!!img='[^']+'!!/, '').trim();
+                        } catch (error) {
+                            console.error('Error processing image:', error);
+                            return text.replace(/!!img='[^']+'!!/, '[Image Error]').trim();
+                        }
+                    }
+                    return text;
+                }
+                
                 // Process each selected question
                 const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
                 
@@ -987,12 +1033,13 @@
                                     colSpan: 6,
                                     className: 'no-questions',
                                     style: { 
-                                        height: '100px', // Reduced height
+                                        height: '100px',
                                         verticalAlign: 'middle',
                                         textAlign: 'center',
                                         color: isLoading ? '#ffffff' : '#ff0000',
                                         fontSize: '1.5em',
-                                        fontWeight: 'bold'
+                                        fontWeight: 'bold',
+                                        width: '100%' // Ensure full width
                                     }
                                 }, isLoading ? 'LOADING QUESTIONS' : 'NO QUESTIONS FOUND')
                             ) :
@@ -1029,7 +1076,7 @@
                     )
                 ),
                                        
-                selectedQuestion && React.createElement('div', { className: 'modal' },
+                selectedQuestion && React.createElement('div', {className: 'modal' },
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
                             className: 'close-button',
