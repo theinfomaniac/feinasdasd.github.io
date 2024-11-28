@@ -543,7 +543,6 @@
     
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
-                const correct = selectedQuestion.Correct1.toLowerCase() === answer.toLowerCase();
                 
                 const correctAnswers = selectedQuestion.Correct1.split('\n').map(a => a.trim().toLowerCase());
                 const correct = correctAnswers.includes(answer.toLowerCase());
