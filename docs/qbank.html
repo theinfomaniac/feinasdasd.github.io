@@ -48,7 +48,16 @@
             background: var(--glass-background);
             backdrop-filter: blur(10px);
             border-radius: 10px;
-            min-height: 600px; /* Made table longer */
+            display: block;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .question-table thead {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 255, 255, 0.1);
+            z-index: 10; /* Ensure it stays on top */
         }
         
         .question-table th {
@@ -140,6 +149,37 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+        }
+
+        .modal-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-arrow {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-arrow:hover {
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow img {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .nav-arrow:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .close-button {
@@ -345,6 +385,52 @@
         .export-button-answers {
             background: linear-gradient(45deg, var(--secondary-color), #27ae60);
             color: white;
+        }
+        .export-checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .export-checkbox-container input {
+            margin-right: 10px;
+        }
+        .pi-input-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .pi-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+        .question-with-image {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .question-image {
+            max-width: 200px; /* Adjust as needed */
+            max-height: 200px;
+            object-fit: contain;
+        }
+        
+        .question-image.left {
+            order: -1;
+        }
+        
+        .question-image.right {
+            order: 1;
         }
     </style>
 </head>
