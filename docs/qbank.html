@@ -411,8 +411,6 @@
             // New state for multi-select
             const [selectedQuestions, setSelectedQuestions] = useState(new Set());
             const [isSelectAllChecked, setIsSelectAllChecked] = useState(false);
-            
-        const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null);
     
             useEffect(() => {
                 fetchQuestions();
@@ -473,33 +471,6 @@
                     .filter(c => c.subject === selectedSubject && c.section === selectedSection)
                     .map(c => c.subsection))];
             };
-
-            const navigateQuestions = (direction) => {
-                if (selectedQuestion === null) return;
-                
-                const currentIndex = filteredQuestions.findIndex(q => q.ID === selectedQuestion.ID);
-                const newIndex = direction === 'forward' 
-                    ? (currentIndex + 1) % filteredQuestions.length
-                    : (currentIndex - 1 + filteredQuestions.length) % filteredQuestions.length;
-                
-                const newQuestion = filteredQuestions[newIndex];
-                setSelectedQuestion(newQuestion);
-                resetQuestion();
-            };
-
-            const determineMaxTries = (question) => {
-                const optionsCount = question.Options ? question.Options.split('\n').length : 0;
-                if (!question.Options) return 3; // Text input
-                switch (optionsCount) {
-                    case 2:
-                    case 3:
-                        return 1;
-                    case 4:
-                        return 2;
-                    default:
-                        return 3;
-                }
-            };
             
             const filteredQuestions = questions
                 .filter(q => {
@@ -543,27 +514,21 @@
     
             const handleSubmit = () => {
                 const answer = selectedQuestion.Options ? selectedOption : textAnswer;
-                
-                const correctAnswers = selectedQuestion.Correct1.split('\n').map(a => a.trim().toLowerCase());
-                const correct = correctAnswers.includes(answer.toLowerCase());
+                const correct = selectedQuestion.Correct1.toLowerCase() === answer.toLowerCase();
                 
                 setAttempts(prev => prev + 1);
                 
                 if (correct) {
                     setFeedback('Correct! Great job!');
                     setIsAnswered(true);
-                } else if (attempts >= maxTries - 1) {
-                    setFeedback(`Incorrect. Correct answer(s): ${selectedQuestion.Correct1}`);
+                } else if (attempts >= 2) {
+                    setFeedback(`Incorrect. The correct answer was: ${selectedQuestion.Correct1}`);
                     setIsAnswered(true);
                 } else {
                     setFeedback('Incorrect. Try again!');
                 }
             };
-
-            const handlePiButton = () => {
-                setTextAnswer(prev => prev + 'π');
-            };
-            
+    
             const resetQuestion = () => {
                 setSelectedOption('');
                 setTextAnswer('');
@@ -863,14 +828,7 @@
                         fontWeight: 'bold' 
                     }
                 }, `${selectedQuestions.size} question(s) selected`),
-                React.createElement('table', { 
-                    className: 'question-table', 
-                    style: { 
-                        height: '600px',  // Fixed height
-                        overflowY: 'auto', 
-                        display: 'block' 
-                    }
-                },
+                React.createElement('table', { className: 'question-table' },
                     React.createElement('thead', null,
                         React.createElement('tr', null,
                             React.createElement('th', { 
@@ -945,144 +903,30 @@
                                        
                 selectedQuestion && React.createElement('div', { className: 'modal' },
                     React.createElement('div', { className: 'modal-content' },
-                        React.createElement('div', { 
-                            style: { 
-                                position: 'absolute', 
-                                top: '50%', 
-                                width: '100%', 
-                                display: 'flex', 
-                                justifyContent: 'space-between',
-                                transform: 'translateY(-50%)',
-                                zIndex: 10
-                            }
-                        },
-                            // Backward Arrow
-                            React.createElement('button', {
-                                className: 'nav-button',
-                                onClick: () => navigateQuestions('backward'),
-                                style: { 
-                                    position: 'absolute', 
-                                    left: '-60px',
-                                    background: 'none',
-                                    border: 'none'
-                                }
-                            },
-                                React.createElement('img', {
-                                    src: 'qotdBackward.png',
-                                    alt: 'Previous',
-                                    style: { width: '48px', height: '48px' }
-                                })
-                            ),
-                            // Forward Arrow
-                            React.createElement('button', {
-                                className: 'nav-button',
-                                onClick: () => navigateQuestions('forward'),
-                                style: { 
-                                    position: 'absolute', 
-                                    right: '-60px',
-                                    background: 'none',
-                                    border: 'none'
-                                }
-                            },
-                                React.createElement('img', {
-                                    src: 'qotdForward.png',
-                                    alt: 'Next',
-                                    style: { width: '48px', height: '48px' }
-                                })
-                            )
-                        ),
                         React.createElement('button', {
                             className: 'close-button',
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
-
-                        React.createElement('div', { 
-                            style: { 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                marginBottom: '10px' 
-                            }
-                        },
-                            React.createElement('input', {
-                                type: 'checkbox',
-                                checked: selectedQuestions.has(selectedQuestion.ID),
-                                onChange: () => handleQuestionSelect(selectedQuestion.ID),
-                                style: { marginRight: '10px' }
-                            }),
-                            React.createElement('label', null, 'Select Question')
+                        React.createElement('div', { className: 'question-metadata' },
+                            `ID: ${selectedQuestion.ID} | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
                         ),
-                                        
-                        React.createElement('div', { 
-                            className: 'question-metadata',
-                            style: { display: 'flex', alignItems: 'center' }
-                        },
-                            `ID: `, 
-                            React.createElement('strong', null, selectedQuestion.ID),
-                            ` | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
-                        ),
-                        selectedQuestion.Question.includes("!!img=") ? 
-                            React.createElement('div', { 
-                                style: { 
-                                    display: 'flex', 
-                                    alignItems: 'center',
-                                    flexDirection: selectedQuestion.Question.includes("flow='LEFT'") ? 'row' : 'row-reverse'
-                                }
-                            },
-                                React.createElement('img', {
-                                    src: selectedQuestion.Question.match(/!!img='([^']+)'/)[1],
-                                    style: { 
-                                        maxWidth: '200px', 
-                                        margin: '10px',
-                                        order: selectedQuestion.Question.includes("flow='RIGHT'") ? 1 : 0
-                                    }
-                                }),
-                                React.createElement('h2', null, 
-                                    selectedQuestion.Question.replace(/!!img='[^']+'(\s*flow='[^']+')?!!/, '')
-                                )
-                            ) :
-                            React.createElement('h2', null, selectedQuestion.Question),
+                        React.createElement('h2', null, selectedQuestion.Question),
                         selectedQuestion.Options ? 
                             React.createElement('div', { className: 'options-container' },
-                                selectedQuestion.Options.split('\n').map(option => {
-                                    const optionWithImage = option.includes('https://');
-                                    return optionWithImage ? 
-                                        React.createElement('div', {
-                                            key: option,
-                                            className: `option ${selectedOption === option ? 'selected' : ''}`,
-                                            onClick: () => !isAnswered && setSelectedOption(option)
-                                        },
-                                            React.createElement('img', {
-                                                src: option.match(/(https:\/\/[^\s]+)/)[1],
-                                                style: { maxWidth: '100%', marginBottom: '10px' }
-                                            })
-                                        ) :
-                                        React.createElement('div', {
-                                            key: option,
-                                            className: `option ${selectedOption === option ? 'selected' : ''}`,
-                                            onClick: () => !isAnswered && setSelectedOption(option)
-                                        }, option)
-                                })
+                                selectedQuestion.Options.split('\n').map(option => 
+                                    React.createElement('div', {
+                                        key: option,
+                                        className: `option ${selectedOption === option ? 'selected' : ''}`,
+                                        onClick: () => !isAnswered && setSelectedOption(option)
+                                    }, option)
+                                )
                             ) :
-                            React.createElement('div', { style: { position: 'relative' } },
-                                React.createElement('textarea', {
-                                    value: textAnswer,
-                                    onChange: (e) => setTextAnswer(e.target.value),
-                                    disabled: isAnswered,
-                                    placeholder: 'Type your answer here...'
-                                }),
-                                React.createElement('button', {
-                                    onClick: handlePiButton,
-                                    style: {
-                                        position: 'absolute',
-                                        bottom: '10px',
-                                        right: '10px',
-                                        background: 'none',
-                                        border: '1px solid var(--primary-color)',
-                                        borderRadius: '5px',
-                                        padding: '5px'
-                                    }
-                                }, 'π')
-                            ),
+                            React.createElement('textarea', {
+                                value: textAnswer,
+                                onChange: (e) => setTextAnswer(e.target.value),
+                                disabled: isAnswered,
+                                placeholder: 'Type your answer here...'
+                            }),
                         React.createElement('button', {
                             className: 'submit-button',
                             onClick: handleSubmit,
