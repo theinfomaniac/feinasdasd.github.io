@@ -56,7 +56,7 @@
         .question-table thead {
             position: sticky;
             top: 0;
-            background: rgba(0, 255, 255, 0.1);
+            background: rgba(0, 255, 255, 1);
             z-index: 10; /* Ensure it stays on top */
         }
         
@@ -146,6 +146,7 @@
             padding: 2rem;
             max-width: 800px;
             width: 90%;
+            min-height: 80vh;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
@@ -500,6 +501,9 @@
 
             const [isInExportList, setIsInExportList] = useState(false);
             const [questionNavigationIndex, setQuestionNavigationIndex] = useState(0);
+
+            
+            const [isLoading, setIsLoading] = useState(true);
     
             useEffect(() => {
                 fetchQuestions();
@@ -531,7 +535,7 @@
                 }
             }
     
-            async function fetchQuestions() {
+             async function fetchQuestions() {
                 try {
                     const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
                     const data = await response.json();
@@ -540,6 +544,8 @@
                     }
                 } catch (error) {
                     console.error('Error fetching questions:', error);
+                } finally {
+                    setIsLoading(false); // Set loading to false when done
                 }
             }
     
@@ -981,14 +987,14 @@
                                     colSpan: 6,
                                     className: 'no-questions',
                                     style: { 
-                                        height: '500px',
-                                        verticalAlign: 'top',
-                                        paddingTop: '30px',
-                                        color: '#ff0000',
+                                        height: '100px', // Reduced height
+                                        verticalAlign: 'middle',
+                                        textAlign: 'center',
+                                        color: isLoading ? '#ffffff' : '#ff0000',
                                         fontSize: '1.5em',
                                         fontWeight: 'bold'
                                     }
-                                }, 'NO QUESTIONS FOUND')
+                                }, isLoading ? 'LOADING QUESTIONS' : 'NO QUESTIONS FOUND')
                             ) :
                             filteredQuestions.map(q => 
                                 React.createElement('tr', { key: q.ID },
@@ -1077,12 +1083,21 @@
                             className: `question-with-image ${selectedQuestion.Question.includes('!!img=') ? 'has-image' : ''}` 
                         },
                             // Image placement logic
-                            selectedQuestion.Question.includes('!!img=') && React.createElement('div', { 
-                                className: `question-image ${selectedQuestion.Question.includes('flow=\'LEFT\'') ? 'left' : 'right'}` 
+                            selectedQuestion.Question.includes('!!img=') && 
+                            React.createElement('div', { 
+                                className: 'question-image',
+                                style: {
+                                    margin: '20px 0',
+                                    textAlign: 'center'
+                                }
                             },
                                 React.createElement('img', { 
                                     src: selectedQuestion.Question.match(/!!img='([^']+)'/)[1],
-                                    alt: 'Question Image'
+                                    alt: 'Question Image',
+                                    style: {
+                                        maxWidth: '100%',
+                                        height: 'auto'
+                                    }
                                 })
                             ),
                             
@@ -1093,15 +1108,36 @@
                         ),
                         selectedQuestion.Options ? 
                             React.createElement('div', { className: 'options-container' },
-                                selectedQuestion.Options.split('\n')
-                                    .filter(option => !option.includes('!!img='))
-                                    .map(option => 
-                                        React.createElement('div', {
-                                            key: option,
-                                            className: `option ${selectedOption === option ? 'selected' : ''}`,
-                                            onClick: () => !isAnswered && setSelectedOption(option)
-                                        }, option)
-                                    )
+                                selectedQuestion.Options.split('\n').map(option => {
+                                    const hasImage = option.includes('!!img=');
+                                    const optionText = hasImage ? 
+                                        option.replace(/!!.*?!!/g, '').trim() : 
+                                        option;
+                                    const imgMatch = hasImage ? 
+                                        option.match(/!!img='([^']+)'/) : null;
+                                    
+                                    return React.createElement('div', {
+                                        key: option,
+                                        className: `option ${selectedOption === option ? 'selected' : ''}`,
+                                        onClick: () => !isAnswered && setSelectedOption(option),
+                                        style: { 
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            gap: '10px'
+                                        }
+                                    },
+                                        React.createElement('div', null, optionText),
+                                        imgMatch && React.createElement('img', {
+                                            src: imgMatch[1],
+                                            alt: 'Option Image',
+                                            style: {
+                                                maxWidth: '200px',
+                                                height: 'auto'
+                                            }
+                                        })
+                                    );
+                                })
                             ) :
                             React.createElement('div', { 
                                 style: { 
