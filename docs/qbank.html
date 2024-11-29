@@ -791,7 +791,7 @@
 
                 async function processImages(text) {
                     if (!text.includes('!!img=')) return text;
-                    
+                
                     const imgMatch = text.match(/!!img='([^']+)'/);
                     if (imgMatch) {
                         try {
@@ -803,22 +803,22 @@
                                 reader.onloadend = () => resolve(reader.result);
                                 reader.readAsDataURL(blob);
                             });
-                            
+                
+                            // Add the image to the PDF
                             const img = new Image();
                             await new Promise((resolve) => {
                                 img.onload = resolve;
                                 img.src = base64;
                             });
-                            
-                            // Calculate image dimensions (max width 150mm)
-                            const maxWidth = 150;
+                
+                            const maxWidth = 170; // Adjust the maximum width as needed
                             const aspectRatio = img.height / img.width;
                             const width = Math.min(maxWidth, img.width);
                             const height = width * aspectRatio;
-                            
+                
                             doc.addImage(base64, 'JPEG', 20, yOffset, width, height);
                             yOffset += height + 10;
-                            
+                
                             return text.replace(/!!img='[^']+'!!/, '').trim();
                         } catch (error) {
                             console.error('Error processing image:', error);
