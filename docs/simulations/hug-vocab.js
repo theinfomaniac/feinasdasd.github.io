@@ -1,4 +1,3 @@
-// Fetch vocabulary data
 const fetchVocabularyData = async () => {
     try {
         const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/e20fc709-853b-45be-aa86-8fd4ea90ef8a/Sheet1');
@@ -147,7 +146,6 @@ dropdownList.addEventListener('change', (e) => {
 
 flipButton.addEventListener('click', flipCard);
 
-// Initialize the game
 (async () => {
     vocabularyData = await fetchVocabularyData();
     updateDropdown('');
