@@ -823,7 +823,9 @@
                             return text.replace(/!!img='[^']+'!!/, '').trim();
                         } catch (error) {
                             console.error('Error processing image:', error);
-                            return text.replace(/!!img='[^']+'!!/, '[Image Error]').trim();
+                
+                            // Replace the image code with the message
+                            return text.replace(/!!img='[^']+'!!/, 'PDF IMAGE NOT LOADING. OPEN ID IN SITE').trim();
                         }
                     }
                     return text;
