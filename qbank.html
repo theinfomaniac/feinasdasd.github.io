@@ -550,16 +550,16 @@
     
              async function fetchQuestions() {
                 try {
-                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
+                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d8f-8528-286ad2cd4cf5/Sheet1');
                     const data = await response.json();
                     if (data.success) {
                         document.querySelector('table').style.display = 'block';
                         setQuestions(data.data);
                     }
+                    setIsLoading(false); // Explicitly set loading to false after fetch
                 } catch (error) {
                     console.error('Error fetching questions:', error);
-                } finally {
-                    // setIsLoading(false); // Set loading to false when done
+                    setIsLoading(false); // Ensure loading is set to false even on error
                 }
             }
     
