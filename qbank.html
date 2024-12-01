@@ -56,7 +56,7 @@
         .question-table thead {
             position: sticky;
             top: 0;
-            background: rgba(17, 50, 53, 1);
+            background: rgba(13, 36, 38, 1);
             z-index: 10; /* Ensure it stays on top */
         }
         
@@ -64,7 +64,7 @@
             padding: 20px 15px; /* Increased padding */
             text-align: left;
             border-bottom: 3px solid var(--primary-color); /* Stronger border */
-            background: rgba(0, 255, 255, 0.1); /* Subtle highlight */
+            background: rgba(13, 36, 38, 1);
             font-weight: 700;
             color: var(--primary-color);
             text-transform: uppercase;
@@ -429,6 +429,7 @@
         .question-with-image {
             display: flex;
             align-items: center;
+            text-align: left;
             gap: 15px;
         }
         
@@ -728,6 +729,7 @@
             }
             
             const exportQuestions = async (withAnswers = false) => {
+            const exportQuestions = async (withAnswers = false) => {
                 // Check if jsPDF is available
                 if (!window.jspdf || !window.jspdf.jsPDF) {
                     console.error('jsPDF not loaded');
@@ -881,7 +883,9 @@
                 
                     // Handle options or free response space
                     if (question.Options) {
-                        const options = question.Options.split('\n');
+                        const processedOptions = await Promise.all(
+                            question.Options.split('\n').map(async (option) => await processImages(option))
+                        );
                         const optionLetters = ['A', 'B', 'C', 'D', 'E'];
                         for (let i = 0; i < options.length; i++) {
                             const option = options[i];
@@ -914,6 +918,7 @@
                 
                     // Add spacing between questions
                     yOffset += 10;
+                }
                 }
             
                 // Generate filename with current date
@@ -1111,14 +1116,14 @@
                             // Centered question text
                             React.createElement('div', {
                                 className: `question-with-image ${selectedQuestion.Question.includes('!!img=') ? 'has-image' : ''}`,
-                                style: { textAlign: 'center' }
+                                style: { textAlign: 'left' }
                             },
                                 // Image placement logic
                                 selectedQuestion.Question.includes('!!img=') && React.createElement('div', {
                                     className: 'question-image',
                                     style: {
                                         margin: '20px 0',
-                                        textAlign: 'center'
+                                        textAlign: 'left'
                                     }
                                 },
                                     React.createElement('img', {
