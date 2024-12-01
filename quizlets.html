@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizlets</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href="../favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            height: 100vh;
+            background-color: #121212;
+            color: white;
+        }
+
+        .main-container {
+            display: flex;
+            height: 84.5vh;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            height: auto;
+            max-height: 84.5vh;
+            padding: 20px;
+        }
+
+        .subject-dropdown {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .subject-dropdown option {
+            background-color: #121212;
+            color: white;
+        }
+
+        .resources-grid {
+            margin-bottom: 20px;
+        }
+
+        .resource-title {
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            display: block;
+        }
+
+        .resource-title:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .active {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #ff0000;
+            font-weight: 900;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 82.5vh;
+            border: none;
+            border-radius: 5px;
+        }
+
+        header.glass-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .logo-container h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+        }
+
+        .glow-text {
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.8);
+        }
+
+        .section-title {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner-container"></div>
+    <header class="glass-header">
+        <div class="logo-container">
+            <h1 class="glow-text">Quizlet Study Flashcards</h1>
+        </div>
+        <div id="nav-container"></div>
+    </header>
+
+    <main class="fade-in main-container">
+        <div class="sidebar">
+            <select class="subject-dropdown" id="subjectFilter">
+                <option value="">--- Select Subject ---</option>
+                <option value="human-geo">AP Human Geography</option>
+                <option value="biology">Pre-AP Biology</option>
+                <option value="theater">Theater 1</option>
+                <option value="tech-theater">Tech Theater 1</option>
+                <option value="art">Art 1</option>
+                <option value="english">English 1</option>
+                <option value="algebra2">Algebra 2</option>
+                <option value="geometry">Geometry</option>
+                <option value="algebra1">Algebra 1</option>
+                <option value="comp-sci">Computer Science 1</option>
+                <option value="pe">PE / Health</option>
+                <option value="chemistry">Pre-AP Chemistry</option>
+                <option value="dance">Dance</option>
+                <option value="spanish1">Spanish I</option>
+                <option value="spanish2">Spanish II</option>
+                <option value="spanish3">Spanish III</option>
+                <option value="french1">French I</option>
+                <option value="french2">French II</option>
+                <option value="french3">French III</option>
+                <option value="baseball">UIL Baseball</option>
+                <option value="volleyball">UIL Volleyball</option>
+            </select>
+            <div class="resources-grid" id="resourcesContainer">
+                <h3 class="resource-title" data-subject="human-geo" data-url="https://quizlet.com/976376134/flashcards/embed?i=67xkhu&x=1jj1">Unit 1: Thinking Geographically (AP Human Geography)</h3>
+                <h3 class="resource-title" data-subject="human-geo" data-url="https://quizlet.com/976377490/flashcards/embed?i=67xkhu&x=1jj1">Unit 2: Population & Migration Patterns (AP Human Geography)</h3>
+                <h3 class="resource-title" data-subject="human-geo" data-url="https://quizlet.com/976378731/flashcards/embed?i=67xkhu&x=1jj1">Unit 3: Cultural Patterns & Processes (AP Human Geography)</h3>
+                <h3 class="resource-title" data-subject="human-geo" data-url="https://quizlet.com/976403405/flashcards/embed?i=67xkhu&x=1jj1">FRQ Guide (AP Human Geography)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/976391658/flashcards/embed?i=67xkhu&x=1jj1">'The Hot Zone' (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/976387393/flashcards/embed?i=67xkhu&x=1jj1">Lab Safety (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/976390044/flashcards/embed?i=67xkhu&x=1jj1">Units 1-2 Test (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/976393153/flashcards/embed?i=67xkhu&x=1jj1">Unit 3 Test (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/976396818/flashcards/embed?i=67xkhu&x=1jj1">Unit 4 Test (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/976400804/flashcards/embed?i=67xkhu&x=1jj1">Unit 5 Test (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="biology" data-url="https://quizlet.com/974474821/flashcards/embed?i=67xkhu&x=1jj1">Unit 6 Test (Pre-AP Biology)</h3>
+                <h3 class="resource-title" data-subject="geometry" data-url="https://quizlet.com/976788132/flashcards/embed?i=67xkhu&x=1jj1">Statistics in Geometry (Pre-AP Geometry)</h3>
+                <h3 class="resource-title" data-subject="comp-sci" data-url="https://quizlet.com/976698820/flashcards/embed?i=67xkhu&x=1jj1">Hardware & Number Systems (Computer Science 1)</h3>
+                <h3 class="resource-title" data-subject="comp-sci" data-url="https://quizlet.com/976705254/flashcards/embed?i=67xkhu&x=1jj1">The Basics of Java (Computer Science 1)</h3>
+                <h3 class="resource-title" data-subject="comp-sci" data-url="https://quizlet.com/976721034/flashcards/embed?i=67xkhu&x=1jj1">LEDs & Resistors (Computer Science 1)</h3>
+                <h3 class="resource-title" data-subject="english" data-url="https://quizlet.com/976723160/flashcards/embed?i=67xkhu&x=1jj1">The Odyssey (English 1)</h3>
+                <h3 class="resource-title" data-subject="pe" data-url="https://quizlet.com/976726452/flashcards/embed?i=67xkhu&x=1jj1">Components of Physical Fitness (Health)</h3>
+                <h3 class="resource-title" data-subject="pe" data-url="https://quizlet.com/976728451/flashcards/embed?i=67xkhu&x=1jj1">Basketball (Health)</h3>
+                <h3 class="resource-title" data-subject="theater" data-url="https://quizlet.com/976408079/flashcards/embed?i=67xkhu&x=1jj1">Parts of the Stage (Theatre)</h3>
+                <h3 class="resource-title" data-subject="tech-theater" data-url="https://quizlet.com/976410283/flashcards/embed?i=67xkhu&x=1jj1">Building Materials (Tech Theatre)</h3>
+            </div>
+            <div class="no-results hidden">NO MATCHING RESULTS</div>
+        </div>
+        <div class="content">
+            <iframe class="content-frame" id="contentFrame" src="about:blank"></iframe>   
+        </div>
+    </main>
+
+    <script>
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('../navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('../banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
+
+        // Function to filter resources by subject
+        function filterResources(subject) {
+            const resources = document.querySelectorAll('.resource-title');
+            const noResultsDiv = document.querySelector('.no-results');
+            let visibleCount = 0;
+
+            // If no subject is selected, show all resources and hide no results message
+            if (!subject) {
+                resources.forEach(resource => {
+                    resource.classList.remove('hidden');
+                });
+                noResultsDiv.classList.add('hidden');
+                return;
+            }
+
+            // Filter resources based on selected subject
+            resources.forEach(resource => {
+                if (resource.getAttribute('data-subject') === subject) {
+                    resource.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    resource.classList.add('hidden');
+                }
+            });
+
+            // Show/hide the "NO MATCHING RESULTS" message
+            if (visibleCount === 0) {
+                noResultsDiv.classList.remove('hidden');
+            } else {
+                noResultsDiv.classList.add('hidden');
+            }
+        }
+
+        // Function to highlight the clicked button and load URL into iframe
+        function handleResourceClick(event) {
+            const allTitles = document.querySelectorAll('.resource-title');
+            allTitles.forEach(title => title.classList.remove('active'));
+            event.target.classList.add('active');
+            const url = event.target.getAttribute('data-url');
+            document.getElementById('contentFrame').src = url;
+        }
+
+        // Add event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            loadBanner();
+
+            // Add event listener to subject dropdown
+            const subjectFilter = document.getElementById('subjectFilter');
+            subjectFilter.addEventListener('change', (event) => {
+                filterResources(event.target.value);
+            });
+
+            // Add event listener to each resource title
+            const resourceTitles = document.querySelectorAll('.resource-title');
+            resourceTitles.forEach(title => {
+                title.addEventListener('click', handleResourceClick);
+            });
+        });
+    </script>
+</body>
+</html>
