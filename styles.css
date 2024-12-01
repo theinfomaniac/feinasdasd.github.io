@@ -33,7 +33,7 @@ body {
     background: linear-gradient(135deg, #000000, #0A192F);
     background-color: var(--bg-color);
     color: var(--text-light);
-    min-height: 100vh;
+    min-height: 100%;
     transition: background-color 0.3s, color 0.3s;
     line-height: 1.6;
 }
