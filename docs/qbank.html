@@ -1094,7 +1094,7 @@
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
                             className: 'close-button',
-                            style: { position: 'absolute', top: '10px', right: '10px' },
+                            style: { position: 'absolute', top: '10px', right: '10px', zIndex: 10 },
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
 
@@ -1211,10 +1211,11 @@
                                 position: 'absolute', 
                                 top: '50%', 
                                 transform: 'translateY(-50%)',
-                                width: '100%',
+                                width: 'calc(100% - 20px)',
                                 display: 'flex',
                                 justifyContent: 'space-between',
-                                padding: '0 10px'
+                                padding: '0 10px',
+                                right: '10px'
                             }                           
                         },
                             React.createElement('button', {
