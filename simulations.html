@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulations</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
+    <link rel="icon" href="https://interlinkcvhs.org/favicon.png" type="image/png">
 </head>
 <body>
     <div id="banner-container"></div> <!-- Placeholder for banner -->
@@ -23,30 +23,30 @@
                 <div class="resource-card glass-effect">
                     <h3 class="resource-title">Human Geography Vocabulary</h3>
                     <p class="resource-description">A flashcard simulation with every human geography vocabulary term!</p>
-                    <a href="../simulations/hug-vocabulary.html" class="access-btn">OPEN SIMULATION</a>
+                    <a href="https://interlinkcvhs.org/simulations/hug-vocabulary.html" class="access-btn">OPEN SIMULATION</a>
                 </div>
             </div>
             <div class="resources-grid">
                 <div class="resource-card glass-effect">
                     <h3 class="resource-title">Transcription</h3>
                     <p class="resource-description">A simulation covering how DNA is copied to form RNA!</p>
-                    <a href="../simulations/transcription.html" class="access-btn">OPEN SIMULATION</a>
+                    <a href="https://interlinkcvhs.org/simulations/transcription.html" class="access-btn">OPEN SIMULATION</a>
                 </div>
 
                 <div class="resource-card glass-effect">
                     <h3 class="resource-title">Translation</h3>
                     <p class="resource-description">A simulation covering how RNA is complemented to form proteins!</p>
-                    <a href="../simulations/translation.html" class="access-btn">OPEN SIMULATION</a>
+                    <a href="https://interlinkcvhs.org/simulations/translation.html" class="access-btn">OPEN SIMULATION</a>
                 </div>
             </div>
         </div>
     </main>
-    <script src="script.js"></script>
+    <script src="https://interlinkcvhs.org/script.js"></script>
     <script>
         // Load navigation from nav.html
         async function loadNav() {
             try {
-                const response = await fetch('navnav.html');
+                const response = await fetch('https://interlinkcvhs.org/navnav.html');
                 const nav = await response.text();
                 document.getElementById('nav-container').innerHTML = nav;
             } catch (error) {
@@ -58,7 +58,7 @@
         // Function to load the banner
         async function loadBanner() {
             try {
-                const response = await fetch('banner.html');
+                const response = await fetch('https://interlinkcvhs.org/banner.html');
                 const bannerContent = await response.text();
                 document.getElementById('banner-container').innerHTML = bannerContent;
             } catch (error) {
