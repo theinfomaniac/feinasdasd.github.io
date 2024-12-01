@@ -70,6 +70,8 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 1.05em;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .question-table td {
@@ -138,7 +140,6 @@
             background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
-            align-items: center;
             z-index: 1000;
         }
         
@@ -161,10 +162,13 @@
             justify-content: center;
         }
 
+        .modal-content-wrapper {
+            border-radius: 10px;
+        }
+
         .modal-navigation {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             position: absolute;
             width: 90%;
             top: 50%;
@@ -195,7 +199,7 @@
         .close-button {
             position: absolute;
             top: 15px;
-            right: 15px;
+            right: 5px;
             background: none;
             border: none;
             color: white;
@@ -349,7 +353,6 @@
         .qotd-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
@@ -1007,16 +1010,21 @@
                         fontWeight: 'bold' 
                     }
                 }, `${selectedQuestions.size} question(s) selected`),
-                React.createElement('table', { className: 'question-table' },
+                React.createElement('table', { 
+                    className: 'question-table', 
+                    style: { width: '100%', tableLayout: 'fixed' } 
+                },
                     React.createElement('thead', null,
                         React.createElement('tr', null,
                             React.createElement('th', { 
                                 style: { 
                                     width: '50px', 
                                     textAlign: 'center', 
-                                    borderRight: '1px solid' 
+                                    borderRight: '1px solid' ,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
                                 }
-                            }, 
+                            },
                                 React.createElement('input', {
                                     type: 'checkbox',
                                     checked: isSelectAllChecked,
@@ -1024,11 +1032,11 @@
                                     style: { margin: 0 }
                                 })
                             ),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Section'),
-                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subsection'),
-                            React.createElement('th', null, '')
+                            React.createElement('th', { style: { width: '150px', borderRight: '1px solid var(--primary-color)' } }, 'ID'),
+                            React.createElement('th', { style: { width: '240px', borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
+                            React.createElement('th', { style: { width: '300px', borderRight: '1px solid var(--primary-color)' } }, 'Section'),
+                            React.createElement('th', { style: { width: '240px', borderRight: '1px solid var(--primary-color)' } }, 'Subsection'),
+                            React.createElement('th', { style: { width: '5%' } }, '')
                         )
                     ),
                     React.createElement('tbody', null,
@@ -1044,16 +1052,19 @@
                                         color: isLoading ? '#ffffff' : '#ff0000',
                                         fontSize: '1.5em',
                                         fontWeight: 'bold',
-                                        width: '100%' // Ensure full width
+                                        width: '100%', // Ensure full width
+                                        padding: '20px'
                                     }
-                                }, isLoading ? 'LOADING QUESTIONS' : 'NO QUESTIONS FOUND AT THE MOMENT ... COMING SOON')
+                                }, isLoading ? 'LOADING QUESTIONS...' : 'NO QUESTIONS FOUND AT THE MOMENT... COMING SOON')
                             ) :
                             filteredQuestions.map(q => 
                                 React.createElement('tr', { key: q.ID },
                                     React.createElement('td', { 
                                         style: { 
                                             textAlign: 'center', 
-                                            borderRight: '1px solid var(--glass-border)' 
+                                            borderRight: '1px solid var(--glass-border)' ,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
                                         }
                                     },
                                         React.createElement('input', {
@@ -1085,12 +1096,13 @@
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
                             className: 'close-button',
+                            style: { position: 'absolute', top: '10px', right: '10px', zIndex: 10 },
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
 
-                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' } },
+                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', left: '90px', position: 'relative' } },
                             // Centered question metadata
-                            React.createElement('div', { className: 'question-metadata', style: { textAlign: 'center' } },
+                            React.createElement('div', { className: 'question-metadata' },
                                 React.createElement('strong', null, selectedQuestion.ID),
                                 ` | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
                             ),
@@ -1196,9 +1208,21 @@
                             )
                         ),
                         // Navigation arrows
-                        React.createElement('div', { className: 'modal-navigation' },
+                        React.createElement('div', { className: 'modal-navigation',
+                            style: {
+                                position: 'absolute', 
+                                top: '50%', 
+                                transform: 'translateY(-50%)',
+                                width: 'calc(100% - 20px)',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                padding: '0 10px',
+                                right: '10px'
+                            }                           
+                        },
                             React.createElement('button', {
                                 className: 'nav-arrow nav-arrow-left',
+                                style: { position: 'relative' },
                                 onClick: () => navigateQuestions('backward')
                             },
                                 React.createElement('img', {
@@ -1210,6 +1234,7 @@
                             ),
                             React.createElement('button', {
                                 className: 'nav-arrow nav-arrow-right',
+                                style: { position: 'relative' },
                                 onClick: () => navigateQuestions('forward')
                             },
                                 React.createElement('img', {
