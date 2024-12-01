@@ -1094,7 +1094,7 @@
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
                             className: 'close-button',
-                            style: { right: '0px' },
+                            style: { position: 'absolute', top: '10px', right: '10px' },
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
 
@@ -1213,12 +1213,13 @@
                                 transform: 'translateY(-50%)',
                                 width: '100%',
                                 display: 'flex',
-                                justifyContent: 'space-between' 
+                                justifyContent: 'space-between',
+                                padding: '0 10px'
                             }                           
                         },
                             React.createElement('button', {
                                 className: 'nav-arrow nav-arrow-left',
-                                style: { left: '10px', position: 'relative' },
+                                style: { position: 'relative' },
                                 onClick: () => navigateQuestions('backward')
                             },
                                 React.createElement('img', {
@@ -1230,7 +1231,7 @@
                             ),
                             React.createElement('button', {
                                 className: 'nav-arrow nav-arrow-right',
-                                style: { right: '10px', position: 'relative' },
+                                style: { position: 'relative' },
                                 onClick: () => navigateQuestions('forward')
                             },
                                 React.createElement('img', {
