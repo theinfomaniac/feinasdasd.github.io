@@ -727,7 +727,7 @@
                 }
             }
             
-            const exportQuestions = (withAnswers = false) => {
+            const exportQuestions = async (withAnswers = false) => {
                 // Check if jsPDF is available
                 if (!window.jspdf || !window.jspdf.jsPDF) {
                     console.error('jsPDF not loaded');
@@ -793,23 +793,23 @@
                         return true;
                     }
                     return false;
-                }
+                } 
 
-                async function processImages(text) {
+                async function processImages(text, doc) {
                     if (!text.includes('!!img=')) return text;
-                
+
                     const imgMatch = text.match(/!!img='([^']+)'/);
                     if (imgMatch) {
                         try {
+                            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
                             const imgUrl = imgMatch[1];
-                            const response = await fetch(imgUrl);
+                            const response = await fetch(proxyUrl + imgUrl);
                             const blob = await response.blob();
                             const base64 = await new Promise((resolve) => {
                                 const reader = new FileReader();
                                 reader.onloadend = () => resolve(reader.result);
                                 reader.readAsDataURL(blob);
                             });
-                
                             // Add the image to the PDF
                             const img = new Image();
                             await new Promise((resolve) => {
@@ -817,7 +817,7 @@
                                 img.src = base64;
                             });
                 
-                            const maxWidth = 170; // Adjust the maximum width as needed
+                            const maxWidth = 75; // Adjust the maximum width as needed
                             const aspectRatio = img.height / img.width;
                             const width = Math.min(maxWidth, img.width);
                             const height = width * aspectRatio;
@@ -825,12 +825,12 @@
                             doc.addImage(base64, 'PNG', 20, yOffset, width, height);
                             yOffset += height + 10;
                 
-                            return text.replace(/!!img='[^']+'!!/, '').trim();
+                            return text.split("!!")[2]
                         } catch (error) {
                             console.error('Error processing image:', error);
                 
                             // Replace the image code with the message
-                            return text.replace(/!!img='[^']+'!!/, 'PDF IMAGE NOT LOADING. OPEN ID IN SITE').trim();
+                            return "BROKEN IMAGE";
                         }
                     }
                     return text;
@@ -839,57 +839,59 @@
                 // Process each selected question
                 const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
                 
-                selectedQuestionsList.forEach((question, index) => {
+                for (let index = 0; index < selectedQuestionsList.length; index++) {
+                    const question = selectedQuestionsList[index];
                     checkNewPage(60);
-            
+                
                     // Question number and ID - Bold, larger
                     doc.setFontSize(12);
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('courier', 'bold');
                     doc.text(`Question ${index + 1}`, 20, yOffset);
-                    
+                
                     // Add ID in bold next to question number
                     const idText = `[ID: ${question.ID}]`;
                     const questionNumWidth = doc.getTextWidth(`Question ${index + 1} `);
                     doc.text(idText, 20 + questionNumWidth + 5, yOffset);
                     yOffset += 5;
-            
+                
                     // Metadata box with improved styling
                     doc.setTextColor(100, 200, 255);
                     doc.setFontSize(8);
                     doc.setFont('courier', 'normal');
-                    
+                
                     // Draw box around metadata
                     const metadataText = `${question.Subject} | ${question.Section} | ${question.Subsection}`;
                     const metadataWidth = doc.getTextWidth(metadataText) + 6; // Add padding
                     doc.setDrawColor(100, 200, 255);
                     doc.rect(20, yOffset - 3, metadataWidth, 8);
-                    
+                
                     // Add metadata text
                     doc.text(metadataText, 23, yOffset + 2);
                     yOffset += 10;
-            
+                
                     // Question text - Clear, readable size
                     doc.setFontSize(11);
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('courier', 'normal');
-                    const questionLines = doc.splitTextToSize(question.Question, 170);
+                    const questionLines = doc.splitTextToSize(await processImages(question.Question, doc), 170);
                     checkNewPage(questionLines.length * 7);
                     doc.text(questionLines, 20, yOffset);
                     yOffset += questionLines.length * 7 + 5;
-            
+                
                     // Handle options or free response space
                     if (question.Options) {
                         const options = question.Options.split('\n');
                         const optionLetters = ['A', 'B', 'C', 'D', 'E'];
-                        options.forEach((option, index) => {
+                        for (let i = 0; i < options.length; i++) {
+                            const option = options[i];
                             checkNewPage(7);
                             // Add option letter and format consistently
-                            const fullOptionText = `${optionLetters[index]}) ${option.replace(/^[A-E]\)\s*/, '')}`;
+                            const fullOptionText = `${optionLetters[i]}) ${option.replace(/^[A-E]\)\s*/, '')}`;
                             doc.setFontSize(10);
                             doc.text(fullOptionText, 25, yOffset);
                             yOffset += 7;
-                        });
+                        }
                     } else {
                         // Add lines for free response
                         checkNewPage(21);
@@ -899,7 +901,7 @@
                             yOffset += 7;
                         }
                     }
-            
+                
                     // Add correct answer if requested
                     if (withAnswers) {
                         checkNewPage(10);
@@ -909,10 +911,10 @@
                         doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
                         yOffset += 10;
                     }
-            
+                
                     // Add spacing between questions
                     yOffset += 10;
-                });
+                }
             
                 // Generate filename with current date
                 const date = new Date().toISOString().split('T')[0];
@@ -1100,7 +1102,7 @@
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
 
-                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', left: '60px', position: 'relative' } },
+                        React.createElement('div', { className: 'modal-content-wrapper', style: {display: 'flex', flexDirection: 'column', position: 'relative', width: '90%'} },
                             // Centered question metadata
                             React.createElement('div', { className: 'question-metadata' },
                                 React.createElement('strong', null, selectedQuestion.ID),
@@ -1180,7 +1182,7 @@
                                         onChange: (e) => setTextAnswer(e.target.value),
                                         disabled: isAnswered,
                                         placeholder: 'Type your answer here...',
-                                        style: { flex: 1, maxWidth: '400px' } // Limit width of textarea
+                                        style: { flex: 1 } // Limit width of textarea
                                     }),
                                     React.createElement('button', {
                                         className: 'pi-input-button',
