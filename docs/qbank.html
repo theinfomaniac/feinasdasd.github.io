@@ -1080,10 +1080,11 @@
                     React.createElement('div', { className: 'modal-content' },
                         React.createElement('button', {
                             className: 'close-button',
+                            style: { left: '10px' },
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
 
-                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', left: '10px' } },
+                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', left: '40px', position: 'relative' } },
                             // Centered question metadata
                             React.createElement('div', { className: 'question-metadata' },
                                 React.createElement('strong', null, selectedQuestion.ID),
@@ -1191,9 +1192,19 @@
                             )
                         ),
                         // Navigation arrows
-                        React.createElement('div', { className: 'modal-navigation' },
+                        React.createElement('div', { className: 'modal-navigation',
+                            style: {
+                                position: 'absolute', 
+                                top: '50%', 
+                                transform: 'translateY(-50%)',
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'space-between' 
+                            }                           
+                        },
                             React.createElement('button', {
                                 className: 'nav-arrow nav-arrow-left',
+                                style: { left: '10px', position: 'relative' },
                                 onClick: () => navigateQuestions('backward')
                             },
                                 React.createElement('img', {
@@ -1205,6 +1216,7 @@
                             ),
                             React.createElement('button', {
                                 className: 'nav-arrow nav-arrow-right',
+                                style: { right: '10px', position: 'relative' },
                                 onClick: () => navigateQuestions('forward')
                             },
                                 React.createElement('img', {
