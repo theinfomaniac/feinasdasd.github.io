@@ -795,43 +795,15 @@
                 }
 
                 async function processImages(text) {
-                    if (!text.includes('!!img=')) return text;
-                
-                    const imgMatch = text.match(/!!img='([^']+)'/);
-                    if (imgMatch) {
-                        try {
-                            const imgUrl = imgMatch[1];
-                            const response = await fetch(imgUrl);
-                            const blob = await response.blob();
-                            const base64 = await new Promise((resolve) => {
-                                const reader = new FileReader();
-                                reader.onloadend = () => resolve(reader.result);
-                                reader.readAsDataURL(blob);
-                            });
-                
-                            // Add the image to the PDF
-                            const img = new Image();
-                            await new Promise((resolve) => {
-                                img.onload = resolve;
-                                img.src = base64;
-                            });
-                
-                            const maxWidth = 170; // Adjust the maximum width as needed
-                            const aspectRatio = img.height / img.width;
-                            const width = Math.min(maxWidth, img.width);
-                            const height = width * aspectRatio;
-                
-                            doc.addImage(base64, 'JPEG', 20, yOffset, width, height);
-                            yOffset += height + 10;
-                
-                            return text.replace(/!!img='[^']+'!!/, '').trim();
-                        } catch (error) {
-                            console.error('Error processing image:', error);
-                
-                            // Replace the image code with the message
-                            return text.replace(/!!img='[^']+'!!/, 'PDF IMAGE NOT LOADING. OPEN ID IN SITE').trim();
-                        }
+                    // Check if the text contains image URL with optional flow
+                    const imgRegex = /!!img='([^']+)'(,flow='[^']+')?!!/;
+                    const match = text.match(imgRegex);
+                    
+                    if (match) {
+                        // Replace the entire image tag with an error message
+                        return text.replace(imgRegex, '{PDF Image Integration Error-}').trim();
                     }
+                    
                     return text;
                 }
                 
