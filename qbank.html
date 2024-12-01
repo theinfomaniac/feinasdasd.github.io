@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -821,11 +822,55 @@
                             const aspectRatio = img.height / img.width;
                             const width = Math.min(maxWidth, img.width);
                             const height = width * aspectRatio;
-                
-                            doc.addImage(base64, 'PNG', 20, yOffset, width, height);
-                            yOffset += height + 10;
-                
-                            return text.split("!!")[2]
+                            
+                            yOffset -= 20;
+
+                            if (text.includes("flow='RIGHT'")) {
+                                doc.autoTable({
+                                    body: [[
+                                    { content: text.split("!!")[2], styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', font: 'courier', marginLeft: '40px' } },
+                                        { content: '', styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', padding: '0px' } },
+                                    ]],
+                                    startY: yOffset,
+                                    tableWidth: 'wrap',
+                                    margin: {left: 25, right: 0 },  
+                                    styles: {
+                                        lineColor: [255, 255, 255],
+                                        lineWidth: 0,
+                                        textColor: [255, 255, 255]
+                                    },
+                                    didDrawCell: function (data) {
+                                        if (data.column.index === 1) {
+                                            doc.addImage(base64, 'PNG', data.cell.x, data.cell.y, width, height);
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                doc.autoTable({
+                                    body: [[
+                                        { content: '', styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', padding: '0px' } },
+                                        { content: text.split("!!")[2], styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', font: 'courier', marginLeft: '40px' } }
+                                    ]],
+                                    startY: yOffset,
+                                    tableWidth: 'wrap',
+                                    margin: {left: 25, right: 0 },  
+                                    styles: {
+                                        lineColor: [255, 255, 255],
+                                        lineWidth: 0,
+                                        textColor: [255, 255, 255]
+                                    },
+                                    didDrawCell: function (data) {
+                                        if (data.column.index === 0) {
+                                            doc.addImage(base64, 'PNG', data.cell.x, data.cell.y, width, height);
+                                        }
+                                    }
+                                });
+                            }
+
+
+                            yOffset += height;
+                            return ""
                         } catch (error) {
                             console.error('Error processing image:', error);
                 
@@ -874,6 +919,8 @@
                     doc.setFontSize(11);
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('courier', 'normal');
+                    
+                    yOffset += 20; // Adjust yOffset after adding the table
                     const questionLines = doc.splitTextToSize(await processImages(question.Question, doc), 170);
                     checkNewPage(questionLines.length * 7);
                     doc.text(questionLines, 20, yOffset);
