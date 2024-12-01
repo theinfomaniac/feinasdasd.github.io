@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcription Simulation</title>
+    <!-- Link to Orbitron Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" href=".../favicon.png" type="image/png">
+    <style>
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #gameCanvas {
+            border: 2px solid var(--accent-color);
+            background: black;
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .controls-container {
+            display: flex;
+            justify-content: space-between;
+            width: 1200px;
+            margin-top: 20px;
+        }
+
+        .player-controls {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--accent-color);
+        }
+
+        .player-controls h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .control-key {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(33, 150, 243, 0.3);
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            color: white;
+            margin: 2px;
+        }
+
+        #gameOver {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .health-bars {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+            margin-bottom: 10px;
+        }
+
+        .health-bar {
+            width: 300px;
+            height: 20px;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3, #00FFFF);
+            transition: width 0.3s ease;
+        }
+
+        .player2-health .health-fill {
+            float: right;
+            background: linear-gradient(90deg, #FF00FF, #FF69B4);
+        }
+    </style>
+</head>
+<body>
+    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <header class="glass-header">
+        <div class="logo-container">
+            <h1 class="glow-text">Transcription Simulation</h1>
+        </div>
+        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+    </header>
+
+    <main class="fade-in">
+        <div class="game-container">
+            <canvas id="gameCanvas" width="1200" height="450"></canvas>
+            <center>
+                <h4></h4>
+                <h4></h4>
+                <h3 class="resource-title">Vocabulary</h3>
+                <p><strong>DNA:</strong> Deoxyribonucleic acid, the molecule that carries genetic instructions.</p>
+                <p><strong>RNA:</strong> Ribonucleic acid, involved in protein synthesis.</p>
+                <p><strong>mRNA:</strong> Messenger RNA, a copy of DNA used for protein synthesis.</p>
+                <p><strong>Nucleotide:</strong> Building blocks of DNA and RNA (A, T, C, G, U).</p>
+                <p><strong>Codon:</strong> A sequence of three nucleotides that specifies an amino acid.</p>
+            </center>
+        </div>
+    </main>
+    <script src=".../script.js"></script>
+    <script src="transcription.js"></script>
+    <script>
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('../navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('../banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
+
+        // Fetch assignments and load navigation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNav();
+            loadBanner();
+        });
+    </script>
+</body>
+</html>

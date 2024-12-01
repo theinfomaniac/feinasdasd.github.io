@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interlink QBank</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .question-table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .question-table thead {
+            position: sticky;
+            top: 0;
+            background: rgba(17, 50, 53, 1);
+            z-index: 10; /* Ensure it stays on top */
+        }
+        
+        .question-table th {
+            padding: 20px 15px; /* Increased padding */
+            text-align: left;
+            border-bottom: 3px solid var(--primary-color); /* Stronger border */
+            background: rgba(0, 255, 255, 0.1); /* Subtle highlight */
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.05em;
+        }
+        
+        .question-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .question-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .question-table tbody tr:hover {
+            background: rgba(0, 255, 255, 0.05);
+        }
+        
+        .no-questions {
+            color: var(--error-color);
+            font-weight: bold;
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2em;
+            width: 100%;
+        }
+        .search-container {
+            margin: 20px 0;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: white;
+            font-size: 16px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .view-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .view-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 800px;
+            width: 94%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 90%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-arrow {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-arrow:hover {
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow img {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .nav-arrow:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+        
+        /* Question View Styles */
+        .modal-content h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #FFFFFF;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 20px;
+        }
+        .question-metadata {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: var(--primary-color);
+        }
+        
+        .option {
+            display: block;
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .option:hover,
+        .option.selected {
+            background-color: rgba(0, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
+        }
+        
+        .submit-button {
+            margin-top: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+        
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 0.5rem;
+            font-size: 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            resize: none;
+            color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+        
+        .feedback.hidden {
+            opacity: 0;
+        }
+        
+        .attempts {
+            margin-top: 1rem;
+            text-align: center;
+            color: #888;
+        }
+        
+        /* Navigation Styles */
+        .nav-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-button img {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .nav-button:not(:disabled):hover {
+            transform: scale(1.1);
+        }
+        
+        .qotd-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 1rem;
+        }
+        .export-buttons-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        .export-button {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;  /* Added font-weight */
+        }
+        .export-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .export-button img {
+            width: 20px;
+            margin-right: 8px;
+        }
+        .export-button-questions {
+            background: linear-gradient(45deg, var(--primary-color), #2c3e50);
+            color: white;
+        }
+        .export-button-answers {
+            background: linear-gradient(45deg, var(--secondary-color), #27ae60);
+            color: white;
+        }
+        .export-checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .export-checkbox-container input {
+            margin-right: 10px;
+        }
+        .pi-input-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .pi-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+        .question-with-image {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .question-image {
+            max-width: 200px; /* Adjust as needed */
+            max-height: 200px;
+            object-fit: contain;
+        }
+        
+        .question-image.left {
+            order: -1;
+        }
+        
+        .question-image.right {
+            order: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner-container"></div>
+    <header class="glass-header">
+        <div class="logo-container">
+            <h1 class="glow-text">Question Bank</h1>
+        </div>
+        <div id="nav-container"></div>
+    </header>
+    <main class="fade-in">
+        <div class="games-container">
+            <h2 class="section-title glow-text">Practice Questions</h2>
+            <div id="root"></div>
+        </div>
+    </main>
+    
+    <div id="root"></div>
+    
+    <script type="module">
+        // Load navigation from nav.html
+        async function loadNav() {
+            try {
+                const response = await fetch('navnav.html');
+                const nav = await response.text();
+                document.getElementById('nav-container').innerHTML = nav;
+            } catch (error) {
+                console.error('Error loading navigation:', error);
+                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+            }
+        }
+    
+        // Function to load the banner
+        async function loadBanner() {
+            try {
+                const response = await fetch('banner.html');
+                const bannerContent = await response.text();
+                document.getElementById('banner-container').innerHTML = bannerContent;
+            } catch (error) {
+                console.error('Error loading banner:', error);
+                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+            }
+        }
+        
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        
+        function QuestionBank() {
+            const [questions, setQuestions] = useState([]);
+            const [categories, setCategories] = useState([]);
+            const [selectedSubject, setSelectedSubject] = useState('');
+            const [selectedSection, setSelectedSection] = useState('');
+            const [selectedSubsection, setSelectedSubsection] = useState('');
+            const [selectedQuestion, setSelectedQuestion] = useState(null);
+            const [feedback, setFeedback] = useState('');
+            const [attempts, setAttempts] = useState(0);
+            const [isAnswered, setIsAnswered] = useState(false);
+            const [selectedOption, setSelectedOption] = useState('');
+            const [textAnswer, setTextAnswer] = useState('');
+            const [categoryOrder, setCategoryOrder] = useState({});
+            const [searchQuery, setSearchQuery] = useState('');
+    
+            // New state for multi-select
+            const [selectedQuestions, setSelectedQuestions] = useState(new Set());
+            const [isSelectAllChecked, setIsSelectAllChecked] = useState(false);
+
+            const [isInExportList, setIsInExportList] = useState(false);
+            const [questionNavigationIndex, setQuestionNavigationIndex] = useState(0);
+
+            
+            const [isLoading, setIsLoading] = useState(true);
+    
+            useEffect(() => {
+                fetchQuestions();
+                fetchCategories();
+            }, []);
+    
+            async function fetchCategories() {
+                try {
+                    const response = await fetch('/subj-cat5.txt');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch categories');
+                    }
+                    const text = await response.text();
+                    const parsed = text.trim().split('\n').map((line, index) => {
+                        const [subject, section, subsection] = line.split(' | ');
+                        return { subject, section, subsection, order: index };
+                    });
+                    
+                    // Create order mapping
+                    const orderMap = {};
+                    parsed.forEach(({ subject, section, subsection, order }) => {
+                        orderMap[`${subject}|${section}|${subsection}`] = order;
+                    });
+                    setCategoryOrder(orderMap);
+                    setCategories(parsed);
+                } catch (error) {
+                    console.error('Error fetching categories:', error);
+                    setCategories([]);
+                }
+            }
+    
+             async function fetchQuestions() {
+                try {
+                    const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/0576df12-21e9-4d9f-8528-286ad2cd4cf5/Sheet1');
+                    const data = await response.json();
+                    if (data.success) {
+                        document.querySelector('table').style.display = 'block';
+                        setQuestions(data.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching questions:', error);
+                } finally {
+                    // setIsLoading(false); // Set loading to false when done
+                }
+            }
+    
+            const getSubjects = () => {
+                return ['---', ...new Set(categories.map(c => c.subject))];
+            };
+    
+            const getSections = () => {
+                if (!selectedSubject || selectedSubject === '---') return ['---'];
+                return ['---', ...new Set(categories
+                    .filter(c => c.subject === selectedSubject)
+                    .map(c => c.section))];
+            };
+    
+            const getSubsections = () => {
+                if (!selectedSection || selectedSection === '---') return ['---'];
+                return ['---', ...new Set(categories
+                    .filter(c => c.subject === selectedSubject && c.section === selectedSection)
+                    .map(c => c.subsection))];
+            };
+            
+            const filteredQuestions = questions
+                .filter(q => {
+                    const matchesCategories = (!selectedSubject || selectedSubject === '---' || q.Subject === selectedSubject) &&
+                           (!selectedSection || selectedSection === '---' || q.Section === selectedSection) &&
+                           (!selectedSubsection || selectedSubsection === '---' || q.Subsection === selectedSubsection);
+                    
+                    const matchesSearch = searchQuery === '' || 
+                        q.ID.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                    
+                    return matchesCategories && matchesSearch;
+                })
+                .sort((a, b) => {
+                    const keyA = `${a.Subject}|${a.Section}|${a.Subsection}`;
+                    const keyB = `${b.Subject}|${b.Section}|${b.Subsection}`;
+                    const orderA = categoryOrder[keyA] ?? Infinity;
+                    const orderB = categoryOrder[keyB] ?? Infinity;
+                    return orderA - orderB;
+                });
+
+            // Effect to manage selected questions based on filtered questions
+            useEffect(() => {
+                // Create a set of current filtered question IDs
+                const currentFilteredQuestionIds = new Set(filteredQuestions.map(q => q.ID));
+                
+                // Update selected questions to only keep those in the current filtered set
+                setSelectedQuestions(prev => {
+                    const updatedSelected = new Set(
+                        [...prev].filter(id => currentFilteredQuestionIds.has(id))
+                    );
+                    
+                    // Update select all checkbox
+                    setIsSelectAllChecked(
+                        updatedSelected.size > 0 && 
+                        updatedSelected.size === currentFilteredQuestionIds.size
+                    );
+                    
+                    return updatedSelected;
+                });
+            }, [selectedSubject, selectedSection, selectedSubsection, searchQuery, questions]);
+    
+            const handleSubmit = () => {
+                let maxAttempts;
+                
+                // Determine max attempts based on number of options or input type
+                if (selectedQuestion.Options) {
+                    const optionCount = selectedQuestion.Options.split('\n').length;
+                    if (optionCount <= 3) maxAttempts = 1;
+                    else if (optionCount === 4) maxAttempts = 2;
+                    else maxAttempts = 3;
+                } else {
+                    // Text input always gets 3 attempts
+                    maxAttempts = 3;
+                }
+        
+                const answer = selectedQuestion.Options ? selectedOption : textAnswer;
+                
+                // Handle multiple correct answers scenarios
+                const correctAnswers = selectedQuestion.Correct1.split('\n')
+                    .map(ans => ans.trim().toLowerCase());
+                
+                const correct = correctAnswers.includes(answer.toLowerCase());
+                
+                setAttempts(prev => prev + 1);
+                
+                if (correct) {
+                    setFeedback('Correct! Great job!');
+                    setIsAnswered(true);
+                } else if (attempts >= maxAttempts - 1) {
+                    setFeedback(`Incorrect. The correct answer was: ${selectedQuestion.Correct1}`);
+                    setIsAnswered(true);
+                } else {
+                    setFeedback('Incorrect. Try again!');
+                }
+            };
+
+            const navigateQuestions = (direction) => {
+                const currentIndex = filteredQuestions.findIndex(q => q.ID === selectedQuestion.ID);
+                let newIndex;
+                
+                if (direction === 'forward') {
+                    newIndex = (currentIndex + 1) % filteredQuestions.length;
+                } else {
+                    newIndex = (currentIndex - 1 + filteredQuestions.length) % filteredQuestions.length;
+                }
+                
+                const newQuestion = filteredQuestions[newIndex];
+                setSelectedQuestion(newQuestion);
+                resetQuestion();
+            };
+    
+            const resetQuestion = () => {
+                setSelectedOption('');
+                setTextAnswer('');
+                setFeedback('');
+                setAttempts(0);
+                setIsAnswered(false);
+            };
+
+            const handleQuestionSelect = (questionId) => {
+                setSelectedQuestions(prev => {
+                    const newSelectedQuestions = new Set(prev);
+                    if (newSelectedQuestions.has(questionId)) {
+                        newSelectedQuestions.delete(questionId);
+                    } else {
+                        newSelectedQuestions.add(questionId);
+                    }
+                    
+                    // Update select all checkbox
+                    setIsSelectAllChecked(
+                        newSelectedQuestions.size > 0 && 
+                        newSelectedQuestions.size === filteredQuestions.length
+                    );
+                    
+                    return newSelectedQuestions;
+                });
+            };
+            
+            const handleSelectAll = () => {
+                if (isSelectAllChecked) {
+                    // Deselect all
+                    setSelectedQuestions(new Set());
+                    setIsSelectAllChecked(false);
+                } else {
+                    // Select all currently filtered questions
+                    const allQuestionIds = new Set(filteredQuestions.map(q => q.ID));
+                    setSelectedQuestions(allQuestionIds);
+                    setIsSelectAllChecked(true);
+                }
+            };
+
+            function addFavicon(doc) {
+                try {
+                    const imgData = 'favicon.png';
+                    const imgProps = doc.getImageProperties(imgData);
+                    
+                    // Significantly reduce size
+                    const imgWidth = 15; // Much smaller
+                    const imgHeight = (imgProps.height / imgProps.width) * imgWidth;
+                    
+                    // Position in header
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    doc.addImage(imgData, 'PNG', pageWidth - 25, 10, imgWidth, imgHeight);
+                } catch (error) {
+                    console.error('Error adding favicon:', error);
+                }
+            }
+            
+            const exportQuestions = (withAnswers = false) => {
+                // Check if jsPDF is available
+                if (!window.jspdf || !window.jspdf.jsPDF) {
+                    console.error('jsPDF not loaded');
+                    return;
+                }
+            
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+            
+                doc.setFont('courier');
+                
+                // Utility function to add background
+                function addPageBackground(doc) {
+                    doc.setFillColor(20, 20, 40); // Dark blue background
+                    doc.rect(0, 0, 210, 297, 'F');
+                }
+            
+                // Enhanced header function with better typography
+                function addHeader(doc, withAnswers, pageNum) {
+                    addPageBackground(doc);
+                    
+                    // Main title - Large, bold
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont('courier', 'bold');
+                    doc.setFontSize(18);
+                    doc.text('Interlink CVHS QBank', 20, 20);
+                    
+                    // URL with styled link
+                    doc.setFont('courier', 'normal');
+                    doc.setFontSize(10);
+                    const url = 'https://interlinkcvhs.org';
+                    doc.setTextColor(100, 200, 255);
+                    doc.textWithLink(url, 35, 26, {
+                        url: url,
+                        underline: true
+                    });
+                    
+                    // Page number - Small, normal weight
+                    doc.setFont('courier', 'normal');
+                    doc.setFontSize(8);
+                    doc.text(`Page ${pageNum}`, 180, 290);
+                
+                    addFavicon(doc);
+                }
+            
+                let currentPage = 1;
+                let yOffset = 40;
+                const pageHeight = 270;
+            
+                // Add first page header
+                addHeader(doc, withAnswers, currentPage);
+            
+                function checkNewPage(requiredSpace) {
+                    if (yOffset + requiredSpace > pageHeight) {
+                        doc.addPage();
+                        currentPage++;
+                        addHeader(doc, withAnswers, currentPage);
+                        yOffset = 40;
+                        return true;
+                    }
+                    return false;
+                }
+
+                async function processImages(text) {
+                    if (!text.includes('!!img=')) return text;
+                
+                    const imgMatch = text.match(/!!img='([^']+)'/);
+                    if (imgMatch) {
+                        try {
+                            const imgUrl = imgMatch[1];
+                            const response = await fetch(imgUrl);
+                            const blob = await response.blob();
+                            const base64 = await new Promise((resolve) => {
+                                const reader = new FileReader();
+                                reader.onloadend = () => resolve(reader.result);
+                                reader.readAsDataURL(blob);
+                            });
+                
+                            // Add the image to the PDF
+                            const img = new Image();
+                            await new Promise((resolve) => {
+                                img.onload = resolve;
+                                img.src = base64;
+                            });
+                
+                            const maxWidth = 170; // Adjust the maximum width as needed
+                            const aspectRatio = img.height / img.width;
+                            const width = Math.min(maxWidth, img.width);
+                            const height = width * aspectRatio;
+                
+                            doc.addImage(base64, 'PNG', 20, yOffset, width, height);
+                            yOffset += height + 10;
+                
+                            return text.replace(/!!img='[^']+'!!/, '').trim();
+                        } catch (error) {
+                            console.error('Error processing image:', error);
+                
+                            // Replace the image code with the message
+                            return text.replace(/!!img='[^']+'!!/, 'PDF IMAGE NOT LOADING. OPEN ID IN SITE').trim();
+                        }
+                    }
+                    return text;
+                }
+                
+                // Process each selected question
+                const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
+                
+                selectedQuestionsList.forEach((question, index) => {
+                    checkNewPage(60);
+            
+                    // Question number and ID - Bold, larger
+                    doc.setFontSize(12);
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont('courier', 'bold');
+                    doc.text(`Question ${index + 1}`, 20, yOffset);
+                    
+                    // Add ID in bold next to question number
+                    const idText = `[ID: ${question.ID}]`;
+                    const questionNumWidth = doc.getTextWidth(`Question ${index + 1} `);
+                    doc.text(idText, 20 + questionNumWidth + 5, yOffset);
+                    yOffset += 5;
+            
+                    // Metadata box with improved styling
+                    doc.setTextColor(100, 200, 255);
+                    doc.setFontSize(8);
+                    doc.setFont('courier', 'normal');
+                    
+                    // Draw box around metadata
+                    const metadataText = `${question.Subject} | ${question.Section} | ${question.Subsection}`;
+                    const metadataWidth = doc.getTextWidth(metadataText) + 6; // Add padding
+                    doc.setDrawColor(100, 200, 255);
+                    doc.rect(20, yOffset - 3, metadataWidth, 8);
+                    
+                    // Add metadata text
+                    doc.text(metadataText, 23, yOffset + 2);
+                    yOffset += 10;
+            
+                    // Question text - Clear, readable size
+                    doc.setFontSize(11);
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont('courier', 'normal');
+                    const questionLines = doc.splitTextToSize(question.Question, 170);
+                    checkNewPage(questionLines.length * 7);
+                    doc.text(questionLines, 20, yOffset);
+                    yOffset += questionLines.length * 7 + 5;
+            
+                    // Handle options or free response space
+                    if (question.Options) {
+                        const options = question.Options.split('\n');
+                        const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                        options.forEach((option, index) => {
+                            checkNewPage(7);
+                            // Add option letter and format consistently
+                            const fullOptionText = `${optionLetters[index]}) ${option.replace(/^[A-E]\)\s*/, '')}`;
+                            doc.setFontSize(10);
+                            doc.text(fullOptionText, 25, yOffset);
+                            yOffset += 7;
+                        });
+                    } else {
+                        // Add lines for free response
+                        checkNewPage(21);
+                        for (let i = 0; i < 3; i++) {
+                            doc.setDrawColor(100, 200, 255);
+                            doc.line(25, yOffset, 185, yOffset);
+                            yOffset += 7;
+                        }
+                    }
+            
+                    // Add correct answer if requested
+                    if (withAnswers) {
+                        checkNewPage(10);
+                        doc.setTextColor(0, 255, 0);
+                        doc.setFont('courier', 'bold');
+                        doc.setFontSize(11);
+                        doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
+                        yOffset += 10;
+                    }
+            
+                    // Add spacing between questions
+                    yOffset += 10;
+                });
+            
+                // Generate filename with current date
+                const date = new Date().toISOString().split('T')[0];
+                const filename = `InterlinkCVHS_QBank_${date}_${withAnswers ? 'with_answers' : 'questions'}.pdf`;
+            
+                // Save the PDF
+                try {
+                    doc.save(filename);
+                } catch (error) {
+                    console.error('Error saving PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                }
+            };
+            
+            return React.createElement('div', { className: 'container' },
+                React.createElement('div', { 
+                    className: 'export-buttons-container',
+                    style: { 
+                        display: 'flex', 
+                        justifyContent: 'center', 
+                        gap: '20px', 
+                        width: '100%' 
+                    }
+                },
+                    React.createElement('button', {
+                        className: 'export-button export-button-questions',
+                        style: { flex: '0 0 49%' }, 
+                        fontSize: '16px',
+                        onClick: () => exportQuestions(false),
+                        disabled: selectedQuestions.size === 0
+                    }, 
+                        React.createElement('img', {
+                            src: 'qbankExport.png',
+                            alt: 'Export',
+                            style: { width: '20px', marginRight: '8px' }
+                        }),
+                        'Export Questions'
+                    ),
+                    React.createElement('button', {
+                        className: 'export-button export-button-answers',
+                        style: { flex: '0 0 49%' }, 
+                        fontSize: '16px',
+                        onClick: () => exportQuestions(true),
+                        disabled: selectedQuestions.size === 0
+                    }, 
+                        React.createElement('img', {
+                            src: 'qbankExport.png',
+                            alt: 'Export with Answers',
+                            style: { width: '20px', marginRight: '8px' }
+                        }),
+                        'Export with Answers'
+                    )
+                ),
+                React.createElement('div', { className: 'filters' },
+                    React.createElement('select', {
+                        value: selectedSubject,
+                        onChange: (e) => {
+                            setSelectedSubject(e.target.value);
+                            setSelectedSection('');
+                            setSelectedSubsection('');
+                        }
+                    }, getSubjects().map(subject => 
+                        React.createElement('option', { key: subject, value: subject }, subject)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSection,
+                        onChange: (e) => {
+                            setSelectedSection(e.target.value);
+                            setSelectedSubsection('');
+                        }
+                    }, getSections().map(section => 
+                        React.createElement('option', { key: section, value: section }, section)
+                    )),
+                    React.createElement('select', {
+                        value: selectedSubsection,
+                        onChange: (e) => setSelectedSubsection(e.target.value)
+                    }, getSubsections().map(subsection => 
+                        React.createElement('option', { key: subsection, value: subsection }, subsection)
+                    ))
+                ),
+                React.createElement('div', { className: 'search-container' },
+                    React.createElement('input', {
+                        type: 'text',
+                        className: 'search-input',
+                        placeholder: 'Search by ID...',
+                        value: searchQuery,
+                        onChange: (e) => setSearchQuery(e.target.value)
+                    })
+                ),
+                filteredQuestions.length > 0 && selectedQuestions.size > 0 && 
+                React.createElement('div', { 
+                    style: { 
+                        marginTop: '10px', 
+                        color: 'var(--primary-color)', 
+                        fontWeight: 'bold' 
+                    }
+                }, `${selectedQuestions.size} question(s) selected`),
+                React.createElement('table', { className: 'question-table' },
+                    React.createElement('thead', null,
+                        React.createElement('tr', null,
+                            React.createElement('th', { 
+                                style: { 
+                                    width: '50px', 
+                                    textAlign: 'center', 
+                                    borderRight: '1px solid' 
+                                }
+                            }, 
+                                React.createElement('input', {
+                                    type: 'checkbox',
+                                    checked: isSelectAllChecked,
+                                    onChange: handleSelectAll,
+                                    style: { margin: 0 }
+                                })
+                            ),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'ID'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subject'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Section'),
+                            React.createElement('th', { style: { borderRight: '1px solid var(--primary-color)' } }, 'Subsection'),
+                            React.createElement('th', null, '')
+                        )
+                    ),
+                    React.createElement('tbody', null,
+                        filteredQuestions.length === 0 ?
+                            React.createElement('tr', null,
+                                React.createElement('td', {
+                                    colSpan: 6,
+                                    className: 'no-questions',
+                                    style: { 
+                                        height: '100px',
+                                        verticalAlign: 'middle',
+                                        textAlign: 'center',
+                                        color: isLoading ? '#ffffff' : '#ff0000',
+                                        fontSize: '1.5em',
+                                        fontWeight: 'bold',
+                                        width: '100%' // Ensure full width
+                                    }
+                                }, isLoading ? 'LOADING QUESTIONS' : 'NO QUESTIONS FOUND AT THE MOMENT ... COMING SOON')
+                            ) :
+                            filteredQuestions.map(q => 
+                                React.createElement('tr', { key: q.ID },
+                                    React.createElement('td', { 
+                                        style: { 
+                                            textAlign: 'center', 
+                                            borderRight: '1px solid var(--glass-border)' 
+                                        }
+                                    },
+                                        React.createElement('input', {
+                                            type: 'checkbox',
+                                            checked: selectedQuestions.has(q.ID),
+                                            onChange: () => handleQuestionSelect(q.ID),
+                                            style: { margin: 0 }
+                                        })
+                                    ),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.ID),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subject),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Section),
+                                    React.createElement('td', { style: { borderRight: '1px solid var(--glass-border)' } }, q.Subsection),
+                                    React.createElement('td', null,
+                                        React.createElement('button', {
+                                            className: 'view-button',
+                                            onClick: () => {
+                                                setSelectedQuestion(q);
+                                                resetQuestion();
+                                            }
+                                        }, 'VIEW')
+                                    )
+                                )
+                            )
+                    )
+                ),
+                                       
+                selectedQuestion && React.createElement('div', {className: 'modal' },
+                    React.createElement('div', { className: 'modal-content' },
+                        React.createElement('button', {
+                            className: 'close-button',
+                            onClick: () => setSelectedQuestion(null)
+                        }, '×'),
+
+                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' } },
+                            // Centered question metadata
+                            React.createElement('div', { className: 'question-metadata', style: { textAlign: 'center' } },
+                                React.createElement('strong', null, selectedQuestion.ID),
+                                ` | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
+                            ),
+                            // Centered question text
+                            React.createElement('div', {
+                                className: `question-with-image ${selectedQuestion.Question.includes('!!img=') ? 'has-image' : ''}`,
+                                style: { textAlign: 'center' }
+                            },
+                                // Image placement logic
+                                selectedQuestion.Question.includes('!!img=') && React.createElement('div', {
+                                    className: 'question-image',
+                                    style: {
+                                        margin: '20px 0',
+                                        textAlign: 'center'
+                                    }
+                                },
+                                    React.createElement('img', {
+                                        src: selectedQuestion.Question.match(/!!img='([^']+)'/)[1],
+                                        alt: 'Question Image',
+                                        style: {
+                                            maxWidth: '100%',
+                                            height: 'auto'
+                                        }
+                                    })
+                                ),
+                                React.createElement('h2', null,
+                                    selectedQuestion.Question.replace(/!!.*?!!/, '').trim()
+                                )
+                            ),
+                                            
+                            selectedQuestion.Options ?
+                                React.createElement('div', { className: 'options-container', style: { textAlign: 'left' } },
+                                    selectedQuestion.Options.split('\n').map(option => {
+                                        const hasImage = option.includes('!!img=');
+                                        const optionText = hasImage ?
+                                            option.replace(/!!.*?!!/g, '').trim() :
+                                            option;
+                                        const imgMatch = hasImage ?
+                                            option.match(/!!img='([^']+)'!!flow='RIGHT'/) : // Check for 'flow='RIGHT'' directive
+                                            null;
+                            
+                                        return React.createElement('div', {
+                                            key: option,
+                                            className: `option ${selectedOption === option ? 'selected' : ''}`,
+                                            onClick: () => !isAnswered && setSelectedOption(option),
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: imgMatch ? 'space-between' : 'flex-start', // Align items based on image presence
+                                                gap: '10px'
+                                            }
+                                        },
+                                            React.createElement('div', null, optionText),
+                                            imgMatch && React.createElement('img', {
+                                                src: imgMatch[1],
+                                                alt: 'Option Image',
+                                                style: {
+                                                    maxWidth: '200px',
+                                                    height: 'auto',
+                                                    marginLeft: imgMatch ? '10px' : '0' // Add left margin if image is on the right
+                                                }
+                                            })
+                                        );
+                                    })
+                                ) :
+                                React.createElement('div', {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }
+                                },
+                                    React.createElement('textarea', {
+                                        value: textAnswer,
+                                        onChange: (e) => setTextAnswer(e.target.value),
+                                        disabled: isAnswered,
+                                        placeholder: 'Type your answer here...',
+                                        style: { flex: 1, maxWidth: '400px' } // Limit width of textarea
+                                    }),
+                                    React.createElement('button', {
+                                        className: 'pi-input-button',
+                                        onClick: () => setTextAnswer(prev => prev + 'π'),
+                                        style: { marginLeft: '10px' } // Add some spacing between textarea and button
+                                    }, 'π')
+                                ),
+                            // Centered submit button
+                            React.createElement('button', {
+                                className: 'submit-button',
+                                onClick: handleSubmit,
+                                disabled: isAnswered,
+                                style: { marginTop: '20px' }
+                            }, 'Submit'),
+                            feedback && React.createElement('div', {
+                                className: `feedback ${feedback.includes('Correct') ? 'correct' : 'incorrect'}`,
+                                style: { marginTop: '20px' }
+                            }, feedback),
+                            React.createElement('div', { className: 'attempts', style: { marginTop: '10px' } },
+                                `Attempts: ${attempts}/` +
+                                (selectedQuestion.Options
+                                    ? (selectedQuestion.Options.split('\n').length <= 3 ? 1
+                                        : (selectedQuestion.Options.split('\n').length === 4 ? 2 : 3))
+                                    : 3)
+                            )
+                        ),
+                        // Navigation arrows
+                        React.createElement('div', { className: 'modal-navigation' },
+                            React.createElement('button', {
+                                className: 'nav-arrow nav-arrow-left',
+                                onClick: () => navigateQuestions('backward')
+                            },
+                                React.createElement('img', {
+                                    src: 'qotdBackward.png',
+                                    alt: 'Previous Question',
+                                    onMouseOver: (e) => e.target.src = 'qotdBackwardHover.png',
+                                    onMouseOut: (e) => e.target.src = 'qotdBackward.png'
+                                })
+                            ),
+                            React.createElement('button', {
+                                className: 'nav-arrow nav-arrow-right',
+                                onClick: () => navigateQuestions('forward')
+                            },
+                                React.createElement('img', {
+                                    src: 'qotdForward.png',
+                                    alt: 'Next Question',
+                                    onMouseOver: (e) => e.target.src = 'qotdForwardHover.png',
+                                    onMouseOut: (e) => e.target.src = 'qotdForward.png'
+                                })
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    
+        const root = createRoot(document.getElementById('root'));
+        root.render(React.createElement(QuestionBank));
+    
+        // Load navigation and banner
+        loadNav();
+        loadBanner();
+    </script>
+</body>
+</html>
