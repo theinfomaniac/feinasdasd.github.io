@@ -802,9 +802,8 @@
                     const imgMatch = text.match(/!!img='([^']+)'/);
                     if (imgMatch) {
                         try {
-                            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
                             const imgUrl = imgMatch[1];
-                            const response = await fetch(proxyUrl + imgUrl);
+                            const response = await fetch(imgUrl);
                             const blob = await response.blob();
                             const base64 = await new Promise((resolve) => {
                                 const reader = new FileReader();
