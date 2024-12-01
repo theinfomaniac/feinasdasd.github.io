@@ -1083,9 +1083,9 @@
                             onClick: () => setSelectedQuestion(null)
                         }, '×'),
 
-                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column' } },
+                        React.createElement('div', { className: 'modal-content-wrapper', style: { width: '90%', display: 'flex', flexDirection: 'column', left: '10px' } },
                             // Centered question metadata
-                            React.createElement('div', { className: 'question-metadata', style: { textAlign: 'center' } },
+                            React.createElement('div', { className: 'question-metadata' },
                                 React.createElement('strong', null, selectedQuestion.ID),
                                 ` | ${selectedQuestion.Subject} | ${selectedQuestion.Section} | ${selectedQuestion.Subsection}`
                             ),
