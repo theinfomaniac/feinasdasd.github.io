@@ -726,7 +726,7 @@
                 }
             }
             
-            const exportQuestions = (withAnswers = false) => {
+            const exportQuestions = async (withAnswers = false) => {
                 // Check if jsPDF is available
                 if (!window.jspdf || !window.jspdf.jsPDF) {
                     console.error('jsPDF not loaded');
@@ -793,14 +793,13 @@
                     }
                     return false;
                 }
-
+            
                 async function processImages(text) {
-                    // Check if the text contains image URL with optional flow
                     const imgRegex = /!!img='([^']+)'(,flow='[^']+')?!!/;
                     const match = text.match(imgRegex);
                     
                     if (match) {
-                        // Replace the entire image tag with an error message
+                        // Replace the entire image tag with the error text
                         return text.replace(imgRegex, '{PDF Image Integration Error-}').trim();
                     }
                     
@@ -810,7 +809,7 @@
                 // Process each selected question
                 const selectedQuestionsList = filteredQuestions.filter(q => selectedQuestions.has(q.ID));
                 
-                selectedQuestionsList.forEach((question, index) => {
+                for (const [index, question] of selectedQuestionsList.entries()) {
                     checkNewPage(60);
             
                     // Question number and ID - Bold, larger
@@ -840,20 +839,25 @@
                     doc.text(metadataText, 23, yOffset + 2);
                     yOffset += 10;
             
+                    // Process question text to handle image tags
+                    const processedQuestionText = await processImages(question.Question);
+                    
                     // Question text - Clear, readable size
                     doc.setFontSize(11);
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('courier', 'normal');
-                    const questionLines = doc.splitTextToSize(question.Question, 170);
+                    const questionLines = doc.splitTextToSize(processedQuestionText, 170);
                     checkNewPage(questionLines.length * 7);
                     doc.text(questionLines, 20, yOffset);
                     yOffset += questionLines.length * 7 + 5;
             
                     // Handle options or free response space
                     if (question.Options) {
-                        const options = question.Options.split('\n');
+                        const processedOptions = await Promise.all(
+                            question.Options.split('\n').map(async (option) => await processImages(option))
+                        );
                         const optionLetters = ['A', 'B', 'C', 'D', 'E'];
-                        options.forEach((option, index) => {
+                        processedOptions.forEach((option, index) => {
                             checkNewPage(7);
                             // Add option letter and format consistently
                             const fullOptionText = `${optionLetters[index]}) ${option.replace(/^[A-E]\)\s*/, '')}`;
@@ -883,7 +887,7 @@
             
                     // Add spacing between questions
                     yOffset += 10;
-                });
+                }
             
                 // Generate filename with current date
                 const date = new Date().toISOString().split('T')[0];
