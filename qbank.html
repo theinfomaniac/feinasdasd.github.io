@@ -506,7 +506,9 @@
             const [selectedOption, setSelectedOption] = useState('');
             const [textAnswer, setTextAnswer] = useState('');
             const [categoryOrder, setCategoryOrder] = useState({});
-            const [searchQuery, setSearchQuery] = useState('');
+            const [searchQuery, setSearchQuery] = useState('');   
+            
+            const [isFirstLoad, setIsFirstLoad] = useState(true);
     
             // New state for multi-select
             const [selectedQuestions, setSelectedQuestions] = useState(new Set());
@@ -555,17 +557,17 @@
                     if (data.success) {
                         document.querySelector('table').style.display = 'block';
                         setQuestions(data.data);
+                        
+                        // Set first load to false after successful data fetch
+                        setIsFirstLoad(false);
                     }
                 } catch (error) {
                     console.error('Error fetching questions:', error);
-                } finally {
-                    // setIsLoading(false); // Set loading to false when done
+                    
+                    // Set first load to false even if fetch fails
+                    setIsFirstLoad(false);
                 }
             }
-    
-            const getSubjects = () => {
-                return ['---', ...new Set(categories.map(c => c.subject))];
-            };
     
             const getSections = () => {
                 if (!selectedSubject || selectedSubject === '---') return ['---'];
@@ -1094,7 +1096,7 @@
                                         height: '100px',
                                         verticalAlign: 'middle',
                                         textAlign: 'center',
-                                        color: isLoading ? '#ffffff' : '#ff0000',
+                                        color: isFirstLoad ? '#ffffff' : '#ff0000',
                                         fontSize: '1.5em',
                                         fontWeight: 'bold',
                                         width: '100%', // Ensure full width
