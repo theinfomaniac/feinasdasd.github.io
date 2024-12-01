@@ -821,8 +821,6 @@
                             const aspectRatio = img.height / img.width;
                             const width = Math.min(maxWidth, img.width);
                             const height = width * aspectRatio;
-                            
-                            yOffset -= 20;
 
                             if (text.includes("flow='RIGHT'")) {
                                 doc.autoTable({
@@ -919,7 +917,6 @@
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('courier', 'normal');
                     
-                    yOffset += 20; // Adjust yOffset after adding the table
                     const questionLines = doc.splitTextToSize(await processImages(question.Question, doc), 170);
                     checkNewPage(questionLines.length * 7);
                     doc.text(questionLines, 20, yOffset);
