@@ -6,8 +6,8 @@
     <title>Translation Simulation</title>
     <!-- Link to Orbitron Font -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-     <link rel="stylesheet" href="../styles.css">
-    <link rel="icon" href=".../favicon.png" type="image/png">
+     <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
+    <link rel="icon" href="https://interlinkcvhs.org/favicon.png" type="image/png">
     <style>
         .game-container {
             display: flex;
@@ -116,13 +116,13 @@
             </center>
         </div>
     </main>
-    <script src=".../script.js"></script>
+    <script src="https://interlinkcvhs.org/script.js"></script>
     <script src="translation.js"></script>
     <script>
         // Load navigation from nav.html
         async function loadNav() {
             try {
-                const response = await fetch('../navnav.html');
+                const response = await fetch('https://interlinkcvhs.org/navnav.html');
                 const nav = await response.text();
                 document.getElementById('nav-container').innerHTML = nav;
             } catch (error) {
@@ -134,7 +134,7 @@
         // Function to load the banner
         async function loadBanner() {
             try {
-                const response = await fetch('../banner.html');
+                const response = await fetch('https://interlinkcvhs.org/banner.html');
                 const bannerContent = await response.text();
                 document.getElementById('banner-container').innerHTML = bannerContent;
             } catch (error) {
