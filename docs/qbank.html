@@ -428,6 +428,7 @@
         .question-with-image {
             display: flex;
             align-items: center;
+            text-align: left;
             gap: 15px;
         }
         
@@ -1107,7 +1108,7 @@
                             // Centered question text
                             React.createElement('div', {
                                 className: `question-with-image ${selectedQuestion.Question.includes('!!img=') ? 'has-image' : ''}`,
-                                style: { textAlign: 'center' }
+                                style: { textAlign: 'left' }
                             },
                                 // Image placement logic
                                 selectedQuestion.Question.includes('!!img=') && React.createElement('div', {
