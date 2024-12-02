@@ -753,33 +753,20 @@
                 // Enhanced header function with better typography
                 function addHeader(doc, withAnswers, pageNum) {
                     addPageBackground(doc);
-                
+                    
                     // Main title - Large, bold
                     doc.setTextColor(255, 255, 255);
                     doc.setFont('courier', 'bold');
                     doc.setFontSize(18);
                     doc.text('Interlink CVHS QBank', 20, 20);
                     
+                    // URL with styled link
                     doc.setFont('courier', 'normal');
                     doc.setFontSize(10);
-                
-                    // First part of the text with a clickable link
-                    const url1 = 'https://interlinkcvhs.org';
-                    doc.setTextColor(255, 255, 255); // Set the color of the first link to white
-                    doc.text('Learn more at ', 35, 26); // Position first part of the text
-                    doc.setTextColor(0, 102, 204); // Set the color of the link itself (blue)
-                    doc.textWithLink(url1, 35 + doc.getTextWidth('Learn more at ') + 1, 26, {
-                        url: url1,
-                        underline: true
-                    });
-
-                    // Second part of the text with a clickable link
-                    const url2 = 'https://interlinkcvhs.org/qbank';
-                    doc.setTextColor(255, 255, 255); // Reset text color to white for normal text
-                    doc.text(', If you see any errors in the PDF, view the questions online at ', 35, 36); // Position second part of the text
-                    doc.setTextColor(0, 102, 204); // Link color for the second URL
-                    doc.textWithLink(url2, 35 + doc.getTextWidth('Learn more at ') + doc.getTextWidth(', If you see any errors in the PDF, view the questions online at ') + 1, 36, {
-                        url: url2,
+                    const url = 'https://interlinkcvhs.org/qbank';
+                    doc.setTextColor(100, 200, 255);
+                    doc.textWithLink(url, 35, 26, {
+                        url: url,
                         underline: true
                     });
                     
