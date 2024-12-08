@@ -112,7 +112,11 @@ const animateFlip = () => {
 };
 
 const updateCard = (term) => {
-    currentCard = vocabularyData.find(item => item.Front.toLowerCase() === term.toLowerCase());
+    // Remove any potential '!' before finding the card
+    const cleanTerm = term.replace('!', '');
+    currentCard = vocabularyData.find(item => 
+        item.Front.replace('!', '').toLowerCase() === cleanTerm.toLowerCase()
+    );
     isFlipped = false;
     drawCard();
 };
@@ -135,8 +139,9 @@ const updateDropdown = (searchTerm) => {
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
         const option = document.createElement('option');
+        // Store the original term as value
         option.value = item.Front;
-        // Remove '!' when displaying
+        // Display term without '!'
         option.textContent = item.Front.replace('!', '');
         dropdownList.appendChild(option);
     });
@@ -150,14 +155,8 @@ const updateDropdown = (searchTerm) => {
 };
 
 // Weekly toggle functionality
-weeklyToggle.addEventListener('click', () => {
-    isWeeklyMode = !isWeeklyMode;
-    
-    if (isWeeklyMode) {
-        weeklyToggle.textContent = '✅';
-    } else {
-        weeklyToggle.textContent = '❌';
-    }
+weeklyToggle.addEventListener('change', (e) => {
+    isWeeklyMode = e.target.checked;
     
     // Trigger dropdown update with current search term
     updateDropdown(searchInput.value);
@@ -168,7 +167,8 @@ searchInput.addEventListener('input', (e) => {
 });
 
 dropdownList.addEventListener('change', (e) => {
-    searchInput.value = e.target.value;
+    // Set both the search input and update the card
+    searchInput.value = e.target.value.replace('!', '');
     updateCard(e.target.value);
 });
 
