@@ -126,16 +126,20 @@ const updateDropdown = (searchTerm) => {
         item.Front.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Calculate total weekly flashcards (with '!')
+    const weeklyCount = vocabularyData.filter(item => 
+        item.Front.includes('!')
+    ).length;
+
+    // Update weekly label with total number of weekly flashcards
+    weeklyLabel.innerHTML = `This Week's Flashcards <span style="color: #2196F3; font-weight: bold;">(${weeklyCount})</span>`;
+
     // If weekly mode is on, filter for terms with '!'
     if (isWeeklyMode) {
         matchingTerms = matchingTerms.filter(item => 
             item.Front.includes('!')
         );
     }
-
-    // Update weekly label with number of flashcards
-    const weeklyCount = matchingTerms.length;
-    weeklyLabel.innerHTML = `This Week's Flashcards <span style="color: #2196F3; font-weight: bold;">(${weeklyCount})</span>`;
 
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
