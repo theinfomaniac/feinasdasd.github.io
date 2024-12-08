@@ -20,7 +20,7 @@
             display: flex;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 1200px; /* Match canvas width */
         }
         
         #searchInput {
@@ -78,6 +78,29 @@
             transform: translateY(0);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        .weekly-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1200px; /* Match canvas width */
+        }
+        
+        #weeklyToggle {
+            margin-right: 10px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+        }
+        
+        #weeklyLabel {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+        }
     </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -104,6 +127,10 @@
         <center><h4><i>This flashcard set contains over 1000 😮 human geography vocabulary terms!</i></h4></center>
         <div class="game-container">
             <center>
+                <div class="weekly-container">
+                    <button id="weeklyToggle">❌</button>
+                    <span id="weeklyLabel">This Week's Flashcards</span>
+                </div>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Search for a term...">
                     <select id="dropdownList"></select>
