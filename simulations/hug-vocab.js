@@ -30,6 +30,7 @@ const cardY = (canvas.height - cardHeight) / 2;
 let isFlipped = false;
 let flipProgress = 0;
 
+// Modify drawCard to remove '!' when displaying
 const drawCard = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -49,7 +50,11 @@ const drawCard = () => {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        const text = isFlipped ? currentCard.Back : currentCard.Front;
+        // Remove '!' when displaying
+        const text = isFlipped 
+            ? currentCard.Back.replace('!', '') 
+            : currentCard.Front.replace('!', '');
+        
         const lines = getWrappedText(text, cardWidth - 40);
 
         lines.forEach((line, index) => {
