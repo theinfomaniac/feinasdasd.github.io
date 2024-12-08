@@ -111,40 +111,6 @@ const animateFlip = () => {
     }
 };
 
-const fetchVocabularyData = async () => {
-    try {
-        const response = await fetch('https://sheets.livepolls.app/api/spreadsheets/e20fc709-853b-45be-aa86-8fd4ea90ef8a/Sheet1');
-        const data = await response.json();
-        return data.data;
-    } catch (error) {
-        console.error('Error fetching vocabulary data:', error);
-        return [];
-    }
-};
-
-let vocabularyData = [];
-let currentCard = null;
-let isWeeklyMode = false;
-
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-const searchInput = document.getElementById('searchInput');
-const dropdownList = document.getElementById('dropdownList');
-const flipButton = document.getElementById('flipButton');
-const weeklyToggle = document.getElementById('weeklyToggle');
-const weeklyLabel = document.getElementById('weeklyLabel');
-
-const cardWidth = 600;
-const cardHeight = 400;
-const cardX = (canvas.width - cardWidth) / 2;
-const cardY = (canvas.height - cardHeight) / 2;
-
-let isFlipped = false;
-let flipProgress = 0;
-
-// Previous functions like drawCard, getWrappedText, flipCard, animateFlip remain the same
-
 const updateCard = (term) => {
     // Remove any potential '!' before finding the card
     const cleanTerm = term.replace('!', '');
