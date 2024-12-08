@@ -11,6 +11,7 @@ const fetchVocabularyData = async () => {
 
 let vocabularyData = [];
 let currentCard = null;
+let isWeeklyMode = false;
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -18,6 +19,8 @@ const ctx = canvas.getContext('2d');
 const searchInput = document.getElementById('searchInput');
 const dropdownList = document.getElementById('dropdownList');
 const flipButton = document.getElementById('flipButton');
+const weeklyToggle = document.getElementById('weeklyToggle');
+const weeklyLabel = document.getElementById('weeklyLabel');
 
 const cardWidth = 600;
 const cardHeight = 400;
@@ -115,15 +118,26 @@ const updateCard = (term) => {
 };
 
 const updateDropdown = (searchTerm) => {
-    const matchingTerms = vocabularyData.filter(item => 
+    let matchingTerms = vocabularyData.filter(item => 
         item.Front.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // If weekly mode is on, filter for terms with '!'
+    if (isWeeklyMode) {
+        matchingTerms = matchingTerms.filter(item => 
+            item.Front.includes('!')
+        );
+        searchInput.placeholder = 'Flashcards from This Week → ';
+    } else {
+        searchInput.placeholder = 'Search for a term...';
+    }
 
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
         const option = document.createElement('option');
         option.value = item.Front;
-        option.textContent = item.Front;
+        // Remove '!' when displaying
+        option.textContent = item.Front.replace('!', '');
         dropdownList.appendChild(option);
     });
 
@@ -134,6 +148,20 @@ const updateDropdown = (searchTerm) => {
         drawCard();
     }
 };
+
+// Weekly toggle functionality
+weeklyToggle.addEventListener('click', () => {
+    isWeeklyMode = !isWeeklyMode;
+    
+    if (isWeeklyMode) {
+        weeklyToggle.textContent = '✅';
+    } else {
+        weeklyToggle.textContent = '❌';
+    }
+    
+    // Trigger dropdown update with current search term
+    updateDropdown(searchInput.value);
+});
 
 searchInput.addEventListener('input', (e) => {
     updateDropdown(e.target.value);
