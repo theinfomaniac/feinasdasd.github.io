@@ -1,166 +1,236 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-/* Base styles */
-.nav {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interlink Navigation</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
-}
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+        /* Base Navigation Styles */
+        .nav {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
 
-.dropbtn {
-    background: transparent;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: white;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0 0.5rem;
-}
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    z-index: 1;
-}
+        .nav-link:hover {
+            color: #3498db;
+        }
 
-.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-.dropdown-content a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+        .dropbtn {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: white;
+            font-family: inherit;
+            font-size: inherit;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
 
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+        .dropbtn:hover {
+            color: #3498db;
+        }
 
-/* Hamburger menu icon */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    padding: 10px;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
 
-.hamburger div {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 2px 0;
-    transition: 0.4s;
-}
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
 
-/* Mobile styles */
-@media screen and (max-width: 768px) {
-    .nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-    .hamburger {
-        display: flex;
-        align-self: flex-end;
-    }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-    .nav-links {
-        display: none;
-        width: 100%;
-    }
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            z-index: 1100;
+        }
 
-    .nav-links.active {
-        display: flex;
-        flex-direction: column;
-    }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: 0.4s;
+        }
 
-    .nav-link {
-        width: 100%;
-        padding: 0.8rem;
-        margin: 0;
-    }
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-    .dropdown {
-        width: 100%;
-    }
+            /* Hamburger Display */
+            .hamburger {
+                display: flex;
+                align-self: flex-end;
+            }
 
-    .dropbtn {
-        width: 100%;
-        text-align: left;
-        padding: 0.8rem;
-        margin: 0;
-    }
+            /* Navigation Links */
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                flex-direction: column;
+                background-color: #2c3e50;
+                width: 60%;
+                height: 100%;
+                padding-top: 80px;
+                transition: 0.5s;
+                z-index: 1000;
+            }
 
-    .dropdown-content {
-        position: static;
-        width: 100%;
-        box-shadow: none;
-        background: rgba(0, 0, 0, 0.4);
-    }
+            .nav-links.active {
+                right: 0;
+            }
 
-    .dropdown-content a {
-        padding-left: 2rem;
-    }
-}
-</style>
+            .nav-link, .dropbtn {
+                width: 100%;
+                padding: 0.8rem;
+                margin: 0;
+                text-align: center;
+                display: block;
+            }
+
+            .dropdown {
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                background: rgba(0, 0, 0, 0.4);
+            }
+
+            .dropdown-content a {
+                padding-left: 2rem;
+                text-align: left;
+            }
+
+            /* Hamburger Animation */
+            .hamburger.open div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.open div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.open div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        }
+    </style>
 </head>
 <body>
-
-<nav class="nav">
-    <div class="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    
-    <div class="nav-links">
-        <a href="https://interlinkcvhs.org" class="nav-link">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn">Explore</button>
-            <div class="dropdown-content">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3g_pdB8w1AtyB97cScQcq4bBb55-VrEJysNWuIuluk3w8Yw/viewform?usp=sf_link">Request Form</a>
-                <a href="https://interlinkcvhs.org/tutoring">Peer Tutoring</a>
-                <a href="https://interlinkcvhs.org/simulations">Simulations</a>
-                <a href="https://interlinkcvhs.org/quizlets">Quizlets</a>
-                <a href="https://interlinkai.streamlit.app/?embed_options=dark_theme">𝙸𝚗𝚝𝚎𝚛𝚕𝚒𝚗𝚔 𝙰𝙸</a>
-            </div>
+    <nav class="nav">
+        <div class="hamburger" onclick="toggleMenu(this)">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-        <a href="https://interlinkcvhs.org/subject-study" class="nav-link">Subject Study</a>
-        <a href="https://interlinkcvhs.org/qbank" class="nav-link">QBank</a>
-        <a href="https://interlinkcvhs.org/qotd" class="nav-link">QOTD</a>
-        <a href="https://interlinkcvhs.org/credits" class="nav-link">Credits</a>
-    </div>
-</nav>
+        
+        <div class="nav-links">
+            <a href="https://interlinkcvhs.org" class="nav-link">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Explore</button>
+                <div class="dropdown-content">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3g_pdB8w1AtyB97cScQcq4bBb55-VrEJysNWuIuluk3w8Yw/viewform?usp=sf_link">Request Form</a>
+                    <a href="https://interlinkcvhs.org/tutoring">Peer Tutoring</a>
+                    <a href="https://interlinkcvhs.org/simulations">Simulations</a>
+                    <a href="https://interlinkcvhs.org/quizlets">Quizlets</a>
+                    <a href="https://interlinkai.streamlit.app/?embed_options=dark_theme">𝙸𝚗𝚝𝚎𝚛𝚕𝚒𝚗𝚔 𝙰𝙸</a>
+                </div>
+            </div>
+            <a href="https://interlinkcvhs.org/subject-study" class="nav-link">Subject Study</a>
+            <a href="https://interlinkcvhs.org/qbank" class="nav-link">QBank</a>
+            <a href="https://interlinkcvhs.org/qotd" class="nav-link">QOTD</a>
+            <a href="https://interlinkcvhs.org/credits" class="nav-link">Credits</a>
+        </div>
+    </nav>
 
-<script>
-function toggleMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('active');
-}
-</script>
+    <script>
+        function toggleMenu(hamburger) {
+            const navLinks = document.querySelector('.nav-links');
+            const isActive = navLinks.classList.toggle('active');
+            hamburger.classList.toggle('open');
 
+            // Close menu when clicking outside
+            if (isActive) {
+                document.addEventListener('click', outsideClickListener);
+            } else {
+                document.removeEventListener('click', outsideClickListener);
+            }
+        }
+
+        function outsideClickListener(event) {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('open');
+                document.removeEventListener('click', outsideClickListener);
+            }
+        }
+    </script>
 </body>
 </html>
