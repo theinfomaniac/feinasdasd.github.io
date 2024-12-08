@@ -30,11 +30,9 @@ const cardY = (canvas.height - cardHeight) / 2;
 let isFlipped = false;
 let flipProgress = 0;
 
-// Modify drawCard to remove '!' when displaying
 const drawCard = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw card background
     ctx.fillStyle = '#ffffff';
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 2;
@@ -43,14 +41,12 @@ const drawCard = () => {
     ctx.fill();
     ctx.stroke();
 
-    // Draw card content
     if (currentCard) {
         ctx.font = '24px Orbitron';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // Remove '!' when displaying
         const text = isFlipped 
             ? currentCard.Back.replace('!', '') 
             : currentCard.Front.replace('!', '');
@@ -117,7 +113,6 @@ const animateFlip = () => {
 };
 
 const updateCard = (term) => {
-    // Remove any potential '!' before finding the card
     const cleanTerm = term.replace('!', '');
     currentCard = vocabularyData.find(item => 
         item.Front.replace('!', '').toLowerCase() === cleanTerm.toLowerCase()
@@ -137,6 +132,10 @@ const updateDropdown = (searchTerm) => {
             item.Front.includes('!')
         );
     }
+
+    // Update weekly label with number of flashcards
+    const weeklyCount = matchingTerms.length;
+    weeklyLabel.innerHTML = `This Week's Flashcards <span style="color: #2196F3; font-weight: bold;">(${weeklyCount})</span>`;
 
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
