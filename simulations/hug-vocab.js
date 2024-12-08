@@ -141,10 +141,31 @@ const updateDropdown = (searchTerm) => {
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
         const option = document.createElement('option');
+        
+        // Remove '!' for display and matching
+        const cleanTerm = item.Front.replace('!', '');
+        const cleanSearchTerm = searchTerm.replace('!', '');
+
+        // Find the matching part of the term
+        const lowerCleanTerm = cleanTerm.toLowerCase();
+        const lowerSearchTerm = cleanSearchTerm.toLowerCase();
+        const matchIndex = lowerCleanTerm.indexOf(lowerSearchTerm);
+
+        if (matchIndex !== -1 && cleanSearchTerm) {
+            // Create highlighted term with bold matching part
+            const beforeMatch = cleanTerm.slice(0, matchIndex);
+            const matchedPart = cleanTerm.slice(matchIndex, matchIndex + cleanSearchTerm.length);
+            const afterMatch = cleanTerm.slice(matchIndex + cleanSearchTerm.length);
+            
+            option.innerHTML = `${beforeMatch}<strong>${matchedPart}</strong>${afterMatch}`;
+        } else {
+            // If no match, display normally
+            option.textContent = cleanTerm;
+        }
+
         // Store the original term as value
         option.value = item.Front;
-        // Display term without '!'
-        option.textContent = item.Front.replace('!', '');
+        
         dropdownList.appendChild(option);
     });
 
