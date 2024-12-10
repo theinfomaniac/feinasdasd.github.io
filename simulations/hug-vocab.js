@@ -123,10 +123,8 @@ const drawCard = () => {
         // Add (REPEAT) or (THIS WEEK) if applicable
         if (isRepeat && isRepeatsMode) {
             lines.push('(REPEAT)');
-        } else if (isWeekly && isWeeklyMode) {
-            lines.push('(THIS WEEK)');
         }
-
+        
         lines.forEach((line, index) => {
             ctx.fillText(line, canvas.width / 2, canvas.height / 2 + (index - (lines.length - 1) / 2) * 30);
         });
@@ -200,11 +198,9 @@ const updateDropdown = (searchTerm) => {
             option.textContent = cleanTerm;
         }
 
-        // Add (REPEAT) or (THIS WEEK) if applicable
+        // Add (REPEAT) if applicable
         if (isRepeat && isRepeatsMode) {
             option.innerHTML += ' <span style="color: #FF6B6B; font-style: italic;">(REPEAT)</span>';
-        } else if (isWeekly && isWeeklyMode) {
-            option.innerHTML += ' <span style="color: #2196F3; font-style: italic;">(THIS WEEK)</span>';
         }
 
         // Store the original term as value
