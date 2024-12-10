@@ -110,17 +110,17 @@ const drawCard = () => {
         const isWeekly = currentCard.Front.includes('!');
 
         // Modify text color and styling
-        if (isRepeat && isRepeatsMode) {
+        if (isRepeatsMode && isRepeat) {
             ctx.fillStyle = '#FF6B6B';  // Red color for repeat terms
             ctx.font = 'bold 24px Orbitron';
-        } else if (isWeekly && isWeeklyMode) {
+        } else if (isWeekly) {
             ctx.fillStyle = '#2196F3';  // Blue color for weekly terms
             ctx.font = 'bold 24px Orbitron';
         }
 
         const lines = getWrappedText(text, cardWidth - 40);
 
-        // Add (REPEAT) or (THIS WEEK) if applicable
+        // Add (REPEAT) if applicable and repeats mode is on
         if (isRepeat && isRepeatsMode) {
             lines.push('(REPEAT)');
         }
@@ -161,12 +161,16 @@ const updateDropdown = (searchTerm) => {
     repeatsLabel.innerHTML = `Mark Repeats <span style="color: #FF6B6B; font-weight: bold;">(${repeatsCount})</span>`;
 
     // Filter logic for weekly and repeats modes
-    if (isWeeklyMode || isRepeatsMode) {
-        matchingTerms = matchingTerms.filter(item => {
-            const originalFront = item.Front;
-            return (isWeeklyMode && originalFront.includes('!')) || 
-                   (isRepeatsMode && originalFront.includes('!R'));
-        });
+    if (isRepeatsMode) {
+        // Only filter by repeats if repeats mode is on
+        matchingTerms = matchingTerms.filter(item => 
+            item.Front.includes('!R')
+        );
+    } else if (isWeeklyMode) {
+        // Filter by weekly terms if weekly mode is on and repeats is off
+        matchingTerms = matchingTerms.filter(item => 
+            item.Front.includes('!')
+        );
     }
 
     dropdownList.innerHTML = '';
@@ -198,7 +202,7 @@ const updateDropdown = (searchTerm) => {
             option.textContent = cleanTerm;
         }
 
-        // Add (REPEAT) if applicable
+        // Add (REPEAT) only if repeats mode is on
         if (isRepeat && isRepeatsMode) {
             option.innerHTML += ' <span style="color: #FF6B6B; font-style: italic;">(REPEAT)</span>';
         }
@@ -223,6 +227,10 @@ const updateCard = (term) => {
     currentCard = vocabularyData.find(item => 
         item.Front.replace(/!R?/g, '').toLowerCase() === cleanTerm.toLowerCase()
     );
+    
+    // Update search input to clean term
+    searchInput.value = cleanTerm;
+    
     isFlipped = false;
     drawCard();
 };
@@ -259,8 +267,7 @@ searchInput.addEventListener('input', (e) => {
 });
 
 dropdownList.addEventListener('change', (e) => {
-    // Set both the search input and update the card
-    searchInput.value = e.target.value.replace('!', '');
+    // Update card with the selected term, which will automatically clean the term
     updateCard(e.target.value);
 });
 
