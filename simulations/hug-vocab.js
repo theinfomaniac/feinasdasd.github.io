@@ -61,8 +61,8 @@ const drawCard = () => {
         // Check if it's a repeat
         const isRepeat = currentCard.Front.includes('!R');
 
-        // Modify text color and add (REPEAT) for repeat terms
-        if (isRepeat && !isFlipped) {
+        // Modify text color and add (REPEAT) for repeat terms, but only if repeats mode is on
+        if (isRepeat && isRepeatsMode) {
             ctx.fillStyle = '#FF6B6B';  // Blue color for repeat terms
             ctx.font = 'bold 24px Orbitron';
             text += ' (REPEAT)';
@@ -199,8 +199,8 @@ const updateDropdown = (searchTerm) => {
             option.textContent = cleanTerm;
         }
 
-        // Add (REPEAT) for repeat terms
-        if (isRepeat) {
+        // Add (REPEAT) for repeat terms, but only if repeats mode is on
+        if (isRepeat && isRepeatsMode) {
             option.innerHTML += ' <span style="color: #FF6B6B; font-style: italic;">(REPEAT)</span>';
         }
 
