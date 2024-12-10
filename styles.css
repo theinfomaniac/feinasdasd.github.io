@@ -444,6 +444,7 @@ nav {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-family: 'Orbitron', sans-serif;
+    font-weight: normal;
 }
 
 .access-btn:hover, .submit-btn:hover {
