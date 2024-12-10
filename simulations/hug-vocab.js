@@ -33,65 +33,6 @@ const cardY = (canvas.height - cardHeight) / 2;
 let isFlipped = false;
 let flipProgress = 0;
 
-const drawCard = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(cardX, cardY, cardWidth, cardHeight, 10);
-    ctx.fill();
-    ctx.stroke();
-
-    if (currentCard) {
-        ctx.font = '24px Orbitron';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-
-        // Completely remove '!' and '!R'
-        const cleanFront = currentCard.Front.replace(/!R?/g, '');
-        const cleanBack = currentCard.Back.replace(/!R?/g, '');
-
-        const text = isFlipped 
-            ? cleanBack 
-            : cleanFront;
-        
-        // Check if it's a repeat or weekly term
-        const isRepeat = currentCard.Front.includes('!R');
-        const isWeekly = currentCard.Front.includes('!');
-
-        // Modify text color and styling
-        if (isRepeat && isRepeatsMode) {
-            ctx.fillStyle = '#FF6B6B';  // Red color for repeat terms
-            ctx.font = 'bold 24px Orbitron';
-        } else if (isWeekly && isWeeklyMode) {
-            ctx.fillStyle = '#2196F3';  // Blue color for weekly terms
-            ctx.font = 'bold 24px Orbitron';
-        }
-
-        const lines = getWrappedText(text, cardWidth - 40);
-
-        // Add (REPEAT) or (THIS WEEK) if applicable
-        if (isRepeat && isRepeatsMode) {
-            lines.push('(REPEAT)');
-        } else if (isWeekly && isWeeklyMode) {
-            lines.push('(THIS WEEK)');
-        }
-
-        lines.forEach((line, index) => {
-            ctx.fillText(line, canvas.width / 2, canvas.height / 2 + (index - (lines.length - 1) / 2) * 30);
-        });
-    } else {
-        ctx.font = '24px Orbitron';
-        ctx.fillStyle = '#888888';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Search for a term...', canvas.width / 2, canvas.height / 2);
-    }
-};
-
 const getWrappedText = (text, maxWidth) => {
     const words = text.split(' ');
     const lines = [];
@@ -137,16 +78,6 @@ const animateFlip = () => {
     } else {
         drawCard();
     }
-};
-
-const updateCard = (term) => {
-    // Completely remove '!' and '!R' for matching
-    const cleanTerm = term.replace(/!R?/g, '');
-    currentCard = vocabularyData.find(item => 
-        item.Front.replace(/!R?/g, '').toLowerCase() === cleanTerm.toLowerCase()
-    );
-    isFlipped = false;
-    drawCard();
 };
 
 const drawCard = () => {
@@ -288,6 +219,16 @@ const updateDropdown = (searchTerm) => {
         currentCard = null;
         drawCard();
     }
+};
+
+const updateCard = (term) => {
+    // Completely remove '!' and '!R' for matching
+    const cleanTerm = term.replace(/!R?/g, '');
+    currentCard = vocabularyData.find(item => 
+        item.Front.replace(/!R?/g, '').toLowerCase() === cleanTerm.toLowerCase()
+    );
+    isFlipped = false;
+    drawCard();
 };
 
 // Weekly toggle functionality
