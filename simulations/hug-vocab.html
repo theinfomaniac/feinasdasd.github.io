@@ -175,18 +175,23 @@
             <center>
                 <div class="weekly-container">
                     <center>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="weeklyToggle">
-                            <span class="slider"></span>
-                        </label>
-                        <span id="weeklyLabel">This Week's Flashcards</span>
-                    </center>
-                    <center>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="repeatsToggle">
-                            <span class="slider"></span>
-                        </label>
-                        <span id="repeatsLabel">Mark Repeats</span>
+                        <div class="toggle-row" style="display: flex; align-items: center; gap: 20px;">
+                            <div style="display: flex; align-items: center;">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="weeklyToggle">
+                                    <span class="slider"></span>
+                                </label>
+                                <span id="weeklyLabel" style="margin-left: 10px;">This Week's Flashcards</span>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="repeatsToggle">
+                                    <span class="slider"></span>
+                                </label>
+                                <span id="repeatsLabel" style="margin-left: 10px;">Mark Repeats</span>
+                            </div>
+                        </div>
                     </center>
                 </div>
                 <div class="search-container">
