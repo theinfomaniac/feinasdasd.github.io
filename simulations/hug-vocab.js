@@ -50,28 +50,34 @@ const drawCard = () => {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // Remove '!' and '!R' completely for display
-        const cleanFront = currentCard.Front.replace('!', '').replace('!R', '');
-        const cleanBack = currentCard.Back.replace('!', '').replace('!R', '');
+        // Completely remove '!' and '!R'
+        const cleanFront = currentCard.Front.replace(/!R?/g, '');
+        const cleanBack = currentCard.Back.replace(/!R?/g, '');
 
         const text = isFlipped 
             ? cleanBack 
             : cleanFront;
         
-        // Check if it's a repeat
+        // Check if it's a repeat or weekly term
         const isRepeat = currentCard.Front.includes('!R');
+        const isWeekly = currentCard.Front.includes('!');
 
-        // Modify text color and add (REPEAT) for repeat terms, but only if repeats mode is on
+        // Modify text color and styling
         if (isRepeat && isRepeatsMode) {
             ctx.fillStyle = '#FF6B6B';  // Red color for repeat terms
+            ctx.font = 'bold 24px Orbitron';
+        } else if (isWeekly && isWeeklyMode) {
+            ctx.fillStyle = '#2196F3';  // Blue color for weekly terms
             ctx.font = 'bold 24px Orbitron';
         }
 
         const lines = getWrappedText(text, cardWidth - 40);
 
-        // Add (REPEAT) if in repeats mode
+        // Add (REPEAT) or (THIS WEEK) if applicable
         if (isRepeat && isRepeatsMode) {
             lines.push('(REPEAT)');
+        } else if (isWeekly && isWeeklyMode) {
+            lines.push('(THIS WEEK)');
         }
 
         lines.forEach((line, index) => {
@@ -134,19 +140,81 @@ const animateFlip = () => {
 };
 
 const updateCard = (term) => {
-    // Remove '!' and '!R' completely for matching
-    const cleanTerm = term.replace('!', '').replace('!R', '');
+    // Completely remove '!' and '!R' for matching
+    const cleanTerm = term.replace(/!R?/g, '');
     currentCard = vocabularyData.find(item => 
-        item.Front.replace('!', '').replace('!R', '').toLowerCase() === cleanTerm.toLowerCase()
+        item.Front.replace(/!R?/g, '').toLowerCase() === cleanTerm.toLowerCase()
     );
     isFlipped = false;
     drawCard();
 };
 
+const drawCard = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(cardX, cardY, cardWidth, cardHeight, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    if (currentCard) {
+        ctx.font = '24px Orbitron';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Completely remove '!' and '!R'
+        const cleanFront = currentCard.Front.replace(/!R?/g, '');
+        const cleanBack = currentCard.Back.replace(/!R?/g, '');
+
+        const text = isFlipped 
+            ? cleanBack 
+            : cleanFront;
+        
+        // Check if it's a repeat or weekly term
+        const isRepeat = currentCard.Front.includes('!R');
+        const isWeekly = currentCard.Front.includes('!');
+
+        // Modify text color and styling
+        if (isRepeat && isRepeatsMode) {
+            ctx.fillStyle = '#FF6B6B';  // Red color for repeat terms
+            ctx.font = 'bold 24px Orbitron';
+        } else if (isWeekly && isWeeklyMode) {
+            ctx.fillStyle = '#2196F3';  // Blue color for weekly terms
+            ctx.font = 'bold 24px Orbitron';
+        }
+
+        const lines = getWrappedText(text, cardWidth - 40);
+
+        // Add (REPEAT) or (THIS WEEK) if applicable
+        if (isRepeat && isRepeatsMode) {
+            lines.push('(REPEAT)');
+        } else if (isWeekly && isWeeklyMode) {
+            lines.push('(THIS WEEK)');
+        }
+
+        lines.forEach((line, index) => {
+            ctx.fillText(line, canvas.width / 2, canvas.height / 2 + (index - (lines.length - 1) / 2) * 30);
+        });
+    } else {
+        ctx.font = '24px Orbitron';
+        ctx.fillStyle = '#888888';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Search for a term...', canvas.width / 2, canvas.height / 2);
+    }
+};
+
 const updateDropdown = (searchTerm) => {
+    // Remove '!' and '!R' from search term for matching
+    const cleanSearchTerm = searchTerm.replace(/!R?/g, '');
+
     let matchingTerms = vocabularyData.filter(item => 
         // Remove '!' and '!R' before filtering
-        item.Front.replace('!', '').replace('!R', '').toLowerCase().includes(searchTerm.toLowerCase())
+        item.Front.replace(/!R?/g, '').toLowerCase().includes(cleanSearchTerm.toLowerCase())
     );
 
     // Calculate total weekly flashcards (with '!')
@@ -176,12 +244,13 @@ const updateDropdown = (searchTerm) => {
     matchingTerms.forEach(item => {
         const option = document.createElement('option');
         
-        // Remove '!' and '!R' completely for display and matching
-        const cleanTerm = item.Front.replace('!', '').replace('!R', '');
-        const cleanSearchTerm = searchTerm.replace('!', '').replace('!R', '');
+        // Completely remove '!' and '!R' for display
+        const cleanTerm = item.Front.replace(/!R?/g, '');
+        const cleanSearchTerm = searchTerm.replace(/!R?/g, '');
 
-        // Check if it's a repeat
+        // Check if it's a repeat or weekly term
         const isRepeat = item.Front.includes('!R');
+        const isWeekly = item.Front.includes('!');
 
         // Find the matching part of the term
         const lowerCleanTerm = cleanTerm.toLowerCase();
@@ -200,9 +269,11 @@ const updateDropdown = (searchTerm) => {
             option.textContent = cleanTerm;
         }
 
-        // Add (REPEAT) for repeat terms, but only if repeats mode is on
+        // Add (REPEAT) or (THIS WEEK) if applicable
         if (isRepeat && isRepeatsMode) {
             option.innerHTML += ' <span style="color: #FF6B6B; font-style: italic;">(REPEAT)</span>';
+        } else if (isWeekly && isWeeklyMode) {
+            option.innerHTML += ' <span style="color: #2196F3; font-style: italic;">(THIS WEEK)</span>';
         }
 
         // Store the original term as value
