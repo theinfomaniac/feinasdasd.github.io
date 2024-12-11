@@ -57,27 +57,42 @@
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 18px;
-            background-color: #4a83d4;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background-color: #1a2b4d;
+            color: #4a83d4;
+            border: 2px solid #4a83d4;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(74, 131, 212, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #flipButton:before {
+            content: 'SPACE';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #1a2b4d;
+            transition: transform 0.3s ease;
         }
         
         #flipButton:hover {
             background-color: #243587;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 8px rgba(74, 131, 212, 0.2);
         }
         
-        #flipButton:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        #flipButton:hover:before {
+            transform: translateY(-100%);
         }
 
         .weekly-container {
@@ -165,6 +180,13 @@
         #forwardNavigation {
             right: 20px;
         }
+        .nav-instructions {
+            font-family: 'Orbitron', sans-serif;
+            color: #4a83d4;
+            margin-top: 10px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -219,6 +241,9 @@
                 <img id="forwardNavigation" class="canvas-navigation" src="https://interlinkcvhs.org/qotdForward.png" alt="Next">
             </canvas>
             <button id="flipButton">Flip Card</button>
+            <div class="nav-instructions">
+                SPACE to Flip Card | ← → to Navigate Cards
+            </div>
         </div>
     </main>
     <script src="https://interlinkcvhs.org/script.js"></script>
