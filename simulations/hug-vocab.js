@@ -37,12 +37,6 @@ const cardY = (canvas.height - cardHeight) / 2;
 let isFlipped = false;
 let flipProgress = 0;
 
-// Pre-load hover images for navigation
-const backHoverImg = new Image();
-backHoverImg.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
-const forwardHoverImg = new Image();
-forwardHoverImg.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
-
 const getWrappedText = (text, maxWidth) => {
     const words = text.split(' ');
     const lines = [];
@@ -63,6 +57,22 @@ const getWrappedText = (text, maxWidth) => {
 
     lines.push(currentLine.trim());
     return lines;
+};
+
+const updateSliderColor = () => {
+    const weeklySlider = document.querySelector('#weeklyToggle + .slider');
+    const repeatsSlider = document.querySelector('#repeatsToggle + .slider');
+
+    // Default gray color
+    const defaultColor = '#808080';
+    const weeklyBlue = '#2196F3';
+    const repeatsRed = '#FF6B6B';
+
+    // Weekly slider color
+    weeklySlider.style.backgroundColor = isWeeklyMode ? weeklyBlue : defaultColor;
+
+    // Repeats slider color
+    repeatsSlider.style.backgroundColor = isRepeatsMode ? repeatsRed : defaultColor;
 };
 
 const navigateCards = (direction) => {
@@ -193,8 +203,6 @@ const updateDropdown = (searchTerm) => {
         );
     }
 
-    filteredTerms = matchingTerms;
-
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
         const option = document.createElement('option');
@@ -274,25 +282,31 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-backNavigation.addEventListener('mouseover', () => {
-    backNavigation.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
-});
-backNavigation.addEventListener('mouseout', () => {
-    backNavigation.src = 'https://interlinkcvhs.org/qotdBackward.png';
-});
+const setupNavigation = () => {
+    // Ensure navigation images are displayed
+    backNavigation.style.display = 'block';
+    forwardNavigation.style.display = 'block';
 
-forwardNavigation.addEventListener('mouseover', () => {
-    forwardNavigation.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
-});
-forwardNavigation.addEventListener('mouseout', () => {
-    forwardNavigation.src = 'https://interlinkcvhs.org/qotdForward.png';
-});
+    // Hover effects
+    backNavigation.addEventListener('mouseover', () => {
+        backNavigation.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
+    });
+    backNavigation.addEventListener('mouseout', () => {
+        backNavigation.src = 'https://interlinkcvhs.org/qotdBackward.png';
+    });
 
-// Navigation image click handlers
-backNavigation.addEventListener('click', () => navigateCards(-1));
-forwardNavigation.addEventListener('click', () => navigateCards(1));
+    forwardNavigation.addEventListener('mouseover', () => {
+        forwardNavigation.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
+    });
+    forwardNavigation.addEventListener('mouseout', () => {
+        forwardNavigation.src = 'https://interlinkcvhs.org/qotdForward.png';
+    });
 
-// Weekly toggle functionality
+    // Click handlers
+    backNavigation.addEventListener('click', () => navigateCards(-1));
+    forwardNavigation.addEventListener('click', () => navigateCards(1));
+};
+
 weeklyToggle.addEventListener('change', (e) => {
     isWeeklyMode = e.target.checked;
     
@@ -301,6 +315,9 @@ weeklyToggle.addEventListener('change', (e) => {
         repeatsToggle.checked = false;
         isRepeatsMode = false;
     }
+    
+    // Update slider colors
+    updateSliderColor();
     
     // Trigger dropdown update with current search term
     updateDropdown(searchInput.value);
@@ -315,6 +332,9 @@ repeatsToggle.addEventListener('change', (e) => {
         isWeeklyMode = true;
     }
     
+    // Update slider colors
+    updateSliderColor();
+    
     // Trigger dropdown update with current search term
     updateDropdown(searchInput.value);
 });
@@ -328,14 +348,18 @@ dropdownList.addEventListener('change', (e) => {
     updateCard(e.target.value);
 });
 
-document.getElementById('weeklyToggle').parentElement.querySelector('.slider').style.backgroundColor = '#2196F3';
-document.getElementById('repeatsToggle').parentElement.querySelector('.slider').style.backgroundColor = '#FF6B6B';
-
 flipButton.textContent = 'FLIP CARD (SPACE)';
 
 // Canvas click to flip
 canvas.addEventListener('click', flipCard);
 
+// Call setup navigation after DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    setupNavigation();
+    updateSliderColor();
+});
+
+// Initial call to fetch and setup
 (async () => {
     vocabularyData = await fetchVocabularyData();
     updateDropdown('');
