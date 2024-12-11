@@ -2,68 +2,79 @@
 <html>
 <head>
 <style>
-/* Base styles */
-.nav {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
-    font-weight: normal;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-    font-weight: normal;
-}
-
-.dropbtn {
-    background: transparent;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: white;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0 0.5rem;
-    font-weight: normal;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    z-index: 1;
-    font-weight: normal;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-weight: normal;
-}
-
-.dropdown-content a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    font-weight: normal;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+    /* Base styles */
+    .nav {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+    
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        margin: 0 0.5rem;
+        font-weight: normal;
+    }
+    
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        font-weight: normal;
+    }
+    
+    .dropbtn {
+        background: transparent;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        color: white;
+        font-family: inherit;
+        font-size: inherit;
+        margin: 0 0.5rem;
+        font-weight: normal;
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        z-index: 1;
+        font-weight: normal;
+    }
+    
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-weight: normal;
+    }
+    
+    .dropdown-content a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        font-weight: normal;
+    }
+    
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+    }
+    .search-icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
 </style>
 </head>
 <body>
@@ -86,6 +97,9 @@
         <a href="https://interlinkcvhs.org/qbank" class="nav-link">QBank</a>
         <a href="https://interlinkcvhs.org/qotd" class="nav-link">QOTD</a>
         <a href="https://interlinkcvhs.org/credits" class="nav-link">Credits</a>
+    </div>
+    <div class="search-container">
+        <img src="https://interlinkcvhs.org/search-icon-2.png" alt="Search" class="search-icon" id="search-icon">
     </div>
 </nav>
 
