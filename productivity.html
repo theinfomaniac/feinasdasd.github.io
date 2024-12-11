@@ -3,102 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productivity Tools</title>
+    <title>Productivity Resources</title>
     <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
     <link rel="icon" href="https://interlinkcvhs.org/favicon.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Orbitron', sans-serif; /* Apply Orbitron font */
-            height: 100vh;
-            background-color: #121212; /* Dark background for contrast */
-            color: white; /* White text for contrast */
+        * {
+            font-family: 'Orbitron', sans-serif;
         }
 
-        .main-container {
-            display: flex;
-            height: 84.5vh;
+        .search-container {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
         }
-
-        /* Sidebar styles */
-        .sidebar {
-            width: 350px;
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            overflow-y: auto;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
-            height: auto; /* Let it adjust based on content */
-            max-height: 84.5vh; /* Prevent it from being taller than the viewport */
-            padding: 20px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
         }
 
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+            font-family: 'Orbitron', sans-serif;
+        }
 
         .resources-grid {
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .resource-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            color: inherit;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            margin: 0;
+        }
+
+        .resource-card:hover {
+            transform: scale(1.05);
         }
 
         .resource-title {
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            padding: 10px;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            text-align: center; /* Center-align text in sidebar buttons */
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 500;
         }
 
-        .resource-title:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+        .hidden {
+            display: none !important;
         }
 
-        .active {
-            background-color: rgba(255, 255, 255, 0.3);
-            font-weight: bold;
-            transform: scale(1.1); /* Grow effect when active */
+        @media (max-width: 768px) {
+            .resources-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        /* Content section */
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        iframe {
-            width: 100%;
-            height: 82.5vh;
-            border: none;
-            border-radius: 5px;
-        }
-
-        /* Glass effect header */
-        header.glass-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-        }
-
-        .logo-container h1 {
-            font-size: 2rem;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
-        }
-
-        /* Glow text effect */
-        .glow-text {
-            color: #00ffcc;
-            text-shadow: 0 0 5px rgba(0, 255, 204, 0.8);
-        }
-
-        .section-title {
-            margin-bottom: 10px;
+        @media (max-width: 480px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -112,33 +113,47 @@
   gtag('config', 'G-8W81FT4M1N');
 </script>
 <body>
-    <div id="banner-container"></div> <!-- Placeholder for banner -->
+    <div id="banner-container"></div>
     <header class="glass-header">
         <div class="logo-container">
             <h1 class="glow-text">Productivity Tools</h1>
         </div>
-        <div id="nav-container"></div> <!-- Placeholder for navigation -->
+        <div id="nav-container"></div>
     </header>
 
-    <main class="fade-in main-container">
-        <div class="sidebar">
-            <div class="resources-grid">
-                <a href="https://interlinkcvhs.org/simulations/hug-vocab">
-                    <h3 class="resource-title" data-url="about:blank">1000+ Human Geography Flashcards</h3>
+    <main class="fade-in">
+        <div class="games-container">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search courses..." id="courseSearch">
+            </div>
+            
+            <div class="resources-grid" id="resourcesContainer">
+                <a href="https://sejda.com/" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">Sejda PDF Editor</h3>
+                </a>
+                <a href="https://clipchamp.com/" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">Clipchamp Video Editor</h3>
+                </a>
+                <a href="https://www.desmos.com/calculator" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">Desmos Graphic Calculator</h3>
+                </a>
+                <a href="https://www.imagetotext.io/" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">Image-to-Text</h3>
+                </a>
+                <a href="https://www.remove.bg/" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">Image Background Remover</h3>
+                </a>
+                <a href="https://www.bandlab.com/" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">BandLab Music Software</h3>
+                </a>
+                <a href="https://cloudconvert.com/" class="resource-card glass-effect" target="_blank">
+                    <h3 class="resource-title">File Type Converter</h3>
                 </a>
             </div>
-            <div class="resources-grid">
-                <h3 class="resource-title" data-url="https://www.imagetotext.io/">Image-to-Text</h3>
-            </div>
-        </div>
-        <div class="content">
-            <iframe class="content-frame" id="contentFrame" src="about:blank"></iframe>   
         </div>
     </main>
 
-    <script src="script.js"></script>
     <script>
-        // Load navigation from nav.html
         async function loadNav() {
             try {
                 const response = await fetch('https://interlinkcvhs.org/navnav.html');
@@ -150,7 +165,6 @@
             }
         }
 
-        // Function to load the banner
         async function loadBanner() {
             try {
                 const response = await fetch('https://interlinkcvhs.org/banner.html');
@@ -162,29 +176,40 @@
             }
         }
 
-        // Function to highlight the clicked button and load URL into iframe
-        function handleResourceClick(event) {
-            // Remove the active class from all resource titles
-            const allTitles = document.querySelectorAll('.resource-title');
-            allTitles.forEach(title => title.classList.remove('active'));
-            
-            // Add the active class to the clicked resource title
-            event.target.classList.add('active');
-            
-            // Get the URL from the data-url attribute and set it in the iframe
-            const url = event.target.getAttribute('data-url');
-            document.getElementById('contentFrame').src = url;
-        }
-
-        // Add event listeners to resource titles
         document.addEventListener('DOMContentLoaded', () => {
             loadNav();
             loadBanner();
 
-            // Add event listener to each resource title
-            const resourceTitles = document.querySelectorAll('.resource-title');
-            resourceTitles.forEach(title => {
-                title.addEventListener('click', handleResourceClick);
+            const searchInput = document.getElementById('courseSearch');
+            const resourceCards = document.getElementsByClassName('resource-card');
+            const container = document.getElementById('resourcesContainer');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                let hasResults = false;
+
+                Array.from(resourceCards).forEach(card => {
+                    const title = card.querySelector('.resource-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                        hasResults = true;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Show/hide no results message
+                let noResultsMsg = document.querySelector('.no-results');
+                if (!hasResults) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement('div');
+                        noResultsMsg.className = 'no-results';
+                        noResultsMsg.textContent = 'No search results.';
+                        container.appendChild(noResultsMsg);
+                    }
+                } else if (noResultsMsg) {
+                    noResultsMsg.remove();
+                }
             });
         });
     </script>
