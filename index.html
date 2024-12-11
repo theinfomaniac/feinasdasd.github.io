@@ -167,36 +167,7 @@
         let allAssignments = [];
         let selectedClasses = new Set();
         
-        // Save class selections to localStorage
-        function saveClassSelections() {
-            const selections = {};
-            document.querySelectorAll('select').forEach(select => {
-                selections[select.id] = select.value;
-            });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
-        }
-        
-        // Load saved class selections from localStorage
-        function loadSavedSelections() {
-            try {
-                const savedSelections = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-                document.querySelectorAll('select').forEach(select => {
-                    const savedValue = savedSelections[select.id];
-                    if (savedValue && predefinedClasses.includes(savedValue)) {
-                        select.value = savedValue;
-                        if (savedValue !== '') {
-                            selectedClasses.add(savedValue);
-                            select.setAttribute('data-previous', savedValue);
-                        }
-                    }
-                });
-                displayAssignments();
-            } catch (error) {
-                console.error('Error loading saved selections:', error);
-                localStorage.removeItem(STORAGE_KEY); // Clear potentially corrupted data
-            }
-        }
-        
+        // Assignments Management
         async function fetchAssignments() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
             
@@ -208,17 +179,15 @@
                     throw new Error('No data found in sheet');
                 }
         
-                allAssignments = data.values.slice(1).map(assignment => {
-                    return {
-                        subject: assignment[0],
-                        dueDate: new Date(assignment[1]),
-                        title: assignment[2],
-                        dueDateStr: assignment[1]
-                    };
-                }).sort((a, b) => a.dueDate - b.dueDate);
+                allAssignments = data.values.slice(1).map(assignment => ({
+                    subject: assignment[0],
+                    dueDate: new Date(assignment[1]),
+                    title: assignment[2],
+                    dueDateStr: assignment[1]
+                })).sort((a, b) => a.dueDate - b.dueDate);
         
                 updateDropdowns();
-                loadSavedSelections(); // Load saved selections after dropdowns are populated
+                loadSavedSelections();
             } catch (error) {
                 console.error('Error fetching assignments:', error);
                 document.getElementById('assignments-container').innerHTML = 
@@ -268,25 +237,7 @@
             }
         }
         
-        function handleClassSelection(select) {
-            const selectedClass = select.value;
-            
-            const oldClass = select.getAttribute('data-previous');
-            if (oldClass) {
-                selectedClasses.delete(oldClass);
-            }
-        
-            if (selectedClass) {
-                selectedClasses.add(selectedClass);
-                select.setAttribute('data-previous', selectedClass);
-            } else {
-                select.removeAttribute('data-previous');
-            }
-        
-            saveClassSelections(); // Save selections after any change
-            displayAssignments();
-        }
-        
+        // Class Selection Management
         function updateDropdowns() {
             const selectElements = document.querySelectorAll('select');
             
@@ -305,15 +256,66 @@
             displayAssignments();
         }
         
+        function handleClassSelection(select) {
+            const selectedClass = select.value;
+            
+            const oldClass = select.getAttribute('data-previous');
+            if (oldClass) {
+                selectedClasses.delete(oldClass);
+            }
+        
+            if (selectedClass) {
+                selectedClasses.add(selectedClass);
+                select.setAttribute('data-previous', selectedClass);
+            } else {
+                select.removeAttribute('data-previous');
+            }
+        
+            saveClassSelections();
+            displayAssignments();
+        }
+        
+        // Storage Management
+        function saveClassSelections() {
+            const selections = {};
+            document.querySelectorAll('select').forEach(select => {
+                selections[select.id] = select.value;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+        }
+        
+        function loadSavedSelections() {
+            try {
+                const savedSelections = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+                document.querySelectorAll('select').forEach(select => {
+                    const savedValue = savedSelections[select.id];
+                    if (savedValue && predefinedClasses.includes(savedValue)) {
+                        select.value = savedValue;
+                        if (savedValue !== '') {
+                            selectedClasses.add(savedValue);
+                            select.setAttribute('data-previous', savedValue);
+                        }
+                    }
+                });
+                displayAssignments();
+            } catch (error) {
+                console.error('Error loading saved selections:', error);
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        }
+        
+        // Navigation and Banner Loading
         async function loadNav() {
             try {
                 const response = await fetch('https://interlinkcvhs.org/navnav.html');
                 const nav = await response.text();
                 document.getElementById('nav-container').innerHTML = nav;
+                return true;
             } catch (error) {
                 console.error('Error loading navigation:', error);
                 document.getElementById('nav-container').innerHTML = 
                     '<p>Error loading navigation. Please try again later.</p>';
+                return false;
             }
         }
         
@@ -328,8 +330,8 @@
                     '<p>Error loading banner. Please try again later.</p>';
             }
         }
-
-        // Fetch search list
+        
+        // Search Functionality
         async function fetchSearchList() {
             try {
                 const response = await fetch('https://interlinkcvhs.org/navlist.txt');
@@ -346,7 +348,6 @@
             }
         }
         
-        // Create search overlay
         function createSearchOverlay(searchList) {
             const overlay = document.createElement('div');
             overlay.className = 'search-overlay';
@@ -381,20 +382,35 @@
             return overlay;
         }
         
-        // Initialize search functionality
-        document.addEventListener('DOMContentLoaded', async () => {
-            const searchIcon = document.getElementById('search-icon');
+        // Search Initialization
+        async function initializeSearch() {
             const searchList = await fetchSearchList();
             const searchOverlay = createSearchOverlay(searchList);
+            
+            const navLoaded = await loadNav();
+            
+            if (navLoaded) {
+                const searchIcon = document.getElementById('search-icon');
+                if (searchIcon) {
+                    searchIcon.addEventListener('click', () => {
+                        searchOverlay.style.display = 'flex';
+                        searchOverlay.querySelector('.search-input').focus();
+                    });
+                }
+            }
+        }
         
-            searchIcon.addEventListener('click', () => {
-                searchOverlay.style.display = 'flex';
-                searchOverlay.querySelector('.search-input').focus();
-            });
-
-            loadBanner();
-            loadNav();
-            fetchAssignments();
+        // Main Initialization
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await Promise.all([
+                    loadBanner(),
+                    initializeSearch(),
+                    fetchAssignments()
+                ]);
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
         });
     </script>
 </body>
