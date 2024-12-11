@@ -193,6 +193,8 @@ const updateDropdown = (searchTerm) => {
         );
     }
 
+    filteredTerms = matchingTerms;
+
     dropdownList.innerHTML = '';
     matchingTerms.forEach(item => {
         const option = document.createElement('option');
