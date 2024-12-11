@@ -124,7 +124,7 @@ h2, h3, h4, h5, h6 {
 }
 
 .search-input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 10px;
     background: rgba(255, 255, 255, 0.1);
