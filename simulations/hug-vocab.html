@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human Geography Vocabulary</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-     <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
+    <link rel="stylesheet" href="https://interlinkcvhs.org/styles.css">
     <link rel="icon" href="https://interlinkcvhs.org/favicon.png" type="image/png">
     <style>
         .game-container {
@@ -20,7 +20,7 @@
             display: flex;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 1200px; /* Match canvas width */
+            max-width: 1200px;
         }
         
         #searchInput {
@@ -50,54 +50,28 @@
             border: 2px solid var(--accent-color);
             background: black;
             box-shadow: 0 0 20px var(--accent-color);
-        }
-        
-        #flipButton {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #4a83d4;
-            color: white;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+        }
+        
+        .keybindings {
             font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
         }
         
-        #flipButton:hover {
-            background-color: #243587;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        #flipButton:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
         .weekly-container {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 1200px; /* Match canvas width */
+            max-width: 1200px;
         }
         
-        #weeklyToggle {
-            margin-right: 10px;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 24px;
-        }
-        
-       .toggle-switch {
+        .toggle-switch {
             position: relative;
             display: inline-block;
             width: 60px;
@@ -143,21 +117,12 @@
             transform: translateX(26px);
         }
         
-        #weeklyLabel {
+        #weeklyLabel, #repeatsLabel {
             font-family: 'Orbitron', sans-serif;
             font-size: 18px;
         }
     </style>
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8W81FT4M1N"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8W81FT4M1N');
-</script>
 <body>
     <div id="banner-container"></div>
     <header class="glass-header">
@@ -192,12 +157,14 @@
                     </center>
                 </div>
                 <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Search for a term...">
+                    <input type="text" id="searchInput" placeholder="Search...">
                     <select id="dropdownList"></select>
                 </div>
             </center>
             <canvas id="gameCanvas" width="1200" height="450"></canvas>
-            <button id="flipButton">Flip Card</button>
+            <div class="keybindings">
+                SPACE: Flip Card | ← →: Navigate Terms
+            </div>
         </div>
     </main>
     <script src="https://interlinkcvhs.org/script.js"></script>
