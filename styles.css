@@ -101,6 +101,7 @@ h2, h3, h4, h5, h6 {
     justify-content: center;
     align-items: center;
     z-index: 2000;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .search-box {
@@ -111,6 +112,7 @@ h2, h3, h4, h5, h6 {
     max-width: 600px;
     padding: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-family: 'Orbitron', sans-serif;
 }
 
 .search-input {
@@ -121,6 +123,7 @@ h2, h3, h4, h5, h6 {
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .search-results {
@@ -128,6 +131,7 @@ h2, h3, h4, h5, h6 {
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .search-results a {
@@ -136,10 +140,12 @@ h2, h3, h4, h5, h6 {
     color: white;
     text-decoration: none;
     transition: background 0.2s;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .search-results a:hover {
     background: rgba(255, 255, 255, 0.1);
+    font-family: 'Orbitron', sans-serif;
 }
 
 /* ==========================================================================
