@@ -349,38 +349,58 @@
         }
         
         function createSearchOverlay(searchList) {
-            const overlay = document.createElement('div');
-            overlay.className = 'search-overlay';
-            overlay.innerHTML = `
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Search pages...">
-                    <div class="search-results"></div>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-        
-            const searchInput = overlay.querySelector('.search-input');
-            const resultsContainer = overlay.querySelector('.search-results');
-        
-            searchInput.addEventListener('input', () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                const filteredResults = searchList.filter(item => 
-                    item.name.toLowerCase().includes(searchTerm)
-                );
-        
-                resultsContainer.innerHTML = filteredResults.map(item => 
-                    `<a href="${item.url}">${item.name}</a>`
-                ).join('');
-            });
-        
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.style.display = 'none';
+                const overlay = document.createElement('div');
+                overlay.className = 'search-overlay';
+                overlay.innerHTML = `
+                    <div class="search-box">
+                        <div class="search-header">
+                            <input type="text" class="search-input" placeholder="Search pages...">
+                            <button class="search-close-btn">&times;</button>
+                        </div>
+                        <div class="search-results"></div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+            
+                const searchInput = overlay.querySelector('.search-input');
+                const resultsContainer = overlay.querySelector('.search-results');
+                const closeButton = overlay.querySelector('.search-close-btn');
+            
+                // Function to display all or filtered results
+                function displayResults(searchTerm = '') {
+                    const filteredResults = searchTerm ? 
+                        searchList.filter(item => 
+                            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+                        ) : 
+                        searchList;
+            
+                    resultsContainer.innerHTML = filteredResults.map(item => 
+                        `<a href="${item.url}">${item.name}</a>`
+                    ).join('');
                 }
-            });
-        
-            return overlay;
-        }
+            
+                // Show all results initially
+                displayResults();
+            
+                // Update results on input
+                searchInput.addEventListener('input', (e) => {
+                    displayResults(e.target.value);
+                });
+            
+                // Close only when X button is clicked
+                closeButton.addEventListener('click', () => {
+                    overlay.style.display = 'none';
+                    searchInput.value = ''; // Clear input when closing
+                    displayResults(); // Reset results to show all
+                });
+            
+                // Prevent closing when clicking inside the search box
+                overlay.querySelector('.search-box').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            
+                return overlay;
+            }
         
         // Search Initialization
         async function initializeSearch() {
