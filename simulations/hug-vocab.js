@@ -160,14 +160,9 @@ const updateDropdown = (searchTerm) => {
     weeklyLabel.innerHTML = `This Week's Flashcards <span style="color: #2196F3; font-weight: bold;">(${weeklyCount})</span>`;
     repeatsLabel.innerHTML = `Mark Repeats <span style="color: #FF6B6B; font-weight: bold;">(${repeatsCount})</span>`;
 
-    // Filter logic for weekly and repeats modes
-    if (isRepeatsMode) {
-        // Only filter by repeats if repeats mode is on
-        matchingTerms = matchingTerms.filter(item => 
-            item.Front.includes('!R')
-        );
-    } else if (isWeeklyMode) {
-        // Filter by weekly terms if weekly mode is on and repeats is off
+    // Filter logic for weekly mode
+    if (isWeeklyMode) {
+        // Only show terms with '!' when weekly mode is on
         matchingTerms = matchingTerms.filter(item => 
             item.Front.includes('!')
         );
@@ -183,7 +178,6 @@ const updateDropdown = (searchTerm) => {
 
         // Check if it's a repeat or weekly term
         const isRepeat = item.Front.includes('!R');
-        const isWeekly = item.Front.includes('!');
 
         // Find the matching part of the term
         const lowerCleanTerm = cleanTerm.toLowerCase();
@@ -202,8 +196,8 @@ const updateDropdown = (searchTerm) => {
             option.textContent = cleanTerm;
         }
 
-        // Add (REPEAT) only if repeats mode is on
-        if (isRepeat && isRepeatsMode) {
+        // Add (REPEAT) if repeats mode is on and term is a repeat
+        if (isRepeatsMode && isRepeat) {
             option.innerHTML += ' <span style="color: #FF6B6B; font-style: italic;">(REPEAT)</span>';
         }
 
