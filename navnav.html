@@ -3,14 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar with Hamburger</title>
   <style>
     /* Base styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
     .nav {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 1rem;
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
     }
 
     .nav-link {
@@ -44,7 +55,7 @@
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(10px);
       min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
       z-index: 1;
       font-weight: normal;
     }
@@ -76,17 +87,20 @@
       .nav-links {
         display: none;
         width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .nav-links.active {
         display: flex;
-        flex-direction: column;
+        animation: slideIn 0.3s ease-out;
       }
 
       .nav-link {
         width: 100%;
-        padding: 0.8rem;
+        padding: 1rem;
         margin: 0;
+        text-align: left;
       }
 
       .dropdown {
@@ -96,8 +110,7 @@
       .dropbtn {
         width: 100%;
         text-align: left;
-        padding: 0.8rem;
-        margin: 0;
+        padding: 1rem;
       }
 
       .dropdown-content {
@@ -111,98 +124,92 @@
         padding-left: 2rem;
       }
 
-      /* Hamburger Menu */
       .hamburger {
         display: block;
-        background-color: white;
-        width: 30px;
-        height: 3px;
-        margin: 6px auto;
-        position: relative;
         cursor: pointer;
+        padding: 0.5rem;
+        border: none;
+        background: transparent;
+        z-index: 101;
       }
 
-      .hamburger:before,
-      .hamburger:after {
-        content: '';
-        position: absolute;
-        background-color: white;
-        width: 30px;
+      .hamburger div {
+        width: 25px;
         height: 3px;
-        left: 0;
-        transition: all 0.3s;
+        background-color: white;
+        margin: 5px 0;
+        transition: 0.3s;
       }
 
-      .hamburger:before {
-        top: -10px;
-      }
-
-      .hamburger:after {
-        top: 10px;
-      }
-
-      .hamburger.active:before {
-        top: 0;
+      .hamburger.open div:nth-child(1) {
         transform: rotate(45deg);
+        position: relative;
+        top: 7px;
       }
 
-      .hamburger.active:after {
-        top: 0;
+      .hamburger.open div:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.open div:nth-child(3) {
         transform: rotate(-45deg);
+        position: relative;
+        top: -7px;
       }
+    }
 
-      /* Dropdown menu toggle on mobile */
-      .dropdown-content {
-        display: none;
+    /* Slide in animation */
+    @keyframes slideIn {
+      from {
+        transform: translateY(-100%);
       }
-
-      .dropdown.active .dropdown-content {
-        display: block;
+      to {
+        transform: translateY(0);
       }
     }
   </style>
 </head>
 <body>
 
-<nav class="nav">
-  <!-- Hamburger menu for mobile -->
-  <div class="hamburger" onclick="toggleMenu()"></div>
-
-  <div class="nav-links">
+  <nav class="nav">
     <a href="https://interlinkcvhs.org" class="nav-link">Home</a>
-    <div class="dropdown">
-      <button class="dropbtn" onclick="toggleDropdown(event)">Explore</button>
-      <div class="dropdown-content">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3g_pdB8w1AtyB97cScQcq4bBb55-VrEJysNWuIuluk3w8Yw/viewform?usp=sf_link">Request Form</a>
-        <a href="https://interlinkcvhs.org/tutoring">Peer Tutoring</a>
-        <a href="https://interlinkcvhs.org/simulations">Simulations</a>
-        <a href="https://interlinkcvhs.org/quizlets">Quizlets</a>
-        <a href="https://interlinkai.streamlit.app/?embed_options=dark_theme">𝙸𝚗𝚝𝚎𝚛𝚕𝚒𝚗𝚔 𝙰𝙸</a>
+
+    <!-- Hamburger icon -->
+    <button class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </button>
+
+    <!-- Dropdown menu for mobile view -->
+    <div class="nav-links">
+      <a href="https://interlinkcvhs.org" class="nav-link">Home</a>
+      <div class="dropdown">
+        <button class="dropbtn">Explore</button>
+        <div class="dropdown-content">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3g_pdB8w1AtyB97cScQcq4bBb55-VrEJysNWuIuluk3w8Yw/viewform?usp=sf_link">Request Form</a>
+          <a href="https://interlinkcvhs.org/tutoring">Peer Tutoring</a>
+          <a href="https://interlinkcvhs.org/simulations">Simulations</a>
+          <a href="https://interlinkcvhs.org/quizlets">Quizlets</a>
+          <a href="https://interlinkai.streamlit.app/?embed_options=dark_theme">𝙸𝚗𝚝𝚎𝚛𝚕𝚒𝚗𝚔 𝙰𝙸</a>
+        </div>
       </div>
+      <a href="https://interlinkcvhs.org/subject-study" class="nav-link">Subject Study</a>
+      <a href="https://interlinkcvhs.org/qbank" class="nav-link">QBank</a>
+      <a href="https://interlinkcvhs.org/qotd" class="nav-link">QOTD</a>
+      <a href="https://interlinkcvhs.org/credits" class="nav-link">Credits</a>
     </div>
-    <a href="https://interlinkcvhs.org/subject-study" class="nav-link">Subject Study</a>
-    <a href="https://interlinkcvhs.org/qbank" class="nav-link">QBank</a>
-    <a href="https://interlinkcvhs.org/qotd" class="nav-link">QOTD</a>
-    <a href="https://interlinkcvhs.org/credits" class="nav-link">Credits</a>
-  </div>
-</nav>
+  </nav>
 
-<script>
-  // Toggle mobile menu visibility
-  function toggleMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('active');
-
-    const hamburger = document.querySelector('.hamburger');
-    hamburger.classList.toggle('active');
-  }
-
-  // Toggle dropdown for mobile
-  function toggleDropdown(event) {
-    const dropdown = event.target.closest('.dropdown');
-    dropdown.classList.toggle('active');
-  }
-</script>
+  <script>
+    // Toggle the navigation menu on mobile
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      const hamburger = document.querySelector('.hamburger');
+      navLinks.classList.toggle('active');
+      hamburger.classList.toggle('open');
+    }
+  </script>
 
 </body>
 </html>
