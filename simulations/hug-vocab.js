@@ -13,9 +13,13 @@ let vocabularyData = [];
 let currentCard = null;
 let isWeeklyMode = false;
 let isRepeatsMode = false;
+let filteredTerms = [];
+let currentTermIndex = 0;
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const backNavigation = document.getElementById('backNavigation');
+const forwardNavigation = document.getElementById('forwardNavigation');
 
 const searchInput = document.getElementById('searchInput');
 const dropdownList = document.getElementById('dropdownList');
@@ -32,6 +36,12 @@ const cardY = (canvas.height - cardHeight) / 2;
 
 let isFlipped = false;
 let flipProgress = 0;
+
+// Pre-load hover images for navigation
+const backHoverImg = new Image();
+backHoverImg.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
+const forwardHoverImg = new Image();
+forwardHoverImg.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
 
 const getWrappedText = (text, maxWidth) => {
     const words = text.split(' ');
@@ -53,6 +63,21 @@ const getWrappedText = (text, maxWidth) => {
 
     lines.push(currentLine.trim());
     return lines;
+};
+
+const navigateCards = (direction) => {
+    if (filteredTerms.length === 0) return;
+
+    currentTermIndex += direction;
+    
+    // Wrap around
+    if (currentTermIndex < 0) {
+        currentTermIndex = filteredTerms.length - 1;
+    } else if (currentTermIndex >= filteredTerms.length) {
+        currentTermIndex = 0;
+    }
+
+    updateCard(filteredTerms[currentTermIndex].Front);
 };
 
 const flipCard = () => {
@@ -229,6 +254,42 @@ const updateCard = (term) => {
     drawCard();
 };
 
+document.addEventListener('keydown', (e) => {
+    if (!currentCard) return;
+
+    switch(e.key) {
+        case 'ArrowLeft':
+        case 'q':
+            navigateCards(-1);
+            break;
+        case 'ArrowRight':
+        case 'e':
+            navigateCards(1);
+            break;
+        case ' ':
+            flipCard();
+            break;
+    }
+});
+
+backNavigation.addEventListener('mouseover', () => {
+    backNavigation.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
+});
+backNavigation.addEventListener('mouseout', () => {
+    backNavigation.src = 'https://interlinkcvhs.org/qotdBackward.png';
+});
+
+forwardNavigation.addEventListener('mouseover', () => {
+    forwardNavigation.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
+});
+forwardNavigation.addEventListener('mouseout', () => {
+    forwardNavigation.src = 'https://interlinkcvhs.org/qotdForward.png';
+});
+
+// Navigation image click handlers
+backNavigation.addEventListener('click', () => navigateCards(-1));
+forwardNavigation.addEventListener('click', () => navigateCards(1));
+
 // Weekly toggle functionality
 weeklyToggle.addEventListener('change', (e) => {
     isWeeklyMode = e.target.checked;
@@ -265,7 +326,13 @@ dropdownList.addEventListener('change', (e) => {
     updateCard(e.target.value);
 });
 
-flipButton.addEventListener('click', flipCard);
+document.getElementById('weeklyToggle').parentElement.querySelector('.slider').style.backgroundColor = '#2196F3';
+document.getElementById('repeatsToggle').parentElement.querySelector('.slider').style.backgroundColor = '#FF6B6B';
+
+flipButton.textContent = 'FLIP CARD (SPACE)';
+
+// Canvas click to flip
+canvas.addEventListener('click', flipCard);
 
 (async () => {
     vocabularyData = await fetchVocabularyData();
