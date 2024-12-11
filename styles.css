@@ -115,6 +115,14 @@ h2, h3, h4, h5, h6 {
     font-family: 'Orbitron', sans-serif;
 }
 
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-family: 'Orbitron', sans-serif;
+}
+
 .search-input {
     width: 100%;
     padding: 10px;
