@@ -50,6 +50,7 @@
             border: 2px solid var(--accent-color);
             background: black;
             box-shadow: 0 0 20px var(--accent-color);
+            cursor: pointer;
         }
         
         #flipButton {
@@ -147,6 +148,23 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 18px;
         }
+        .canvas-navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .canvas-navigation:hover {
+            opacity: 1;
+        }
+        #backNavigation {
+            left: 20px;
+        }
+        #forwardNavigation {
+            right: 20px;
+        }
     </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -196,7 +214,10 @@
                     <select id="dropdownList"></select>
                 </div>
             </center>
-            <canvas id="gameCanvas" width="1200" height="450"></canvas>
+            <canvas id="gameCanvas" width="1200" height="450">
+                <img id="backNavigation" class="canvas-navigation" src="https://interlinkcvhs.org/qotdBackward.png" alt="Previous">
+                <img id="forwardNavigation" class="canvas-navigation" src="https://interlinkcvhs.org/qotdForward.png" alt="Next">
+            </canvas>
             <button id="flipButton">Flip Card</button>
         </div>
     </main>
