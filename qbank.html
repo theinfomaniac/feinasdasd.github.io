@@ -452,19 +452,88 @@
     <div id="root"></div>
     
     <script type="module">
-        // Load navigation from nav.html
+        // Class Selection Management
+        function updateDropdowns() {
+            const selectElements = document.querySelectorAll('select');
+            
+            selectElements.forEach(select => {
+                select.innerHTML = "<option value=''>---</option>";
+                predefinedClasses.forEach(classOption => {
+                    const option = document.createElement('option');
+                    option.value = classOption;
+                    option.text = classOption;
+                    select.appendChild(option);
+                });
+        
+                select.addEventListener('change', () => handleClassSelection(select));
+            });
+        
+            displayAssignments();
+        }
+        
+        function handleClassSelection(select) {
+            const selectedClass = select.value;
+            
+            const oldClass = select.getAttribute('data-previous');
+            if (oldClass) {
+                selectedClasses.delete(oldClass);
+            }
+        
+            if (selectedClass) {
+                selectedClasses.add(selectedClass);
+                select.setAttribute('data-previous', selectedClass);
+            } else {
+                select.removeAttribute('data-previous');
+            }
+        
+            saveClassSelections();
+            displayAssignments();
+        }
+        
+        // Storage Management
+        function saveClassSelections() {
+            const selections = {};
+            document.querySelectorAll('select').forEach(select => {
+                selections[select.id] = select.value;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+        }
+        
+        function loadSavedSelections() {
+            try {
+                const savedSelections = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+                document.querySelectorAll('select').forEach(select => {
+                    const savedValue = savedSelections[select.id];
+                    if (savedValue && predefinedClasses.includes(savedValue)) {
+                        select.value = savedValue;
+                        if (savedValue !== '') {
+                            selectedClasses.add(savedValue);
+                            select.setAttribute('data-previous', savedValue);
+                        }
+                    }
+                });
+                displayAssignments();
+            } catch (error) {
+                console.error('Error loading saved selections:', error);
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        }
+        
+        // Navigation and Banner Loading
         async function loadNav() {
             try {
                 const response = await fetch('https://interlinkcvhs.org/navnav.html');
                 const nav = await response.text();
                 document.getElementById('nav-container').innerHTML = nav;
+                return true;
             } catch (error) {
                 console.error('Error loading navigation:', error);
-                document.getElementById('nav-container').innerHTML = '<p>Error loading navigation. Please try again later.</p>';
+                document.getElementById('nav-container').innerHTML = 
+                    '<p>Error loading navigation. Please try again later.</p>';
+                return false;
             }
         }
-    
-        // Function to load the banner
+        
         async function loadBanner() {
             try {
                 const response = await fetch('https://interlinkcvhs.org/banner.html');
@@ -472,9 +541,100 @@
                 document.getElementById('banner-container').innerHTML = bannerContent;
             } catch (error) {
                 console.error('Error loading banner:', error);
-                document.getElementById('banner-container').innerHTML = '<p>Error loading banner. Please try again later.</p>';
+                document.getElementById('banner-container').innerHTML = 
+                    '<p>Error loading banner. Please try again later.</p>';
             }
         }
+        
+        // Search Functionality
+        async function fetchSearchList() {
+            try {
+                const response = await fetch('https://interlinkcvhs.org/navlist.txt');
+                const text = await response.text();
+                return text.split('\n')
+                    .filter(line => line.trim() !== '')
+                    .map(line => {
+                        const [name, url] = line.split('|').map(part => part.trim());
+                        return { name, url };
+                    });
+            } catch (error) {
+                console.error('Error fetching search list:', error);
+                return [];
+            }
+        }
+        
+        function createSearchOverlay(searchList) {
+            const overlay = document.createElement('div');
+            overlay.className = 'search-overlay';
+            overlay.innerHTML = `
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search pages...">
+                    <button class="close-button" aria-label="Close search">&times;</button>
+                    <div class="search-results"></div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        
+            const searchInput = overlay.querySelector('.search-input');
+            const resultsContainer = overlay.querySelector('.search-results');
+            const closeButton = overlay.querySelector('.close-button');
+        
+            // Show all results initially
+            resultsContainer.innerHTML = searchList.map(item => 
+                `<a href="${item.url}">${item.name}</a>`
+            ).join('');
+        
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredResults = searchList.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm)
+                );
+        
+                resultsContainer.innerHTML = filteredResults.map(item => 
+                    `<a href="${item.url}">${item.name}</a>`
+                ).join('');
+            });
+        
+            closeButton.addEventListener('click', () => {
+                overlay.style.display = 'none';
+            });
+        
+            overlay.querySelector('.search-box').addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        
+            return overlay;
+        }
+        
+        // Search Initialization
+        async function initializeSearch() {
+            const searchList = await fetchSearchList();
+            const searchOverlay = createSearchOverlay(searchList);
+            
+            const navLoaded = await loadNav();
+            
+            if (navLoaded) {
+                const searchIcon = document.getElementById('search-icon');
+                if (searchIcon) {
+                    searchIcon.addEventListener('click', () => {
+                        searchOverlay.style.display = 'flex';
+                        searchOverlay.querySelector('.search-input').focus();
+                    });
+                }
+            }
+        }
+        
+        // Main Initialization
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await Promise.all([
+                    loadBanner(),
+                    initializeSearch()
+                ]);
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
+        });
         
         const { useState, useEffect } = React;
         const { createRoot } = ReactDOM;
@@ -1283,10 +1443,6 @@
     
         const root = createRoot(document.getElementById('root'));
         root.render(React.createElement(QuestionBank));
-    
-        // Load navigation and banner
-        loadNav();
-        loadBanner();
     </script>
 </body>
 </html>
