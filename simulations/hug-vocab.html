@@ -57,8 +57,8 @@
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 18px;
-            background-color: #243587; /* Darker blue */
-            color: white; /* White text */
+            background-color: #1a2b4d;
+            color: #4a83d4;
             border: 2px solid #4a83d4;
             border-radius: 10px;
             cursor: pointer;
@@ -67,12 +67,8 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             box-shadow: 0 0 15px rgba(74, 131, 212, 0.3);
-        }
-        
-        #flipButton:hover {
-            background-color: #2a42a3; /* Even darker blue on hover */
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(74, 131, 212, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
         #flipButton:before {
@@ -87,6 +83,12 @@
             bottom: 0;
             background-color: #1a2b4d;
             transition: transform 0.3s ease;
+        }
+        
+        #flipButton:hover {
+            background-color: #243587;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(74, 131, 212, 0.2);
         }
         
         #flipButton:hover:before {
