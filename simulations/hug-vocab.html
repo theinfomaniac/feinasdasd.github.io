@@ -14,7 +14,10 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            font-family: 'Orbitron', sans-serif;        
+            font-family: 'Orbitron', sans-serif;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .search-container {
@@ -49,19 +52,25 @@
 
         .canvas-wrapper {
             position: relative;
-            width: 1200px;
-            height: 450px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 60px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
         }
         
         #gameCanvas {
+            width: 100%;
+            height: auto;
             border: 2px solid var(--accent-color);
             background: black;
             box-shadow: 0 0 20px var(--accent-color);
             cursor: pointer;
+            display: block;
         }
         
         #flipButton {
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 10px 20px;
             font-size: 18px;
             background-color: #1a2b4d;
@@ -74,8 +83,11 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             box-shadow: 0 0 15px rgba(74, 131, 212, 0.3);
-            position: relative;
-            overflow: hidden;
+        }
+
+        #flipButton:hover {
+            background-color: #243587;
+            transform: translateY(-2px);
         }
         
         #flipButton:before {
@@ -90,12 +102,6 @@
             bottom: 0;
             background-color: #1a2b4d;
             transition: transform 0.3s ease;
-        }
-        
-        #flipButton:hover {
-            background-color: #243587;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(74, 131, 212, 0.2);
         }
         
         #flipButton:hover:before {
@@ -185,17 +191,38 @@
             opacity: 1;
         }
         #backNavigation {
-            left: -60px;
+            left: 10px;
         }
+
         #forwardNavigation {
-            right: -60px;
+            right: 10px;
         }
         .nav-instructions {
             font-family: 'Orbitron', sans-serif;
             color: #4a83d4;
-            margin-top: 10px;
             font-size: 14px;
             letter-spacing: 1px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .canvas-wrapper {
+                padding: 0 50px;
+            }
+            
+            #gameCanvas {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -251,9 +278,12 @@
                 <canvas id="gameCanvas" width="1200" height="450"></canvas>
                 <img id="forwardNavigation" class="canvas-navigation" src="https://interlinkcvhs.org/qotdForward.png" alt="Next">
             </div>
-            <button id="flipButton">Flip Card</button>
-            <div class="nav-instructions">
-                SPACE to Flip Card | ← → to Navigate Cards
+    
+            <div class="controls-container">
+                <button id="flipButton">FLIP CARD</button>
+                <div class="nav-instructions">
+                    SPACE to Flip Card | ← → to Navigate Cards
+                </div>
             </div>
         </div>
     </main>
