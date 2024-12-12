@@ -84,6 +84,15 @@ const navigateCards = (direction) => {
         return true;
     });
 
+    // Sort alphabetically only if both toggles are off
+    if (!isWeeklyMode && !isRepeatsMode) {
+        filteredTerms.sort((a, b) => {
+            const termA = a.Front.replace(/!R?/g, '').toLowerCase();
+            const termB = b.Front.replace(/!R?/g, '').toLowerCase();
+            return termA.localeCompare(termB);
+        });
+    }
+
     if (filteredTerms.length === 0) return;
 
     // If there's no current card, start from beginning
@@ -196,6 +205,15 @@ const updateDropdown = (searchTerm) => {
         // Remove '!' and '!R' before filtering
         item.Front.replace(/!R?/g, '').toLowerCase().includes(cleanSearchTerm.toLowerCase())
     );
+
+    // Sort alphabetically only if both toggles are off
+    if (!isWeeklyMode && !isRepeatsMode) {
+        matchingTerms.sort((a, b) => {
+            const termA = a.Front.replace(/!R?/g, '').toLowerCase();
+            const termB = b.Front.replace(/!R?/g, '').toLowerCase();
+            return termA.localeCompare(termB);
+        });
+    }
 
     // Calculate total weekly flashcards (with '!')
     const weeklyCount = vocabularyData.filter(item => 
