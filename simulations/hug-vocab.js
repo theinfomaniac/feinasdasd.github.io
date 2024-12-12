@@ -265,13 +265,8 @@ const updateCard = (term) => {
 };
 
 document.addEventListener('keydown', (e) => {
-    // Check if the active element is the search input - if so, don't navigate
-    if (document.activeElement === searchInput) return;
-
-    // Prevent default scrolling behavior for arrow keys
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        e.preventDefault();
-    }
+    // Check if we're in an input element
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     // Ensure there's a current card before navigating
     if (!currentCard) return;
@@ -279,14 +274,15 @@ document.addEventListener('keydown', (e) => {
     switch(e.key) {
         case 'ArrowLeft':
         case 'q':
+            e.preventDefault();
             navigateCards(-1);
             break;
         case 'ArrowRight':
         case 'e':
+            e.preventDefault();
             navigateCards(1);
             break;
         case ' ':
-            // Prevent default space bar behavior (scrolling)
             e.preventDefault();
             flipCard();
             break;
