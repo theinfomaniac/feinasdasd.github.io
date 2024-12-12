@@ -395,7 +395,7 @@ dropdownList.addEventListener('change', (e) => {
     updateCard(e.target.value);
 });
 
-flipButton.textContent = 'FLIP CARD (SPACE)';
+flipButton.textContent = 'SPACE';
 flipButton.addEventListener('click', flipCard);
 
 // Canvas click to flip
