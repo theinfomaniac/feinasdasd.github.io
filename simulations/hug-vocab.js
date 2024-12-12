@@ -76,18 +76,34 @@ const updateSliderColor = () => {
 };
 
 const navigateCards = (direction) => {
+    // Get the current list of terms based on filters
+    filteredTerms = vocabularyData.filter(item => {
+        if (isWeeklyMode) {
+            return item.Front.includes('!');
+        }
+        return true;
+    });
+
     if (filteredTerms.length === 0) return;
 
-    currentTermIndex += direction;
-    
-    // Wrap around
-    if (currentTermIndex < 0) {
-        currentTermIndex = filteredTerms.length - 1;
-    } else if (currentTermIndex >= filteredTerms.length) {
-        currentTermIndex = 0;
+    // If there's no current card, start from beginning
+    if (!currentCard) {
+        currentTermIndex = direction > 0 ? 0 : filteredTerms.length - 1;
+    } else {
+        currentTermIndex += direction;
+        
+        // Wrap around
+        if (currentTermIndex < 0) {
+            currentTermIndex = filteredTerms.length - 1;
+        } else if (currentTermIndex >= filteredTerms.length) {
+            currentTermIndex = 0;
+        }
     }
 
-    updateCard(filteredTerms[currentTermIndex].Front);
+    // Update current card and redraw
+    currentCard = filteredTerms[currentTermIndex];
+    isFlipped = false;
+    drawCard();
 };
 
 const flipCard = () => {
@@ -265,15 +281,12 @@ const updateCard = (term) => {
 };
 
 document.addEventListener('keydown', (e) => {
-    // Check if we're in an input element
+    // Skip if focused on input elements
     if (e.target.tagName.toLowerCase() === 'input' || 
         e.target.tagName.toLowerCase() === 'textarea' || 
         e.target.tagName.toLowerCase() === 'select') {
         return;
     }
-
-    // Ensure there's a current card before navigating
-    if (!currentCard) return;
 
     switch(e.key) {
         case 'ArrowLeft':
@@ -296,17 +309,8 @@ const setupNavigation = () => {
     const forwardNav = document.getElementById('forwardNavigation');
 
     // Click handlers
-    backNav.addEventListener('click', () => {
-        if (currentCard) {
-            navigateCards(-1);
-        }
-    });
-    
-    forwardNav.addEventListener('click', () => {
-        if (currentCard) {
-            navigateCards(1);
-        }
-    });
+    backNav.addEventListener('click', () => navigateCards(-1));
+    forwardNav.addEventListener('click', () => navigateCards(1));
 
     // Hover effects
     backNav.addEventListener('mouseover', () => {
