@@ -357,11 +357,14 @@ weeklyToggle.addEventListener('change', (e) => {
         isRepeatsMode = false;
     }
     
+    // Clear the search input
+    searchInput.value = '';
+    
     // Update slider colors
     updateSliderColor();
     
-    // Trigger dropdown update with current search term
-    updateDropdown(searchInput.value);
+    // Trigger dropdown update with empty search term
+    updateDropdown('');
 });
 
 repeatsToggle.addEventListener('change', (e) => {
@@ -373,11 +376,14 @@ repeatsToggle.addEventListener('change', (e) => {
         isWeeklyMode = true;
     }
     
+    // Clear the search input
+    searchInput.value = '';
+    
     // Update slider colors
     updateSliderColor();
     
-    // Trigger dropdown update with current search term
-    updateDropdown(searchInput.value);
+    // Trigger dropdown update with empty search term
+    updateDropdown('');
 });
 
 searchInput.addEventListener('input', (e) => {
