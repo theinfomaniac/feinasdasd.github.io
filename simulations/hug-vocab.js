@@ -266,19 +266,21 @@ const updateCard = (term) => {
 
 document.addEventListener('keydown', (e) => {
     // Check if we're in an input element
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.target.tagName.toLowerCase() === 'input' || 
+        e.target.tagName.toLowerCase() === 'textarea' || 
+        e.target.tagName.toLowerCase() === 'select') {
+        return;
+    }
 
     // Ensure there's a current card before navigating
     if (!currentCard) return;
 
     switch(e.key) {
         case 'ArrowLeft':
-        case 'q':
             e.preventDefault();
             navigateCards(-1);
             break;
         case 'ArrowRight':
-        case 'e':
             e.preventDefault();
             navigateCards(1);
             break;
@@ -290,28 +292,38 @@ document.addEventListener('keydown', (e) => {
 });
 
 const setupNavigation = () => {
-    // Ensure navigation images are displayed
-    backNavigation.style.display = 'block';
-    forwardNavigation.style.display = 'block';
-
-    // Hover effects
-    backNavigation.addEventListener('mouseover', () => {
-        backNavigation.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
-    });
-    backNavigation.addEventListener('mouseout', () => {
-        backNavigation.src = 'https://interlinkcvhs.org/qotdBackward.png';
-    });
-
-    forwardNavigation.addEventListener('mouseover', () => {
-        forwardNavigation.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
-    });
-    forwardNavigation.addEventListener('mouseout', () => {
-        forwardNavigation.src = 'https://interlinkcvhs.org/qotdForward.png';
-    });
+    const backNav = document.getElementById('backNavigation');
+    const forwardNav = document.getElementById('forwardNavigation');
 
     // Click handlers
-    backNavigation.addEventListener('click', () => navigateCards(-1));
-    forwardNavigation.addEventListener('click', () => navigateCards(1));
+    backNav.addEventListener('click', () => {
+        if (currentCard) {
+            navigateCards(-1);
+        }
+    });
+    
+    forwardNav.addEventListener('click', () => {
+        if (currentCard) {
+            navigateCards(1);
+        }
+    });
+
+    // Hover effects
+    backNav.addEventListener('mouseover', () => {
+        backNav.src = 'https://interlinkcvhs.org/qotdBackwardHover.png';
+    });
+    
+    backNav.addEventListener('mouseout', () => {
+        backNav.src = 'https://interlinkcvhs.org/qotdBackward.png';
+    });
+
+    forwardNav.addEventListener('mouseover', () => {
+        forwardNav.src = 'https://interlinkcvhs.org/qotdForwardHover.png';
+    });
+    
+    forwardNav.addEventListener('mouseout', () => {
+        forwardNav.src = 'https://interlinkcvhs.org/qotdForward.png';
+    });
 };
 
 weeklyToggle.addEventListener('change', (e) => {
@@ -362,6 +374,12 @@ flipButton.addEventListener('click', flipCard);
 canvas.addEventListener('click', flipCard);
 
 // Call setup navigation after DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    setupNavigation();
+    updateSliderColor();
+});
+
+// Ensure setupNavigation is called after DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
     updateSliderColor();
