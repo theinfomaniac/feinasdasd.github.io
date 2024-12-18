@@ -996,3 +996,10 @@ canvas {
    text-align: center;
    color: #888;
 }
+    
+.filters {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 20px;
+   margin-bottom: 30px;
+}
