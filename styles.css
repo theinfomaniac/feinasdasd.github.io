@@ -968,3 +968,31 @@ canvas {
    transform: translateY(-2px);
    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
 }
+
+.feedback {
+   margin-top: 1rem;
+   padding: 1rem;
+   border-radius: 5px;
+   font-weight: bold;
+   text-align: center;
+}
+
+.feedback.correct {
+   background-color: rgba(0, 255, 0, 0.2);
+   color: #00ff00;
+}
+
+.feedback.incorrect {
+   background-color: rgba(255, 0, 0, 0.2);
+   color: #ff0000;
+}
+
+.feedback.hidden {
+   opacity: 0;
+}
+
+.attempts {
+   margin-top: 1rem;
+   text-align: center;
+   color: #888;
+}
