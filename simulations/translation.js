@@ -56,12 +56,12 @@ class AminoAcid {
         ctx.stroke();
 
         ctx.fillStyle = 'black';
-        ctx.font = 'bold 20px Orbitron';
+        ctx.font = 'bold 20px Montserrat';
         ctx.textAlign = 'center';
         ctx.fillText(this.letter, this.x, this.y + 8);
 
         ctx.fillStyle = 'white';
-        ctx.font = '14px Orbitron';
+        ctx.font = '14px Montserrat';
         ctx.fillText(this.name, this.x, this.y + this.radius + 20);
     }
 
@@ -104,7 +104,7 @@ class TRNA {
         ctx.stroke();
 
         ctx.fillStyle = 'white';
-        ctx.font = '18px Orbitron';
+        ctx.font = '18px Montserrat';
         ctx.textAlign = 'center';
         ctx.fillText(`Anticodon: ${this.anticodon}`, this.x + this.width/2, this.y - 60);
 
@@ -133,11 +133,11 @@ class Ribosome {
         ctx.fill();
 
         ctx.fillStyle = 'white';
-        ctx.font = '20px Orbitron';
+        ctx.font = '20px Montserrat';
         ctx.textAlign = 'center';
         ctx.fillText('Ribosome', this.x, this.y - 60);
 
-        ctx.font = '16px Orbitron';
+        ctx.font = '16px Montserrat';
         ctx.fillText(this.state.toUpperCase(), this.x, this.y - 40);
     }
 }
@@ -233,7 +233,7 @@ class Translation {
         this.drawMRNA();
 
         this.ctx.fillStyle = 'white';
-        this.ctx.font = '24px Orbitron';
+        this.ctx.font = '24px Montserrat';
         this.ctx.textAlign = 'left';
         this.ctx.fillText(`Current Step: ${this.state.replace(/_/g, ' ').toUpperCase()}`, 20, 50);
 
@@ -264,7 +264,7 @@ class Translation {
                 this.ctx.fillRect(x - 40, 130, 80, 40);
                 
                 this.ctx.fillStyle = '#FFD700';
-                this.ctx.font = 'bold 14px Orbitron';
+                this.ctx.font = 'bold 14px Montserrat';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText('Current Codon', x, 120);
             }
@@ -278,13 +278,13 @@ class Translation {
                 this.ctx.fill();
                 
                 this.ctx.fillStyle = 'white';
-                this.ctx.font = '14px Orbitron';
+                this.ctx.font = '14px Montserrat';
                 this.ctx.textAlign = 'center';
                 this.ctx.fillText(this.mRNASequence[i + j], x - 20 + (j * 20), 155);
             }
 
             this.ctx.fillStyle = isCurrentCodon ? '#FFD700' : 'white';
-            this.ctx.font = isCurrentCodon ? 'bold 12px Orbitron' : '12px Orbitron';
+            this.ctx.font = isCurrentCodon ? 'bold 12px Montserrat' : '12px Montserrat';
             this.ctx.fillText(`Codon ${i/3 + 1}`, x, 185);
         }
     }
