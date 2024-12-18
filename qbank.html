@@ -126,6 +126,36 @@
             max-width: 800px;
             margin-bottom: 1rem;
         }
+        .eliminated {
+            text-decoration: line-through;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .eliminate-button {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .eliminate-button:hover {
+            background: #ff0000;
+        }
+        .question-table td:nth-child(2) {
+            font-weight: bold;
+        }
     </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -206,7 +236,8 @@
 
             const [isInExportList, setIsInExportList] = useState(false);
             const [questionNavigationIndex, setQuestionNavigationIndex] = useState(0);
-
+            
+            const [eliminatedOptions, setEliminatedOptions] = useState(new Set());
             
             const [isLoading, setIsLoading] = useState(true);
     
@@ -271,6 +302,19 @@
                 return ['---', ...new Set(categories
                     .filter(c => c.subject === selectedSubject && c.section === selectedSection)
                     .map(c => c.subsection))];
+            };
+
+            const handleElimination = (option, e) => {
+                e.stopPropagation();
+                setEliminatedOptions(prev => {
+                    const newSet = new Set(prev);
+                    if (newSet.has(option)) {
+                        newSet.delete(option);
+                    } else {
+                        newSet.add(option);
+                    }
+                    return newSet;
+                });
             };
             
             const filteredQuestions = questions
@@ -369,6 +413,7 @@
                 setFeedback('');
                 setAttempts(0);
                 setIsAnswered(false);
+                setEliminatedOptions(new Set());
             };
 
             const handleQuestionSelect = (questionId) => {
@@ -878,7 +923,7 @@
                                             option.replace(/!!.*?!!/g, '').trim() :
                                             option;
                                         const imgMatch = hasImage ?
-                                            option.match(/!!img='([^']+)'!!flow='RIGHT'/) : // Check for 'flow='RIGHT'' directive
+                                            option.match(/!!img='([^']+)'!!flow='RIGHT'/) :
                                             null;
                             
                                         return React.createElement('div', {
@@ -888,7 +933,7 @@
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                justifyContent: imgMatch ? 'space-between' : 'flex-start', // Align items based on image presence
+                                                justifyContent: imgMatch ? 'space-between' : 'flex-start',
                                                 gap: '10px'
                                             }
                                         },
