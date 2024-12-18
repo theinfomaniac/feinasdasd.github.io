@@ -1060,3 +1060,24 @@ canvas {
     font-size: 1.2em;
     width: 100%;
 }
+
+.nav-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.nav-arrow:hover {
+    transform: scale(1.1);
+}
+
+.nav-arrow img {
+    width: 48px;
+    height: 48px;
+}
+
+.nav-arrow:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
