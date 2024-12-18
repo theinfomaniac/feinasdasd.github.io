@@ -27,7 +27,7 @@
    Base Styles
    ========================================================================== */
 body {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(135deg, #000000, #0A192F);
@@ -101,7 +101,7 @@ h2, h3, h4, h5, h6 {
     justify-content: center;
     align-items: center;
     z-index: 2000;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-box {
@@ -112,7 +112,7 @@ h2, h3, h4, h5, h6 {
     max-width: 600px;
     padding: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-header {
@@ -120,7 +120,7 @@ h2, h3, h4, h5, h6 {
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-input {
@@ -131,7 +131,7 @@ h2, h3, h4, h5, h6 {
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-results {
@@ -139,7 +139,7 @@ h2, h3, h4, h5, h6 {
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-results a {
@@ -148,12 +148,12 @@ h2, h3, h4, h5, h6 {
     color: white;
     text-decoration: none;
     transition: background 0.2s;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-results a:hover {
     background: rgba(255, 255, 255, 0.1);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* ==========================================================================
@@ -235,7 +235,7 @@ nav {
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .dropdown-content {
@@ -512,7 +512,7 @@ nav {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: normal;
 }
 
@@ -528,7 +528,7 @@ nav {
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     transition: all var(--transition-speed) ease;
 }
 
@@ -755,7 +755,7 @@ body.light-mode .theme-toggle {
    ========================================================================== */
 .dna-label,
 .mrna-label {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 24px;
     color: var(--text-light);
     text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
@@ -780,7 +780,7 @@ select {
     padding: 0.75rem;
     border-radius: 5px;
     font-size: 1rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: all var(--transition-speed) ease;
     backdrop-filter: blur(10px); /* Add blur effect for glassy look */
@@ -820,4 +820,24 @@ canvas {
 .close-button:hover {
    background: rgba(255, 255, 255, 0.1);
    transform: rotate(90deg);
+}
+
+
+.logo-container {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 10px;
+}
+.logo-container h1 {
+   margin: 0;
+   font-size: 2.5em;
+   font-weight: bold;
+}
+.logo-container .tagline {
+   font-size: 1.2em;
+   font-style: italic;
+   color: rgba(255, 255, 255, 0.7);
+   font-weight: 300;
 }
