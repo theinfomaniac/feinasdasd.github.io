@@ -25,7 +25,7 @@ class Nucleotide {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = 'black';
-        ctx.font = '24px Orbitron';
+        ctx.font = '24px Montserrat';
         ctx.fillText(this.type, this.x - 8, this.y + 8);
     }
 
@@ -110,7 +110,7 @@ class RNAPolymerase {
         ctx.shadowColor = 'rgba(255, 255, 255, 0.8)'; // Glow color
         ctx.shadowBlur = 20;
 
-        ctx.font = '20px Orbitron'; // Slightly smaller font size
+        ctx.font = '20px Montserrat'; // Slightly smaller font size
         // Center text in the triangle
         ctx.fillText('RNA', this.x - 12, this.y + 30); // Adjusted for centering
         ctx.fillText('Pol', this.x - 12, this.y + 45); // Adjusted for centering
@@ -181,7 +181,7 @@ class Transcription {
 
         // Draw labels with glow effect
         this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // Glowing effect
-        this.ctx.font = '24px Orbitron';
+        this.ctx.font = '24px Montserrat';
         this.ctx.fillText('DNA', 10, 30); // Moved up
         this.ctx.fillText('mRNA', 10, 400); // Moved down
 
