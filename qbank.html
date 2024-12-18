@@ -730,7 +730,7 @@
                     format: 'a4'
                 });
             
-                doc.setFont('courier');
+                doc.setFont('montserat');
                 
                 // Utility function to add background
                 function addPageBackground(doc) {
@@ -744,12 +744,12 @@
                     
                     // Main title - Large, bold
                     doc.setTextColor(255, 255, 255);
-                    doc.setFont('courier', 'bold');
+                    doc.setFont('montserrat', 'bold');
                     doc.setFontSize(18);
                     doc.text('Interlink CVHS QBank', 20, 20);
                     
                     // URL with styled link
-                    doc.setFont('courier', 'normal');
+                    doc.setFont('montserrat', 'normal');
                     doc.setFontSize(10);
                     const url = 'https://interlinkcvhs.org/qbank';
                     doc.setTextColor(100, 200, 255);
@@ -759,7 +759,7 @@
                     });
                     
                     // Page number - Small, normal weight
-                    doc.setFont('courier', 'normal');
+                    doc.setFont('montserrat', 'normal');
                     doc.setFontSize(8);
                     doc.text(`Page ${pageNum}`, 180, 290);
                 
@@ -813,7 +813,7 @@
                             if (text.includes("flow='RIGHT'")) {
                                 doc.autoTable({
                                     body: [[
-                                    { content: text.split("!!")[2], styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', font: 'courier', marginLeft: '40px' } },
+                                    { content: text.split("!!")[2], styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', font: 'montserrat', marginLeft: '40px' } },
                                         { content: '', styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', padding: '0px' } },
                                     ]],
                                     startY: yOffset,
@@ -835,7 +835,7 @@
                                 doc.autoTable({
                                     body: [[
                                         { content: '', styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', padding: '0px' } },
-                                        { content: text.split("!!")[2], styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', font: 'courier', marginLeft: '40px' } }
+                                        { content: text.split("!!")[2], styles: { cellWidth: width, minCellHeight: height, fillColor: '#141428', font: 'montserrat', marginLeft: '40px' } }
                                     ]],
                                     startY: yOffset,
                                     tableWidth: 'wrap',
@@ -876,7 +876,7 @@
                     // Question number and ID - Bold, larger
                     doc.setFontSize(12);
                     doc.setTextColor(255, 255, 255);
-                    doc.setFont('courier', 'bold');
+                    doc.setFont('montserrat', 'bold');
                     doc.text(`Question ${index + 1}`, 20, yOffset);
                 
                     // Add ID in bold next to question number
@@ -888,7 +888,7 @@
                     // Metadata box with improved styling
                     doc.setTextColor(100, 200, 255);
                     doc.setFontSize(8);
-                    doc.setFont('courier', 'normal');
+                    doc.setFont('montserrat', 'normal');
                 
                     // Draw box around metadata
                     const metadataText = `${question.Subject} | ${question.Section} | ${question.Subsection}`;
@@ -903,7 +903,7 @@
                     // Question text - Clear, readable size
                     doc.setFontSize(11);
                     doc.setTextColor(255, 255, 255);
-                    doc.setFont('courier', 'normal');
+                    doc.setFont('montserrat', 'normal');
                     
                     const questionLines = doc.splitTextToSize(await processImages(question.Question, doc), 170);
                     checkNewPage(questionLines.length * 7);
@@ -937,7 +937,7 @@
                     if (withAnswers) {
                         checkNewPage(10);
                         doc.setTextColor(0, 255, 0);
-                        doc.setFont('courier', 'bold');
+                        doc.setFont('montserrat', 'bold');
                         doc.setFontSize(11);
                         doc.text(`Answer: ${question.Correct1}`, 20, yOffset);
                         yOffset += 10;
