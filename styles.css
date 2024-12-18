@@ -1081,3 +1081,29 @@ canvas {
     opacity: 0.5;
     cursor: not-allowed;
 }
+  
+/* Navigation Styles */
+.nav-button {
+   background: none;
+   border: none;
+   padding: 0;
+   cursor: pointer;
+   transition: transform 0.3s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.nav-button img {
+   width: 48px;
+   height: 48px;
+}
+
+.nav-button:disabled {
+   opacity: 0.5;
+   cursor: not-allowed;
+}
+
+.nav-button:not(:disabled):hover {
+   transform: scale(1.1);
+}
