@@ -813,3 +813,83 @@ canvas {
    display: flex; /* Ensure tagline behaves like a flex item */
    align-items: center; /* Align text vertically */
 }
+
+.export-buttons-container {
+   display: flex;
+   justify-content: flex-end;
+   margin-bottom: 15px;
+   gap: 10px;
+}
+.export-button {
+   display: flex;
+   align-items: center;
+   padding: 8px 16px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   font-family: 'Montserrat', sans-serif;
+   font-weight: bold;  /* Added font-weight */
+}
+.export-button:disabled {
+   opacity: 0.5;
+   cursor: not-allowed;
+}
+.export-button img {
+   width: 20px;
+   margin-right: 8px;
+}
+.export-button-questions {
+   background: linear-gradient(45deg, var(--primary-color), #2c3e50);
+   color: white;
+}
+.export-button-answers {
+   background: linear-gradient(45deg, var(--secondary-color), #27ae60);
+   color: white;
+}
+.export-checkbox-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-bottom: 15px;
+   color: white;
+   font-weight: bold;
+}
+
+.export-checkbox-container input {
+   margin-right: 10px;
+}
+.pi-input-button {
+   background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+   color: white;
+   border: none;
+   padding: 8px;
+   border-radius: 5px;
+   margin-left: 10px;
+   cursor: pointer;
+   transition: all var(--transition-speed) ease;
+}
+
+.pi-input-button:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+}
+.question-with-image {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.question-image {
+   max-width: 200px; /* Adjust as needed */
+   max-height: 200px;
+   object-fit: contain;
+}
+
+.question-image.left {
+   order: -1;
+}
+
+.question-image.right {
+   order: 1;
+}
