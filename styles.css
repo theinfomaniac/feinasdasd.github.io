@@ -913,6 +913,7 @@ canvas {
 .option {
     display: block;
     padding: 1rem;
+    margin: 5px 0;
     border: 2px solid var(--primary-color);
     border-radius: 5px;
     cursor: pointer;
@@ -927,6 +928,25 @@ canvas {
     background-color: rgba(0, 255, 255, 0.2);
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0, 255, 255, 0.4);
+}
+
+.eliminate-button {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 2;
 }
 
 .submit-button {
