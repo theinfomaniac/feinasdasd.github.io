@@ -789,22 +789,27 @@ canvas {
    transform: rotate(90deg);
 }
 
-
 .logo-container {
    display: flex;
    flex-direction: row;
-   align-items: center;
+   align-items: center; /* This ensures items are vertically centered */
    justify-content: flex-start;
    gap: 10px;
 }
+
 .logo-container h1 {
    margin: 0;
    font-size: 2.5em;
    font-weight: bold;
+   display: flex; /* Ensure h1 behaves like a flex item */
+   align-items: center; /* Align text vertically in case of varying font sizes */
 }
+
 .logo-container .tagline {
    font-size: 1.2em;
    font-style: italic;
    color: rgba(255, 255, 255, 0.7);
    font-weight: 300;
+   display: flex; /* Ensure tagline behaves like a flex item */
+   align-items: center; /* Align text vertically */
 }
