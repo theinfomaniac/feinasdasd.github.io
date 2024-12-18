@@ -910,25 +910,40 @@
                             
                                         return React.createElement('div', {
                                             key: option,
-                                            className: `option ${selectedOption === option ? 'selected' : ''}`,
-                                            onClick: () => !isAnswered && setSelectedOption(option),
+                                            className: `option-wrapper`,
                                             style: {
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: imgMatch ? 'space-between' : 'flex-start',
-                                                gap: '10px'
+                                                position: 'relative',
+                                                marginBottom: '10px'
                                             }
                                         },
-                                            React.createElement('div', null, optionText),
-                                            imgMatch && React.createElement('img', {
-                                                src: imgMatch[1],
-                                                alt: 'Option Image',
+                                            React.createElement('div', {
+                                                className: `option ${selectedOption === option ? 'selected' : ''} ${eliminatedOptions.has(option) ? 'eliminated' : ''}`,
+                                                onClick: () => !isAnswered && !eliminatedOptions.has(option) && setSelectedOption(option),
                                                 style: {
-                                                    maxWidth: '200px',
-                                                    height: 'auto',
-                                                    marginLeft: imgMatch ? '10px' : '0' // Add left margin if image is on the right
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: imgMatch ? 'space-between' : 'flex-start',
+                                                    gap: '10px',
+                                                    position: 'relative',
+                                                    padding: '10px'
                                                 }
-                                            })
+                                            },
+                                                React.createElement('div', null, optionText),
+                                                imgMatch && React.createElement('img', {
+                                                    src: imgMatch[1],
+                                                    alt: 'Option Image',
+                                                    style: {
+                                                        maxWidth: '200px',
+                                                        height: 'auto',
+                                                        marginLeft: imgMatch ? '10px' : '0'
+                                                    }
+                                                })
+                                            ),
+                                            !isAnswered && React.createElement('button', {
+                                                className: 'eliminate-button',
+                                                onClick: (e) => handleElimination(option, e),
+                                                title: eliminatedOptions.has(option) ? 'Restore option' : 'Eliminate option'
+                                            }, eliminatedOptions.has(option) ? '↺' : '×')
                                         );
                                     })
                                 ) :
