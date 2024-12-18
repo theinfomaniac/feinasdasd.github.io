@@ -152,7 +152,7 @@ const drawCard = () => {
     ctx.stroke();
 
     if (currentCard) {
-        ctx.font = '24px Orbitron';
+        ctx.font = '24px Montserrat';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -172,10 +172,10 @@ const drawCard = () => {
         // Modify text color and styling
         if (isRepeatsMode && isRepeat) {
             ctx.fillStyle = '#FF6B6B';  // Red color for repeat terms
-            ctx.font = 'bold 24px Orbitron';
+            ctx.font = 'bold 24px Montserrat';
         } else if (isWeekly) {
             ctx.fillStyle = '#2196F3';  // Blue color for weekly terms
-            ctx.font = 'bold 24px Orbitron';
+            ctx.font = 'bold 24px Montserrat';
         }
 
         const lines = getWrappedText(text, cardWidth - 40);
@@ -189,7 +189,7 @@ const drawCard = () => {
             ctx.fillText(line, canvas.width / 2, canvas.height / 2 + (index - (lines.length - 1) / 2) * 30);
         });
     } else {
-        ctx.font = '24px Orbitron';
+        ctx.font = '24px Montserrat';
         ctx.fillStyle = '#888888';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
