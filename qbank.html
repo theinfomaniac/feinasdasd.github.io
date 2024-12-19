@@ -907,7 +907,7 @@
                                         const imgMatch = hasImage ?
                                             option.match(/!!img='([^']+)'!!flow='RIGHT'/) :
                                             null;
-                            
+                                
                                         return React.createElement('div', {
                                             key: option,
                                             className: `option-wrapper`,
@@ -920,7 +920,7 @@
                                                 className: `option ${selectedOption === option ? 'selected' : ''} ${eliminatedOptions.has(option) ? 'eliminated' : ''}`,
                                                 onClick: () => !isAnswered && !eliminatedOptions.has(option) && setSelectedOption(option),
                                                 style: {
-                                                    width: '80%',
+                                                    width: '93%',
                                                     alignItems: 'center',
                                                     justifyContent: imgMatch ? 'space-between' : 'flex-start',
                                                     gap: '10px',
@@ -942,6 +942,16 @@
                                             !isAnswered && React.createElement('button', {
                                                 className: 'eliminate-button',
                                                 onClick: (e) => handleElimination(option, e),
+                                                style: {
+                                                    position: 'absolute',
+                                                    right: '10px',  // Adjust the right offset to place it as you need
+                                                    top: '50%',      // Center the button vertically within the option
+                                                    transform: 'translateY(-50%)', // Vertically center the button
+                                                    backgroundColor: 'transparent', // Make the button background transparent (optional)
+                                                    border: 'none',  // Optional: Remove the border if desired
+                                                    padding: '5px 10px', // Optional: Add padding for better clickability
+                                                    cursor: 'pointer' // Change the cursor on hover
+                                                },
                                                 title: eliminatedOptions.has(option) ? 'Restore option' : 'Eliminate option'
                                             }, eliminatedOptions.has(option) ? '↺' : '×')
                                         );
